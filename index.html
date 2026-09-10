@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#4b0a18">
+<title>NARVIE — Moda Feminina</title>
+<meta name="description" content="Narvie — moda feminina online. T-shirts selecionadas para mulheres que gostam de detalhes que fazem a diferença.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+:root{--wine:#4b0a18;--wine2:#6d2b39;--rose:#b58b8f;--cream:#f6f2ec;--paper:#fffdfa;--ink:#161417;--muted:#716b6b;--line:#e5dfd8;--green:#25d366;--shadow:0 20px 60px rgba(38,17,22,.11)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",Arial,sans-serif}button,input{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}.container{width:min(1180px,92%);margin:auto}
+.topbar{background:var(--wine);color:#fff;text-align:center;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:9px}
+header{position:sticky;top:0;z-index:50;background:rgba(255,253,250,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.nav{height:78px;display:flex;align-items:center;justify-content:space-between}.logo{font-family:"Playfair Display",serif;font-size:26px;letter-spacing:.4em;margin-left:.4em}.navlinks{display:flex;gap:32px;font-size:12px;letter-spacing:.16em;text-transform:uppercase}.navlinks a:hover{color:var(--wine2)}.actions{display:flex;gap:8px}.iconbtn{border:1px solid var(--line);background:transparent;width:42px;height:42px;display:grid;place-items:center;border-radius:50%;font-size:18px;position:relative}.badge{position:absolute;right:-3px;top:-3px;background:var(--wine);color:#fff;border-radius:50%;font-size:9px;width:18px;height:18px;display:grid;place-items:center}.menu{display:none}
+.hero{min-height:650px;position:relative;display:flex;align-items:center;overflow:hidden;background:#3b0612}.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(40,0,10,.72),rgba(50,0,15,.15)),url("assets/hero.jpg") center/cover}.hero-content{position:relative;color:#fff;padding:100px 0;width:min(1180px,92%)}.kicker{font-size:11px;letter-spacing:.38em;text-transform:uppercase;color:#e9c8a7;margin-bottom:22px}.hero h1{font:400 clamp(70px,12vw,145px)/.8 "Playfair Display",serif;letter-spacing:.04em;margin:0}.hero-sub{font-size:14px;letter-spacing:.32em;text-transform:uppercase;margin:24px 0 32px}.btn{border:1px solid var(--ink);background:transparent;min-height:48px;padding:0 25px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;transition:.25s}.btn:hover{background:var(--ink);color:#fff}.btn.wine{background:var(--wine);border-color:var(--wine);color:#fff}.btn.wine:hover{background:#320610}.btn.white{color:#fff;border-color:#fff}.btn.white:hover{background:#fff;color:var(--wine)}.btn.full{width:100%}
+.intro{background:var(--cream);padding:80px 0}.introgrid{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:end}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.34em;text-transform:uppercase;color:var(--wine2)}h2{font:400 clamp(43px,6vw,70px)/1.02 "Playfair Display",serif;margin:13px 0 20px}.intro p{font-size:18px;line-height:1.8;color:#5e5959;margin:0}
+.catalog{padding:100px 0}.catalog-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:40px}.catalog-head p{color:var(--muted);margin:0}.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}.filter{border:1px solid var(--line);background:#fff;padding:11px 17px;font-size:11px;letter-spacing:.13em;text-transform:uppercase}.filter.active,.filter:hover{background:var(--wine);border-color:var(--wine);color:#fff}.search{width:100%;border:0;border-bottom:1px solid #bbb;background:transparent;padding:15px 4px;font-size:15px;outline:none;margin-bottom:30px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.card{border:1px solid var(--line);background:#fff;overflow:hidden;transition:.25s;position:relative}.card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}.pic{aspect-ratio:4/4.9;background:#eee;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover;display:block;transition:.4s}.card:hover .pic img{transform:scale(1.025)}.tag{position:absolute;top:13px;left:13px;background:#fff;padding:7px 9px;font-size:9px;letter-spacing:.14em;text-transform:uppercase}.info{padding:20px}.info h3{font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin:0 0 7px}.desc{font-size:12px;line-height:1.55;color:#777;min-height:38px}.price{font-size:16px;margin:13px 0 17px}.product-actions{display:grid;grid-template-columns:1fr 48px;gap:8px}.quick{border:1px solid var(--line);background:#fff;font-size:18px}.noresults{text-align:center;padding:60px 0;color:#777;display:none}
+.how{background:var(--cream);padding:95px 0}.howgrid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}.steps{display:grid;gap:24px}.step{display:grid;grid-template-columns:45px 1fr;gap:16px}.num{font:400 25px "Playfair Display",serif;color:var(--wine2)}.step h3{font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:3px 0 6px}.step p{font-size:14px;color:#6b6666;line-height:1.7;margin:0}.brand{margin-top:70px;height:440px;position:relative;overflow:hidden}.brand img{width:100%;height:100%;object-fit:cover;filter:brightness(.7)}.brandtext{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#fff}.brandtext h2{font-size:clamp(45px,7vw,82px);margin:0 0 12px}.brandtext p{font:italic 24px "Playfair Display",serif}
+.contact{padding:100px 0}.contactgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px}.contact p{font-size:18px;line-height:1.8;color:#666}.contactbox{border:1px solid var(--line);padding:34px;background:#fff}.contactbox h3{font-family:"Playfair Display",serif;font-size:34px;font-weight:400;margin:0 0 20px}.contactbox input{width:100%;border:0;border-bottom:1px solid #bbb;padding:15px 0;outline:none;margin-bottom:12px;background:transparent}
+footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:flex;justify-content:space-between;gap:30px}.footerlogo{font:400 28px "Playfair Display",serif;letter-spacing:.38em;margin-left:.38em}.social{display:flex;gap:9px;margin-top:20px}.social a{width:40px;height:40px;border:1px solid var(--line);display:grid;place-items:center}.footertext{font-size:12px;line-height:1.9;color:#888;text-align:right}.copy{border-top:1px solid var(--line);padding-top:22px;margin-top:35px;color:#aaa;font-size:11px}
+.whatsapp{position:fixed;z-index:70;right:22px;bottom:22px;width:60px;height:60px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:29px;box-shadow:0 12px 30px rgba(0,0,0,.2)}
+.drawer-back{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:80;display:none}.drawer{position:fixed;right:0;top:0;height:100%;width:min(430px,94vw);background:#fff;z-index:90;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}.drawer.open{transform:none}.drawer-back.open{display:block}.drawer-head{padding:24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.drawer-head h3{font:400 30px "Playfair Display",serif;margin:0}.close{border:0;background:none;font-size:25px}.cart-items{flex:1;overflow:auto;padding:18px 24px}.empty{text-align:center;color:#777;padding:70px 10px;line-height:1.7}.cartitem{display:grid;grid-template-columns:76px 1fr auto;gap:13px;padding:15px 0;border-bottom:1px solid var(--line)}.cartitem img{width:76px;height:90px;object-fit:cover}.cartitem h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin:3px 0 7px}.cartitem p{font-size:12px;color:#777;margin:0 0 10px}.qty{display:flex;align-items:center;gap:8px}.qty button{width:26px;height:26px;border:1px solid var(--line);background:#fff}.remove{border:0;background:none;color:#999;font-size:11px;margin-top:7px}.drawer-foot{border-top:1px solid var(--line);padding:20px 24px}.total{display:flex;justify-content:space-between;font-size:14px;margin-bottom:15px}.total strong{font-size:18px}.note{font-size:10px;color:#999;line-height:1.5;margin:12px 0 16px}
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}.modal-back.open{display:flex}.modal{background:#fff;width:min(700px,100%);max-height:90vh;overflow:auto;padding:30px}.modalgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px}.modal img{width:100%;aspect-ratio:1/1.1;object-fit:cover}.modal h3{font:400 38px "Playfair Display",serif;margin:0 0 8px}.modal .mprice{font-size:18px;margin-bottom:22px}.sizes{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 22px}.size{min-width:48px;height:40px;border:1px solid var(--line);background:#fff}.size.active{background:var(--wine);color:#fff;border-color:var(--wine)}.quantity{display:flex;align-items:center;gap:14px;margin-bottom:22px}.quantity button{width:38px;height:38px;border:1px solid var(--line);background:#fff}.modal-close{float:right;border:0;background:none;font-size:24px}
+.loading{text-align:center;padding:50px 0;color:#777}.config-warning{display:none;background:#fff6e7;border:1px solid #ecd9ae;padding:14px;margin:20px auto;max-width:1180px;font-size:12px;color:#725c30}
+@media(max-width:850px){.navlinks{display:none}.menu{display:block;font-size:23px}.nav{height:70px}.actions .searchbtn{display:none}.hero{min-height:570px}.introgrid,.howgrid,.contactgrid,.modalgrid{grid-template-columns:1fr;gap:35px}.grid{grid-template-columns:1fr 1fr}.catalog,.how,.contact{padding:72px 0}.catalog-head{display:block}.catalog-head .btn{margin-top:20px}.footergrid{display:block}.footertext{text-align:left;margin-top:22px}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.logo{font-size:22px}.hero h1{font-size:70px}.hero-content{padding:75px 0}.brand{height:380px}.modal{padding:20px}}
+
+.payment-section{padding:54px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#faf9f7}.payment-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:42px;align-items:center}.payment-copy .eyebrow{margin-bottom:10px}.payment-copy h2{font:400 34px "Playfair Display",serif;margin:0 0 12px}.payment-copy p{font-size:13px;line-height:1.8;color:#777;max-width:560px}.secure-note{display:flex;align-items:center;gap:10px;margin-top:20px;font-size:11px;letter-spacing:.04em;color:#666}.lockmark{width:30px;height:30px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;background:#fff;font-size:14px}.payment-box{background:#fff;border:1px solid var(--line);padding:25px}.payment-title{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#777;margin-bottom:16px}.brand-row{display:flex;flex-wrap:wrap;gap:10px}.pay-brand{height:42px;min-width:76px;padding:0 15px;border:1px solid #e5e1dc;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;letter-spacing:.02em;font-size:14px}.pay-brand.visa{font-style:italic;font-size:20px}.pay-brand.mc{font-size:12px;letter-spacing:-.04em}.pay-brand.elo{font-size:18px}.pay-brand.amex{font-size:10px;line-height:1.05;text-align:center}.pay-brand.pix{font-size:13px}.payment-foot{margin-top:16px;padding-top:15px;border-top:1px solid #eee;font-size:10px;color:#999;line-height:1.6}.payment-foot b{color:#666}
+@media(max-width:850px){.payment-wrap{grid-template-columns:1fr;gap:24px}.payment-copy h2{font-size:30px}}
+</style>
+</head>
+<body>
+<div class="topbar">Envio para todo Sergipe • Atendimento pelo WhatsApp</div>
+<header><div class="container nav"><a class="logo" href="#">NARVIE</a><nav class="navlinks"><a href="#catalogo">Catálogo</a><a href="#como-funciona">Como funciona</a><a href="#atendimento">Atendimento</a></nav><div class="actions"><button class="iconbtn searchbtn" onclick="document.getElementById('search').focus()" aria-label="Buscar">⌕</button><button class="iconbtn" onclick="openCart()" aria-label="Carrinho">♧<span class="badge" id="cartCount">0</span></button></div></div></header>
+
+<div id="configWarning" class="config-warning">Configure o Supabase em <b>supabase-config.js</b> para carregar o catálogo publicado.</div>
+<section class="hero"><div class="hero-content"><div class="kicker">Moda feminina</div><h1>NARVIE</h1><div class="hero-sub">Para mulheres que deixam sua marca.</div><a class="btn white" href="#catalogo">Conhecer coleção</a></div></section>
+<section class="intro"><div class="container introgrid"><div><div class="eyebrow">Moda feminina online</div><h2>Seu estilo,<br>do seu jeito.</h2></div><p>Uma curadoria de peças femininas para quem gosta de vestir personalidade. Escolha sua favorita, selecione o tamanho e finalize sua compra pelo site. Em caso de dúvidas, pode entrar em contato pelo WhatsApp.</p></div></section>
+
+<section class="catalog" id="catalogo"><div class="container"><div class="catalog-head"><div><div class="eyebrow">Coleção Narvie</div><h2>Nossas T-shirts</h2><p>Escolha uma peça para ver detalhes, tamanhos e adicionar ao carrinho.</p></div><button class="btn wine" onclick="openCart()">Ver carrinho (<span id="cartCount2">0</span>)</button></div><input id="search" class="search" type="search" placeholder="Buscar por produto..."><div class="filters"><button class="filter active" data-filter="todos">Todos</button><button class="filter" data-filter="estampa">Estampadas</button><button class="filter" data-filter="classica">Clássicas</button><button class="filter" data-filter="40">Até R$ 40</button></div><div id="grid" class="grid"><div class="loading">Carregando coleção…</div></div><div id="noresults" class="noresults">Nenhum produto encontrado.</div></div></section>
+
+<section class="how" id="como-funciona"><div class="container howgrid"><div><div class="eyebrow">Uma experiência simples</div><h2>Como funciona</h2><p style="color:#666;line-height:1.8">Monte seu carrinho, escolha os tamanhos e finalize o pagamento com segurança pela InfinitePay. O WhatsApp continua disponível para atendimento.</p></div><div class="steps"><div class="step"><div class="num">01</div><div><h3>Escolha suas peças</h3><p>Explore a coleção e abra cada produto para selecionar o tamanho.</p></div></div><div class="step"><div class="num">02</div><div><h3>Monte o carrinho</h3><p>Defina quantidade e confira o resumo antes de finalizar.</p></div></div><div class="step"><div class="num">03</div><div><h3>Finalize com segurança</h3><p>O site leva você direto para o checkout seguro da InfinitePay, com Pix ou cartão.</p></div></div><div class="step"><div class="num">04</div><div><h3>Receba a confirmação</h3><p>Depois do pagamento, você volta para a Narvie com o resumo da compra. Nosso WhatsApp fica disponível para atendimento.</p></div></div></div></div><div class="container brand"><img src="assets/brand.jpg" alt="Narvie"><div class="brandtext"><div><h2>NARVIE</h2><p>Obrigada por fazer parte dessa história.</p></div></div></div></section>
+
+
+<section class="payment-section" aria-label="Pagamento seguro"><div class="container payment-wrap"><div class="payment-copy"><div class="eyebrow">Pagamento NARVIE</div><h2>Compre com tranquilidade.</h2><p>Na hora de finalizar seu pedido, o pagamento pode ser processado com segurança pela InfinitePay. Uma experiência simples, elegante e segura do começo ao fim.</p><div class="secure-note"><span class="lockmark">⌁</span><span><b>Pagamento seguro</b><br>Checkout protegido pela InfinitePay.</span></div></div><div class="payment-box"><div class="payment-title">Formas de pagamento</div><div class="brand-row"><span class="pay-brand visa">VISA</span><span class="pay-brand mc">mastercard</span><span class="pay-brand elo">elo</span><span class="pay-brand amex">AMERICAN<br>EXPRESS</span><span class="pay-brand pix">◇ Pix</span></div><div class="payment-foot">Pagamento processado pela <b>InfinitePay</b>. As opções disponíveis podem variar conforme o checkout e o pedido.</div></div></div></section>
+<section class="contact" id="atendimento"><div class="container contactgrid"><div><div class="eyebrow">Atendimento</div><h2>Fale com a gente</h2><p>Ficou com alguma dúvida? Ajudamos com tamanhos, pedidos e entrega. Enviamos para todo Sergipe e algumas cidades da Bahia.</p><a class="btn wine" id="whatsContact" href="#" target="_blank">Falar no WhatsApp</a></div><div class="contactbox"><h3>Quer receber novidades?</h3><p style="font-size:13px;color:#777;line-height:1.6">Deixe seu nome e Instagram. A Narvie pode entrar em contato para avisar sobre novidades.</p><input placeholder="Seu nome"><input placeholder="@seuinstagram"><button class="btn full" onclick="alert('Cadastro recebido!')">Quero novidades</button></div></div></section>
+<footer><div class="container"><div class="footergrid"><div><div class="footerlogo">NARVIE</div><div class="social"><a href="#" aria-label="Instagram">◎</a><a id="whatsFooter" href="#" target="_blank" aria-label="WhatsApp">◔</a></div></div><div class="footertext">CURADORIA FEMININA<br>DETALHES QUE FAZEM A DIFERENÇA<br><br>Enviamos para todo Sergipe e algumas cidades da Bahia.</div></div><div class="copy">© 2026 Narvie. Todos os direitos reservados. <a href="maintenance.html" style="float:right;color:#aaa">Área administrativa</a></div></div></footer>
+<a class="whatsapp" id="whatsFloat" href="#" target="_blank" aria-label="WhatsApp">☎</a>
+
+<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note">Pagamento seguro pela InfinitePay. Pix e cartão ficam disponíveis conforme a configuração do checkout.</div><button class="btn wine full" onclick="checkout()">Finalizar compra</button></div></aside>
+<div class="modal-back" id="modalBack" onclick="if(event.target===this)closeModal()"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+const WHATSAPP_NUMBER="5579998018722"; // Número da Narvie em formato internacional
+const money=v=>Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+let sb=null, products=[], cart=JSON.parse(localStorage.getItem("narvieCart")||"[]"), activeFilter="todos",searchTerm="";
+
+function whatsUrl(text=""){return WHATSAPP_NUMBER ? "https://wa.me/"+WHATSAPP_NUMBER+(text?"?text="+encodeURIComponent(text):""):"#"}
+["whatsContact","whatsFooter","whatsFloat"].forEach(id=>document.getElementById(id).href=whatsUrl());
+
+async function init(){
+  const url=window.NARVIE_SUPABASE_URL, key=window.NARVIE_SUPABASE_ANON_KEY;
+  if(!url||!key||url.includes("COLE_AQUI")||key.includes("COLE_AQUI")){
+    document.getElementById("configWarning").style.display="block";
+    products=[
+      {id:"demo1",name:"Tee Sardines",price:40,image:"assets/sardines.jpg",category:"estampa",description:"Estampa exclusiva inspirada no universo Sardines.",sizes:["P","M","G","GG"]},
+      {id:"demo2",name:"Tee Colcci",price:40,image:"assets/colcci.jpg",category:"classica",description:"Modelo urbano e versátil para compor looks leves.",sizes:["P","M","G","GG"]},
+      {id:"demo3",name:"T-shirt Fresh Sardines",price:40,image:"assets/fresh.jpg",category:"estampa",description:"Estampa Fresh Sardines com personalidade e cor.",sizes:["P","M","G","GG"]}
+    ];
+    renderProducts(); save(); return;
+  }
+  sb=window.supabase.createClient(url,key);
+  const {data,error}=await sb.from("products").select("*").eq("status","published").order("created_at",{ascending:false});
+  if(error){console.error(error);document.getElementById("grid").innerHTML='<div class="loading">Não foi possível carregar a coleção.</div>';return}
+  products=(data||[]).map(p=>({...p,image:p.image_path?url+"/storage/v1/object/public/product-images/"+p.image_path:""}));
+  renderProducts(); save();
+}
+function save(){localStorage.setItem("narvieCart",JSON.stringify(cart));renderCart();document.getElementById("cartCount").textContent=cart.reduce((s,i)=>s+i.qty,0);document.getElementById("cartCount2").textContent=cart.reduce((s,i)=>s+i.qty,0)}
+function renderProducts(){
+ const grid=document.getElementById("grid");
+ const list=products.filter(p=>(activeFilter==="todos"||activeFilter===p.category||(activeFilter==="40"&&Number(p.price)<=40))&&p.name.toLowerCase().includes(searchTerm.toLowerCase()));
+ document.getElementById("noresults").style.display=list.length?"none":"block";
+ grid.innerHTML=list.map(p=>`<article class="card"><span class="tag">${p.category==="estampa"?"Estampa exclusiva":"Essencial"}</span><div class="pic"><img src="${p.image}" alt="${p.name}"></div><div class="info"><h3>${p.name}</h3><div class="desc">${p.description||""}</div><div class="price">${money(p.price)}</div><div class="product-actions"><button class="btn wine" onclick="openProduct('${p.id}')">Escolher tamanho</button><button class="quick" onclick="quickAdd('${p.id}')">+</button></div></div></article>`).join("") || "";
+}
+function openProduct(id){
+ const p=products.find(x=>String(x.id)===String(id)); if(!p)return;
+ document.getElementById("modalContent").innerHTML=`<div class="modalgrid"><img src="${p.image}" alt="${p.name}"><div><div class="eyebrow">Narvie</div><h3>${p.name}</h3><div class="mprice">${money(p.price)}</div><p style="color:#777;line-height:1.7;font-size:14px">${p.description||""}</p><strong style="font-size:11px;letter-spacing:.15em;text-transform:uppercase">Escolha o tamanho</strong><div class="sizes">${(p.sizes||[]).map(s=>`<button class="size" onclick="selectSize(this,'${s}')">${s}</button>`).join("")}</div><div class="quantity"><span>Quantidade</span><button onclick="changeModalQty(-1)">−</button><b id="modalQty">1</b><button onclick="changeModalQty(1)">+</button></div><button class="btn wine full" onclick="addFromModal('${p.id}')">Adicionar ao carrinho</button></div></div>`;
+ window.modalProduct=id;window.modalSize=null;window.modalQty=1;document.getElementById("modalBack").classList.add("open");
+}
+function selectSize(el,size){document.querySelectorAll(".size").forEach(x=>x.classList.remove("active"));el.classList.add("active");window.modalSize=size}
+function changeModalQty(n){window.modalQty=Math.max(1,window.modalQty+n);document.getElementById("modalQty").textContent=window.modalQty}
+function addFromModal(id){if(!window.modalSize){alert("Escolha um tamanho.");return}addToCart(id,window.modalSize,window.modalQty);closeModal();openCart()}
+function quickAdd(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;addToCart(id,(p.sizes||["M"])[0],1);openCart()}
+function addToCart(id,size,qty){const found=cart.find(x=>String(x.id)===String(id)&&x.size===size);if(found)found.qty+=qty;else cart.push({id,size,qty});save()}
+function renderCart(){const box=document.getElementById("cartItems");if(!cart.length){box.innerHTML='<div class="empty">Seu carrinho está vazio.<br><br>Escolha uma peça da coleção para começar.</div>';document.getElementById("total").textContent=money(0);return}let total=0;box.innerHTML=cart.map((item,index)=>{const p=products.find(x=>String(x.id)===String(item.id));if(!p)return "";total+=Number(p.price)*item.qty;return `<div class="cartitem"><img src="${p.image}" alt="${p.name}"><div><h4>${p.name}</h4><p>Tamanho: <b>${item.size}</b><br>${money(p.price)}</p><div class="qty"><button onclick="cartQty(${index},-1)">−</button><span>${item.qty}</span><button onclick="cartQty(${index},1)">+</button></div><button class="remove" onclick="removeItem(${index})">Remover</button></div><strong>${money(Number(p.price)*item.qty)}</strong></div>`}).join("");document.getElementById("total").textContent=money(total)}
+function cartQty(i,n){cart[i].qty+=n;if(cart[i].qty<=0)cart.splice(i,1);save()}function removeItem(i){cart.splice(i,1);save()}function openCart(){renderCart();document.getElementById("drawer").classList.add("open");document.getElementById("back").classList.add("open")}function closeCart(){document.getElementById("drawer").classList.remove("open");document.getElementById("back").classList.remove("open")}function closeModal(){document.getElementById("modalBack").classList.remove("open")}
+async function checkout(){
+  if(!cart.length){alert("Seu carrinho está vazio.");return}
+  const items=cart.map(i=>{
+    const p=products.find(x=>String(x.id)===String(i.id));
+    if(!p)return null;
+    return {id:i.id,size:i.size,quantity:Number(i.qty)||1};
+  }).filter(Boolean);
+  if(!items.length){alert("Não foi possível montar seu pedido.");return}
+  const btn=document.querySelector('.drawer-foot .btn.full');
+  const oldText=btn?btn.textContent:"Finalizar compra";
+  if(btn){btn.disabled=true;btn.textContent="Abrindo pagamento…"}
+  try{
+    const order_nsu=`narvie-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+    const response=await fetch('/api/create-checkout',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({items,order_nsu})
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||!data.url)throw new Error(data.error||'Não foi possível abrir o pagamento.');
+    localStorage.setItem('narvieLastOrder',JSON.stringify({order_nsu,items,createdAt:new Date().toISOString()}));
+    window.location.href=data.url;
+  }catch(error){
+    console.error(error);
+    alert(error.message||'Não foi possível abrir o pagamento. Tente novamente.');
+    if(btn){btn.disabled=false;btn.textContent=oldText}
+  }
+}
+document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");activeFilter=b.dataset.filter;renderProducts()}));
+document.getElementById("search").addEventListener("input",e=>{searchTerm=e.target.value;renderProducts()});
+init();
+</script>
+</body>
+</html>

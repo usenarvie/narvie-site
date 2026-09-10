@@ -134,3 +134,74 @@ using (bucket_id = 'product-images');
 -- values
 --   ('UUID-DA-ADMIN-1', 'email-da-admin-1'),
 --   ('UUID-DA-ADMIN-2', 'email-da-admin-2');
+
+-- ============================================================
+-- FRETE E PEDIDOS (V3.1)
+-- ============================================================
+
+-- Configurações da loja. Guarda o valor do frete por tipo de entrega,
+-- editável pelo painel administrativo (aba "Frete").
+create table if not exists public.settings (
+  key text primary key,
+  value jsonb not null,
+  updated_at timestamptz not null default now()
+);
+
+insert into public.settings (key, value)
+values ('shipping', '{"entrega_propria": 0, "correios": 15}'::jsonb)
+on conflict (key) do nothing;
+
+alter table public.settings enable row level security;
+
+-- O valor do frete precisa ser lido pela loja pública (para mostrar o
+-- total antes do pagamento), então a leitura é aberta.
+drop policy if exists "public reads settings" on public.settings;
+create policy "public reads settings"
+on public.settings for select
+to anon, authenticated
+using (true);
+
+drop policy if exists "admins manage settings" on public.settings;
+create policy "admins manage settings"
+on public.settings for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
+-- Pedidos. Criado como "aguardando_pagamento" pelo servidor no momento do
+-- checkout e atualizado para "pago" automaticamente quando a InfinitePay
+-- confirma o pagamento (webhook). A administradora move para "enviado"
+-- pelo painel quando despacha o pedido.
+create table if not exists public.orders (
+  id uuid primary key default gen_random_uuid(),
+  order_nsu text unique not null,
+  customer_name text not null,
+  customer_phone text not null,
+  customer_city text not null,
+  customer_address text not null,
+  shipping_method text not null check (shipping_method in ('entrega_propria','correios')),
+  shipping_fee numeric(10,2) not null default 0,
+  items jsonb not null default '[]'::jsonb,
+  subtotal numeric(10,2) not null default 0,
+  total numeric(10,2) not null default 0,
+  status text not null default 'aguardando_pagamento'
+    check (status in ('aguardando_pagamento','pago','enviado','cancelado')),
+  transaction_nsu text,
+  receipt_url text,
+  paid_at timestamptz,
+  shipped_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+alter table public.orders enable row level security;
+
+-- Só as administradoras enxergam e alteram pedidos pelo navegador.
+-- A criação do pedido (status "aguardando_pagamento") e a confirmação de
+-- pagamento são feitas pelo servidor com a service_role key, que ignora
+-- RLS — por isso não existe policy de insert para anon/authenticated aqui.
+drop policy if exists "admins manage orders" on public.orders;
+create policy "admins manage orders"
+on public.orders for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());

@@ -20,6 +20,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,253,250,.96);backdro
 footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:flex;justify-content:space-between;gap:30px}.footerlogo{font:400 28px "Playfair Display",serif;letter-spacing:.38em;margin-left:.38em}.social{display:flex;gap:9px;margin-top:20px}.social a{width:40px;height:40px;border:1px solid var(--line);display:grid;place-items:center}.footertext{font-size:12px;line-height:1.9;color:#888;text-align:right}.copy{border-top:1px solid var(--line);padding-top:22px;margin-top:35px;color:#aaa;font-size:11px}
 .whatsapp{position:fixed;z-index:70;right:22px;bottom:22px;width:60px;height:60px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:29px;box-shadow:0 12px 30px rgba(0,0,0,.2)}
 .drawer-back{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:80;display:none}.drawer{position:fixed;right:0;top:0;height:100%;width:min(430px,94vw);background:#fff;z-index:90;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}.drawer.open{transform:none}.drawer-back.open{display:block}.drawer-head{padding:24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.drawer-head h3{font:400 30px "Playfair Display",serif;margin:0}.close{border:0;background:none;font-size:25px}.cart-items{flex:1;overflow:auto;padding:18px 24px}.empty{text-align:center;color:#777;padding:70px 10px;line-height:1.7}.cartitem{display:grid;grid-template-columns:76px 1fr auto;gap:13px;padding:15px 0;border-bottom:1px solid var(--line)}.cartitem img{width:76px;height:90px;object-fit:cover}.cartitem h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin:3px 0 7px}.cartitem p{font-size:12px;color:#777;margin:0 0 10px}.qty{display:flex;align-items:center;gap:8px}.qty button{width:26px;height:26px;border:1px solid var(--line);background:#fff}.remove{border:0;background:none;color:#999;font-size:11px;margin-top:7px}.drawer-foot{border-top:1px solid var(--line);padding:20px 24px}.total{display:flex;justify-content:space-between;font-size:14px;margin-bottom:15px}.total strong{font-size:18px}.note{font-size:10px;color:#999;line-height:1.5;margin:12px 0 16px}
+.checkout-fields{margin-bottom:8px}.checkout-fields label{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#888;margin:12px 0 5px}.checkout-fields input,.checkout-fields select,.checkout-fields textarea{width:100%;border:1px solid var(--line);padding:11px;font:inherit;outline:none;background:#fff;color:var(--ink)}.checkout-fields textarea{min-height:60px;resize:vertical}.shipping-note{font-size:11px;color:#a33145;line-height:1.6;margin-top:7px;display:none}.shipping-note a{color:#a33145;text-decoration:underline}.breakdown{display:flex;justify-content:space-between;font-size:12px;color:#777;margin:0 0 5px}
 .modal-back{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}.modal-back.open{display:flex}.modal{background:#fff;width:min(700px,100%);max-height:90vh;overflow:auto;padding:30px}.modalgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px}.modal img{width:100%;aspect-ratio:1/1.1;object-fit:cover}.modal h3{font:400 38px "Playfair Display",serif;margin:0 0 8px}.modal .mprice{font-size:18px;margin-bottom:22px}.sizes{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 22px}.size{min-width:48px;height:40px;border:1px solid var(--line);background:#fff}.size.active{background:var(--wine);color:#fff;border-color:var(--wine)}.quantity{display:flex;align-items:center;gap:14px;margin-bottom:22px}.quantity button{width:38px;height:38px;border:1px solid var(--line);background:#fff}.modal-close{float:right;border:0;background:none;font-size:24px}
 .loading{text-align:center;padding:50px 0;color:#777}.config-warning{display:none;background:#fff6e7;border:1px solid #ecd9ae;padding:14px;margin:20px auto;max-width:1180px;font-size:12px;color:#725c30}
 @media(max-width:850px){.navlinks{display:none}.menu{display:block;font-size:23px}.nav{height:70px}.actions .searchbtn{display:none}.hero{min-height:570px}.introgrid,.howgrid,.contactgrid,.modalgrid{grid-template-columns:1fr;gap:35px}.grid{grid-template-columns:1fr 1fr}.catalog,.how,.contact{padding:72px 0}.catalog-head{display:block}.catalog-head .btn{margin-top:20px}.footergrid{display:block}.footertext{text-align:left;margin-top:22px}}
@@ -47,7 +48,31 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 <footer><div class="container"><div class="footergrid"><div><div class="footerlogo">NARVIE</div><div class="social"><a href="#" aria-label="Instagram">◎</a><a id="whatsFooter" href="#" target="_blank" aria-label="WhatsApp">◔</a></div></div><div class="footertext">CURADORIA FEMININA<br>DETALHES QUE FAZEM A DIFERENÇA<br><br>Enviamos para todo Sergipe e algumas cidades da Bahia.</div></div><div class="copy">© 2026 Narvie. Todos os direitos reservados. <a href="maintenance.html" style="float:right;color:#aaa">Área administrativa</a></div></div></footer>
 <a class="whatsapp" id="whatsFloat" href="#" target="_blank" aria-label="WhatsApp">☎</a>
 
-<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note">Pagamento seguro pela InfinitePay. Pix e cartão ficam disponíveis conforme a configuração do checkout.</div><button class="btn wine full" onclick="checkout()">Finalizar compra</button></div></aside>
+<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot">
+<div class="checkout-fields">
+<label for="custName">Nome completo</label><input id="custName" placeholder="Seu nome" oninput="updateTotals()">
+<label for="custPhone">WhatsApp / telefone</label><input id="custPhone" placeholder="(79) 90000-0000" oninput="updateTotals()">
+<label for="custCity">Cidade de entrega</label>
+<select id="custCity" onchange="updateTotals()">
+<option value="">Selecione sua cidade</option>
+<optgroup label="Entrega própria (Narvie entrega)">
+<option>Nossa Senhora da Glória</option>
+<option>Cristinápolis</option>
+</optgroup>
+<optgroup label="Envio via Coopertalse/Correios">
+<option>Itabaiana</option><option>Lagarto</option><option>Moita Bonita</option><option>Ribeirópolis</option><option>Malhador</option><option>Macambira</option><option>Campo do Brito</option><option>São Domingos</option><option>Pinhão</option><option>Pedra Mole</option><option>São Miguel do Aleixo</option><option>Nossa Senhora Aparecida</option><option>Frei Paulo</option><option>Carira</option><option>Porto da Folha</option><option>Poço Redondo</option><option>Canindé de São Francisco</option><option>Monte Alegre de Sergipe</option><option>Gararu</option><option>Nossa Senhora de Lourdes</option><option>Itabi</option><option>Feira Nova</option><option>Estância</option><option>Boquim</option><option>Tobias Barreto</option><option>Poço Verde</option><option>Riachão do Dantas</option><option>Pedrinhas</option><option>Arauá</option><option>Itabaianinha</option><option>Umbaúba</option><option>Indiaroba</option><option>Santa Luzia do Itanhy</option><option>Tomar do Geru</option><option>Propriá</option><option>Neópolis</option><option>Pacatuba</option><option>Japoatã</option><option>Aquidabã</option><option>Muribeca</option><option>Capela</option><option>Nossa Senhora das Dores</option><option>Siriri</option><option>Japaratuba</option><option>Pirambu</option><option>Ilha das Flores</option><option>Brejo Grande</option><option>Santana do São Francisco</option><option>Amparo de São Francisco</option><option>Malhada dos Bois</option><option>Cedro de São João</option><option>Telha</option><option>Aracaju</option><option>Nossa Senhora do Socorro</option><option>São Cristóvão</option><option>Barra dos Coqueiros</option><option>Laranjeiras</option><option>Maruim</option><option>Riachuelo</option><option>Areia Branca</option><option>Divina Pastora</option><option>Santa Rosa de Lima</option><option>Carmópolis</option><option>Rosário do Catete</option><option>General Maynard</option>
+</optgroup>
+<option value="__outra__">Minha cidade não está na lista</option>
+</select>
+<div id="cityBlocked" class="shipping-note">Ainda não entregamos nessa cidade pelo site. <a id="cityWhatsLink" href="#" target="_blank">Fale com a gente no WhatsApp</a> para combinar o envio.</div>
+<label for="custAddress">Endereço completo</label><textarea id="custAddress" placeholder="Rua, número, bairro, complemento" oninput="updateTotals()"></textarea>
+</div>
+<div class="breakdown"><span>Subtotal</span><span id="subtotalLabel">R$ 0,00</span></div>
+<div class="breakdown"><span>Frete</span><span id="shippingFeeLabel">Selecione a cidade</span></div>
+<div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div>
+<div class="note">Pagamento seguro pela InfinitePay. Pix e cartão ficam disponíveis conforme a configuração do checkout.</div>
+<button class="btn wine full" id="checkoutBtn" onclick="checkout()">Finalizar compra</button>
+</div></aside>
 <div class="modal-back" id="modalBack" onclick="if(event.target===this)closeModal()"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -59,6 +84,15 @@ let sb=null, products=[], cart=JSON.parse(localStorage.getItem("narvieCart")||"[
 
 function whatsUrl(text=""){return WHATSAPP_NUMBER ? "https://wa.me/"+WHATSAPP_NUMBER+(text?"?text="+encodeURIComponent(text):""):"#"}
 ["whatsContact","whatsFooter","whatsFloat"].forEach(id=>document.getElementById(id).href=whatsUrl());
+document.getElementById("cityWhatsLink").href=whatsUrl("Oi! Quero fazer um pedido mas minha cidade não aparece no site.");
+
+// Mesma lista de api/_lib/shipping.js — mantenha as duas em sincronia.
+const OWN_DELIVERY_CITIES=["Nossa Senhora da Glória","Cristinápolis"];
+const COOPERTALSE_CITIES=["Itabaiana","Lagarto","Moita Bonita","Ribeirópolis","Malhador","Macambira","Campo do Brito","São Domingos","Pinhão","Pedra Mole","São Miguel do Aleixo","Nossa Senhora Aparecida","Frei Paulo","Carira","Porto da Folha","Poço Redondo","Canindé de São Francisco","Monte Alegre de Sergipe","Gararu","Nossa Senhora de Lourdes","Itabi","Feira Nova","Estância","Boquim","Tobias Barreto","Poço Verde","Riachão do Dantas","Pedrinhas","Arauá","Itabaianinha","Umbaúba","Indiaroba","Santa Luzia do Itanhy","Tomar do Geru","Propriá","Neópolis","Pacatuba","Japoatã","Aquidabã","Muribeca","Capela","Nossa Senhora das Dores","Siriri","Japaratuba","Pirambu","Ilha das Flores","Brejo Grande","Santana do São Francisco","Amparo de São Francisco","Malhada dos Bois","Cedro de São João","Telha","Aracaju","Nossa Senhora do Socorro","São Cristóvão","Barra dos Coqueiros","Laranjeiras","Maruim","Riachuelo","Areia Branca","Divina Pastora","Santa Rosa de Lima","Carmópolis","Rosário do Catete","General Maynard"];
+function normCity(c){return String(c||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase()}
+const OWN_SET=new Set(OWN_DELIVERY_CITIES.map(normCity)),COOP_SET=new Set(COOPERTALSE_CITIES.map(normCity));
+function resolveShippingMethod(city){const n=normCity(city);if(OWN_SET.has(n))return "entrega_propria";if(COOP_SET.has(n))return "correios";return null}
+let shippingSettings={entrega_propria:0,correios:15},cartSubtotal=0;
 
 async function init(){
   const url=window.NARVIE_SUPABASE_URL, key=window.NARVIE_SUPABASE_ANON_KEY;
@@ -75,6 +109,8 @@ async function init(){
   const {data,error}=await sb.from("products").select("*").eq("status","published").order("created_at",{ascending:false});
   if(error){console.error(error);document.getElementById("grid").innerHTML='<div class="loading">Não foi possível carregar a coleção.</div>';return}
   products=(data||[]).map(p=>({...p,image:p.image_path?url+"/storage/v1/object/public/product-images/"+p.image_path:""}));
+  const {data:settingsRow}=await sb.from("settings").select("value").eq("key","shipping").maybeSingle();
+  if(settingsRow?.value)shippingSettings={...shippingSettings,...settingsRow.value};
   renderProducts(); save();
 }
 function save(){localStorage.setItem("narvieCart",JSON.stringify(cart));renderCart();document.getElementById("cartCount").textContent=cart.reduce((s,i)=>s+i.qty,0);document.getElementById("cartCount2").textContent=cart.reduce((s,i)=>s+i.qty,0)}
@@ -99,7 +135,21 @@ function changeModalQty(n){const p=products.find(x=>String(x.id)===String(window
 function addFromModal(id){if(!window.modalSize){alert("Escolha um tamanho.");return}const p=products.find(x=>String(x.id)===String(id));const left=stockFor(p,window.modalSize)-qtyInCart(id,window.modalSize);if(left<=0){alert("Esse tamanho está esgotado.");return}addToCart(id,window.modalSize,Math.min(window.modalQty,left));closeModal();openCart()}
 function quickAdd(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;const size=sizesOf(p).find(s=>stockFor(p,s)-qtyInCart(id,s)>0);if(!size){alert("Essa peça está esgotada no momento.");return}addToCart(id,size,1);openCart()}
 function addToCart(id,size,qty){const p=products.find(x=>String(x.id)===String(id));const max=p?stockFor(p,size):qty;const already=qtyInCart(id,size);const room=Math.max(0,max-already);const add=Math.min(qty,room);if(add<=0)return;const found=cart.find(x=>String(x.id)===String(id)&&x.size===size);if(found)found.qty+=add;else cart.push({id,size,qty:add});save()}
-function renderCart(){const box=document.getElementById("cartItems");if(!cart.length){box.innerHTML='<div class="empty">Seu carrinho está vazio.<br><br>Escolha uma peça da coleção para começar.</div>';document.getElementById("total").textContent=money(0);return}let total=0;box.innerHTML=cart.map((item,index)=>{const p=products.find(x=>String(x.id)===String(item.id));if(!p)return "";total+=Number(p.price)*item.qty;return `<div class="cartitem"><img src="${p.image}" alt="${p.name}"><div><h4>${p.name}</h4><p>Tamanho: <b>${item.size}</b><br>${money(p.price)}</p><div class="qty"><button onclick="cartQty(${index},-1)">−</button><span>${item.qty}</span><button onclick="cartQty(${index},1)">+</button></div><button class="remove" onclick="removeItem(${index})">Remover</button></div><strong>${money(Number(p.price)*item.qty)}</strong></div>`}).join("");document.getElementById("total").textContent=money(total)}
+function renderCart(){const box=document.getElementById("cartItems");if(!cart.length){box.innerHTML='<div class="empty">Seu carrinho está vazio.<br><br>Escolha uma peça da coleção para começar.</div>';cartSubtotal=0;updateTotals();return}let total=0;box.innerHTML=cart.map((item,index)=>{const p=products.find(x=>String(x.id)===String(item.id));if(!p)return "";total+=Number(p.price)*item.qty;return `<div class="cartitem"><img src="${p.image}" alt="${p.name}"><div><h4>${p.name}</h4><p>Tamanho: <b>${item.size}</b><br>${money(p.price)}</p><div class="qty"><button onclick="cartQty(${index},-1)">−</button><span>${item.qty}</span><button onclick="cartQty(${index},1)">+</button></div><button class="remove" onclick="removeItem(${index})">Remover</button></div><strong>${money(Number(p.price)*item.qty)}</strong></div>`}).join("");cartSubtotal=total;updateTotals()}
+function currentShipping(){const city=document.getElementById("custCity").value;if(!city||city==="__outra__")return null;const method=resolveShippingMethod(city);if(!method)return null;return {method,fee:Number(shippingSettings[method]||0)}}
+function updateTotals(){
+  const city=document.getElementById("custCity").value;
+  const blocked=document.getElementById("cityBlocked"),btn=document.getElementById("checkoutBtn"),feeLabel=document.getElementById("shippingFeeLabel");
+  document.getElementById("subtotalLabel").textContent=money(cartSubtotal);
+  let fee=0;
+  if(!city){blocked.style.display="none";feeLabel.textContent="Selecione a cidade";btn.disabled=false}
+  else{
+    const shipping=currentShipping();
+    if(!shipping){blocked.style.display="block";feeLabel.textContent="—";btn.disabled=true}
+    else{blocked.style.display="none";fee=shipping.fee;feeLabel.textContent=fee>0?money(fee):"Grátis";btn.disabled=false}
+  }
+  document.getElementById("total").textContent=money(cartSubtotal+fee);
+}
 function cartQty(i,n){const item=cart[i];if(n>0){const p=products.find(x=>String(x.id)===String(item.id));const max=p?stockFor(p,item.size):999;if(item.qty+n>max)return}item.qty+=n;if(item.qty<=0)cart.splice(i,1);save()}function removeItem(i){cart.splice(i,1);save()}function openCart(){renderCart();document.getElementById("drawer").classList.add("open");document.getElementById("back").classList.add("open")}function closeCart(){document.getElementById("drawer").classList.remove("open");document.getElementById("back").classList.remove("open")}function closeModal(){document.getElementById("modalBack").classList.remove("open")}
 async function checkout(){
   if(!cart.length){alert("Seu carrinho está vazio.");return}
@@ -109,7 +159,15 @@ async function checkout(){
     return {id:i.id,size:i.size,quantity:Number(i.qty)||1};
   }).filter(Boolean);
   if(!items.length){alert("Não foi possível montar seu pedido.");return}
-  const btn=document.querySelector('.drawer-foot .btn.full');
+  const name=document.getElementById("custName").value.trim();
+  const phone=document.getElementById("custPhone").value.trim();
+  const city=document.getElementById("custCity").value;
+  const address=document.getElementById("custAddress").value.trim();
+  if(!name||!phone){alert("Preencha seu nome e WhatsApp/telefone.");return}
+  if(!city){alert("Selecione a cidade de entrega.");return}
+  if(!resolveShippingMethod(city)){alert("Ainda não entregamos nessa cidade pelo site. Fale com a gente no WhatsApp.");return}
+  if(!address){alert("Preencha o endereço completo para entrega.");return}
+  const btn=document.getElementById("checkoutBtn");
   const oldText=btn?btn.textContent:"Finalizar compra";
   if(btn){btn.disabled=true;btn.textContent="Abrindo pagamento…"}
   try{
@@ -117,7 +175,7 @@ async function checkout(){
     const response=await fetch('/api/create-checkout',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({items,order_nsu})
+      body:JSON.stringify({items,order_nsu,customer:{name,phone,city,address}})
     });
     const data=await response.json().catch(()=>({}));
     if(!response.ok||!data.url)throw new Error(data.error||'Não foi possível abrir o pagamento.');

@@ -1,4 +1,4 @@
-NARVIE V3 — SITE + PAINEL PRIVADO 
+NARVIE V3 — SITE + PAINEL PRIVADO
 
 O que mudou
 ------------
@@ -8,12 +8,26 @@ Esta versão usa os arquivos visuais da V2 como base, mas troca o catálogo fixo
 - RLS (Row Level Security) para separar catálogo público de administração.
 - Bucket privado "draft-images" para fotos de rascunhos.
 - Bucket público "product-images" somente para peças publicadas.
-- Painel administrativo com criação, upload, rascunho, publicação, ocultação e exclusão.
+- Painel administrativo com criação, upload, edição, rascunho, publicação, ocultação e exclusão.
+- Estoque por tamanho: cada peça tem uma quantidade própria para P, M, G, GG e U. Tamanho com 0 unidades some das opções da cliente automaticamente.
 - Carrinho continua local no navegador e o checkout continua pelo WhatsApp.
+
+NOVO NESTA VERSÃO
+------------------
+- Estoque por tamanho: no painel, cada peça agora tem um campo de quantidade para cada tamanho (P, M, G, GG, U), em vez de apenas marcar quais tamanhos existem. A loja pública só deixa a cliente escolher tamanhos com estoque disponível e nunca deixa o carrinho passar da quantidade cadastrada.
+- Editar peça já publicada: cada peça na lista do painel tem um botão "Editar" que carrega os dados no formulário (nome, descrição, preço, categoria, estoque, data de lançamento e imagem). Trocar a imagem é opcional — se nada for escolhido, a imagem atual é mantida. O status (publicado/rascunho) continua sendo alterado pelos botões da lista, não pelo formulário de edição.
 
 IMPORTANTE
 ----------
 Sem um projeto Supabase e as duas contas administrativas, não existe como deixar a autenticação "real" já conectada. O pacote está preparado para conexão: basta configurar as credenciais e executar o schema.
+
+SE VOCÊ JÁ TINHA UM PROJETO SUPABASE CONFIGURADO ANTES
+-------------------------------------------------------
+Se o schema.sql antigo (sem estoque por tamanho) já foi executado no seu Supabase, rode
+os 3 comandos de migração comentados perto da criação da tabela "products" em schema.sql
+(no SQL Editor) antes de publicar este site — eles adicionam a coluna de estoque
+aproveitando os tamanhos que já existiam. Se este for um projeto novo, ignore essa parte
+e apenas rode o schema.sql inteiro normalmente.
 
 CONFIGURAÇÃO
 ------------

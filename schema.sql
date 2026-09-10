@@ -15,13 +15,25 @@ create table if not exists public.products (
   description text not null default '',
   price numeric(10,2) not null default 0 check (price >= 0),
   category text not null default 'estampa' check (category in ('estampa','classica')),
-  sizes text[] not null default array['P','M','G'],
+  -- stock guarda a quantidade disponível por tamanho, ex.: {"P": 3, "M": 5, "G": 0}
+  -- os tamanhos ativos da peça são as chaves deste objeto.
+  stock jsonb not null default '{}'::jsonb,
   image_path text,
   status text not null default 'draft' check (status in ('draft','published')),
   launch_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- MIGRAÇÃO: se este projeto já existia com a coluna antiga "sizes text[]",
+-- rode os comandos abaixo no SQL Editor para migrar sem perder dados
+-- (cada tamanho existente recebe estoque inicial de 5 unidades; ajuste depois no painel):
+--
+-- alter table public.products add column if not exists stock jsonb not null default '{}'::jsonb;
+-- update public.products
+--   set stock = (select coalesce(jsonb_object_agg(s, 5), '{}'::jsonb) from unnest(sizes) as s)
+--   where stock = '{}'::jsonb and sizes is not null and array_length(sizes,1) > 0;
+-- alter table public.products drop column if exists sizes;
 
 create or replace function public.is_admin()
 returns boolean

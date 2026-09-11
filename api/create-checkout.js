@@ -1,3 +1,6 @@
+// Preço e nome dos produtos SEMPRE vêm do Supabase (fonte oficial).
+// Nunca confiamos em preço enviado pelo navegador, para impedir que
+// alguém altere o valor de uma peça antes de pagar.
 const SUPABASE_URL = process.env.NARVIE_SUPABASE_URL || 'https://fzkkupeophllpxetfdjg.supabase.co';
 const SUPABASE_ANON_KEY = process.env.NARVIE_SUPABASE_ANON_KEY || 'sb_publishable_bFpZAMgy6-cIbL3QkxTCMw_-Q3jY_lg';
 
@@ -14,18 +17,41 @@ async function fetchOfficialProducts(ids) {
   return response.json();
 }
 
+function normalizeCity(s) {
+  return String(s || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase();
+}
+
+async function fetchShippingSettings() {
+  const url = `${SUPABASE_URL}/rest/v1/settings?key=eq.shipping&select=value`;
+  const response = await fetch(url, {
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+    }
+  });
+  if (!response.ok) return null;
+  const rows = await response.json().catch(() => []);
+  return rows[0]?.value || null;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método não permitido.' });
   }
 
   try {
-    const { items: rawItems = [], order_nsu = '' } = req.body || {};
+    const { items: rawItems = [], order_nsu = '', city = '' } = req.body || {};
 
     if (!Array.isArray(rawItems) || !rawItems.length) {
       return res.status(400).json({ error: 'O pedido está vazio.' });
     }
 
+    // Do navegador aceitamos apenas: qual peça, qual tamanho, quantas
+    // unidades. Nada de preço ou descrição vindos do cliente.
     const cleanItems = rawItems
       .map((item) => ({
         id: String(item.id || '').trim(),
@@ -50,13 +76,32 @@ export default async function handler(req, res) {
       }
       normalizedItems.push({
         quantity: item.quantity,
-        price: Math.round(Number(product.price) * 100),
+        price: Math.round(Number(product.price) * 100), // preço oficial do Supabase, em centavos
         description: item.size ? `${product.name} — tamanho ${item.size}` : product.name
       });
     }
 
     if (normalizedItems.some((item) => item.price <= 0 || item.quantity <= 0)) {
       return res.status(400).json({ error: 'Itens do pedido inválidos.' });
+    }
+
+    // Frete: só é cobrado quando a cidade informada bate com uma das
+    // cidades de "entrega própria" cadastradas nas configurações — e usa o
+    // valor daquela cidade específica. Nunca confiamos em valor de frete
+    // vindo do navegador — o valor oficial vem sempre do Supabase.
+    const cleanCity = String(city || '').trim();
+    if (cleanCity) {
+      const shipping = await fetchShippingSettings();
+      const localCities = shipping?.local_cities || {};
+      const matchKey = Object.keys(localCities).find((c) => normalizeCity(c) === normalizeCity(cleanCity));
+      const feeCents = matchKey ? Math.round(Number(localCities[matchKey] || 0) * 100) : 0;
+      if (matchKey && feeCents > 0) {
+        normalizedItems.push({
+          quantity: 1,
+          price: feeCents,
+          description: `Frete — entrega em ${cleanCity}`
+        });
+      }
     }
 
     const nsu = order_nsu || `narvie-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;

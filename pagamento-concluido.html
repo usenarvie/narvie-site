@@ -1,16 +1,20 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pagamento — NARVIE</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet"><style>:root{--wine:#5b1f2a;--ink:#282522;--line:#e8e3de;--bg:#f8f6f3}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Arial,sans-serif}.wrap{min-height:100vh;display:grid;place-items:center;padding:28px}.card{max-width:620px;width:100%;background:#fff;border:1px solid var(--line);padding:54px 34px;text-align:center}.mark{width:58px;height:58px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;margin:0 auto 22px;color:var(--wine);font-size:24px}.eyebrow{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#888}.card h1{font:400 40px "Playfair Display",serif;margin:12px 0}.card p{color:#777;line-height:1.8;font-size:13px}.btn{display:inline-block;margin-top:18px;background:var(--wine);color:#fff;text-decoration:none;padding:14px 24px;font-size:11px;letter-spacing:.12em;text-transform:uppercase}.sub{font-size:11px!important;color:#999!important;margin-top:18px}</style></head><body><main class="wrap"><section class="card"><div class="mark">✓</div><div class="eyebrow">NARVIE</div><h1>Obrigada pela sua compra.</h1><p>Você voltou do checkout da InfinitePay. Guarde o comprovante de pagamento e, se precisar de atendimento sobre a entrega ou o pedido, fale com a NARVIE.</p><a class="btn" href="/">Voltar para a loja</a><p class="sub">O status do pagamento é processado pela InfinitePay.</p></section></main>
 <script>
-(function(){
-  var params = new URLSearchParams(window.location.search);
-  var order_nsu = params.get('order_nsu');
-  var transaction_nsu = params.get('transaction_nsu');
-  var slug = params.get('slug');
-  if (!order_nsu) return;
-  fetch('/api/confirm-payment', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ order_nsu: order_nsu, transaction_nsu: transaction_nsu, slug: slug })
-  }).catch(function(err){ console.error('Falha na checagem de segurança do pagamento:', err); });
+(async function notifyOrder(){
+  try{
+    const raw = localStorage.getItem('narvieLastOrder');
+    if(!raw) return;
+    const order = JSON.parse(raw);
+    await fetch('/api/notify-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order_nsu: order.order_nsu, items: order.items, city: order.city || '' })
+    });
+  }catch(e){
+    console.error(e);
+  }finally{
+    localStorage.removeItem('narvieLastOrder');
+  }
 })();
 </script>
 </body></html>

@@ -48,22 +48,22 @@
 <div class="panel"><h2 style="margin-bottom:3px">Pedidos</h2><div class="count" id="ordersCount">0 pedidos</div><div class="tabs" style="margin-top:15px"><button class="tab active" data-ofilter="novo" onclick="setOrderFilter('novo')">Aguardando envio</button><button class="tab" data-ofilter="enviado" onclick="setOrderFilter('enviado')">Enviados</button><button class="tab" data-ofilter="all" onclick="setOrderFilter('all')">Todos</button></div><div id="ordersList"><div class="empty">Carregando pedidos…</div></div></div>
 </div>
 <div id="viewFrete" class="hidden">
-<div class="panel"><h2>Frete</h2><div class="notice"><b>Entrega própria:</b> cada cidade tem seu próprio valor de frete, editável abaixo — mude quando quiser, o site já usa o valor mais recente. <b>Envio via Coopertalse/Correios:</b> o frete dessas cidades é sempre combinado direto no WhatsApp, sem valor fixo no site.</div>
+<div class="panel"><h2>Frete</h2><div class="notice">Cada cidade cadastrada abaixo (entrega própria ou via Coopertalse/Correios) tem seu próprio valor de frete, editável a qualquer momento — o site sempre usa o valor mais recente e o pagamento é finalizado direto no site. Cidade que não estiver em nenhuma das duas listas cai no aviso de "combinar no WhatsApp".</div>
 <label class="field-label">Cidades de entrega própria</label>
 <div class="citylist" id="localCityList"></div>
 <div class="row"><input id="newCityName" placeholder="Nome da nova cidade"><input id="newCityFee" type="number" step=".01" min="0" placeholder="Valor do frete (R$)"></div>
 <button class="btn alt" style="width:100%;margin:0 0 26px" onclick="addLocalCity()">+ Cadastrar cidade de entrega própria</button>
 <label class="field-label">Cidades atendidas via Coopertalse/Correios</label>
-<textarea id="neighborCitiesInput" placeholder="Uma cidade por linha"></textarea>
-<p class="small">Uma cidade por linha (ou separadas por vírgula). Não precisa cadastrar valor — o frete dessas cidades é sempre combinado no WhatsApp.</p>
-<button class="btn" style="width:100%;margin-top:8px" onclick="saveNeighborCities()">Salvar lista de cidades</button>
+<div class="citylist" id="neighborCityList"></div>
+<div class="row"><input id="newNeighborCityName" placeholder="Nome da nova cidade"><input id="newNeighborCityFee" type="number" step=".01" min="0" placeholder="Valor do frete (R$)"></div>
+<button class="btn alt" style="width:100%;margin-top:0" onclick="addNeighborCity()">+ Cadastrar cidade via Coopertalse/Correios</button>
 </div>
 </div>
 </section></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
 <script>
 let sb=null,currentUser=null,products=[],activeFilter='all',editingId=null,orders=[],orderFilter='novo';
-const DEFAULT_SHIPPING={local_cities:{"Nossa Senhora da Glória":0,"Cristinápolis":0},neighbor_cities:[]};
+const DEFAULT_SHIPPING={local_cities:{"Nossa Senhora da Glória":0,"Cristinápolis":0},neighbor_cities:{}};
 let shipping=DEFAULT_SHIPPING;
 const SIZE_ORDER=['P','M','G','GG','U'];
 function readStockInputs(){const stock={};document.querySelectorAll('.stockqty').forEach(inp=>{const q=Math.max(0,parseInt(inp.value||'0',10)||0);if(q>0)stock[inp.dataset.size]=q});return stock}
@@ -143,24 +143,23 @@ async function markOrderStatus(id,status){try{const {error}=await sb.from('order
 async function refreshOrdersBadge(){try{const {count,error}=await sb.from('orders').select('id',{count:'exact',head:true}).eq('status','novo');if(error)throw error;const badge=document.getElementById('newOrdersBadge');if(count>0){badge.textContent=count;badge.style.display='inline-block'}else{badge.style.display='none'}}catch(e){console.error(e)}}
 
 // FRETE
-function renderFreteView(){
-  const list=document.getElementById('localCityList');
-  const cities=Object.keys(shipping.local_cities||{});
-  if(!cities.length){list.innerHTML='<p class="small">Nenhuma cidade de entrega própria cadastrada ainda.</p>'}
-  else{
-    list.innerHTML=cities.map(c=>`<div class="cityrow" data-city="${esc(c)}"><strong>${esc(c)}</strong><input type="number" min="0" step=".01" value="${Number(shipping.local_cities[c]||0)}" class="cityfee"><button class="cityremove">Remover</button></div>`).join('');
-    list.querySelectorAll('.cityrow').forEach(row=>{
-      const city=row.dataset.city;
-      row.querySelector('.cityfee').addEventListener('change',e=>saveLocalCityFee(city,e.target));
-      row.querySelector('.cityremove').addEventListener('click',()=>removeLocalCity(city));
-    });
-  }
-  document.getElementById('neighborCitiesInput').value=(shipping.neighbor_cities||[]).join('\n');
+function renderCityGroup(groupKey,listId){
+  const list=document.getElementById(listId);
+  const cities=Object.keys(shipping[groupKey]||{});
+  if(!cities.length){list.innerHTML='<p class="small">Nenhuma cidade cadastrada ainda.</p>';return}
+  list.innerHTML=cities.map(c=>`<div class="cityrow" data-city="${esc(c)}"><strong>${esc(c)}</strong><input type="number" min="0" step=".01" value="${Number(shipping[groupKey][c]||0)}" class="cityfee"><button class="cityremove">Remover</button></div>`).join('');
+  list.querySelectorAll('.cityrow').forEach(row=>{
+    const city=row.dataset.city;
+    row.querySelector('.cityfee').addEventListener('change',e=>saveCityFee(groupKey,city,e.target));
+    row.querySelector('.cityremove').addEventListener('click',()=>removeCity(groupKey,city));
+  });
 }
+function renderFreteView(){renderCityGroup('local_cities','localCityList');renderCityGroup('neighbor_cities','neighborCityList')}
 async function saveShippingSettings(){const {error}=await sb.from('settings').upsert({key:'shipping',value:shipping},{onConflict:'key'});if(error){console.error(error);alert('Não foi possível salvar as configurações de frete.\nErro: '+(error?.message||error));return false}return true}
-async function saveLocalCityFee(city,input){const value=Math.max(0,Number(input.value||0));const previous=shipping.local_cities[city];shipping.local_cities[city]=value;const ok=await saveShippingSettings();if(!ok){shipping.local_cities[city]=previous;renderFreteView()}}
-async function removeLocalCity(city){if(!confirm(`Remover "${city}" da entrega própria?`))return;const previous=shipping.local_cities[city];delete shipping.local_cities[city];const ok=await saveShippingSettings();if(!ok)shipping.local_cities[city]=previous;renderFreteView()}
-async function addLocalCity(){const nameInput=document.getElementById('newCityName'),feeInput=document.getElementById('newCityFee');const name=nameInput.value.trim();if(!name){alert('Informe o nome da cidade.');return}if(Object.keys(shipping.local_cities).some(c=>c.toLowerCase()===name.toLowerCase())){alert('Essa cidade já está cadastrada.');return}const fee=Math.max(0,Number(feeInput.value||0));shipping.local_cities={...shipping.local_cities,[name]:fee};const ok=await saveShippingSettings();if(ok){nameInput.value='';feeInput.value=''}renderFreteView()}
-async function saveNeighborCities(){const raw=document.getElementById('neighborCitiesInput').value;const list=[...new Set(raw.split(/[\n,]/).map(s=>s.trim()).filter(Boolean))];const previous=shipping.neighbor_cities;shipping.neighbor_cities=list;const ok=await saveShippingSettings();if(ok)alert('Lista de cidades atualizada.');else shipping.neighbor_cities=previous;renderFreteView()}
+async function saveCityFee(groupKey,city,input){const value=Math.max(0,Number(input.value||0));const previous=shipping[groupKey][city];shipping[groupKey][city]=value;const ok=await saveShippingSettings();if(!ok){shipping[groupKey][city]=previous;renderFreteView()}}
+async function removeCity(groupKey,city){if(!confirm(`Remover "${city}" da lista?`))return;const previous=shipping[groupKey][city];delete shipping[groupKey][city];const ok=await saveShippingSettings();if(!ok)shipping[groupKey][city]=previous;renderFreteView()}
+async function addCityToGroup(groupKey,nameInputId,feeInputId){const nameInput=document.getElementById(nameInputId),feeInput=document.getElementById(feeInputId);const name=nameInput.value.trim();if(!name){alert('Informe o nome da cidade.');return}if(Object.keys(shipping[groupKey]).some(c=>c.toLowerCase()===name.toLowerCase())){alert('Essa cidade já está cadastrada.');return}const fee=Math.max(0,Number(feeInput.value||0));shipping[groupKey]={...shipping[groupKey],[name]:fee};const ok=await saveShippingSettings();if(ok){nameInput.value='';feeInput.value=''}renderFreteView()}
+async function addLocalCity(){await addCityToGroup('local_cities','newCityName','newCityFee')}
+async function addNeighborCity(){await addCityToGroup('neighbor_cities','newNeighborCityName','newNeighborCityFee')}
 
 </script></body></html>

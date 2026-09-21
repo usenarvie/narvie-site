@@ -20,7 +20,8 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,253,250,.96);backdro
 footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:flex;justify-content:space-between;gap:30px}.footerlogo{font:400 28px "Playfair Display",serif;letter-spacing:.38em;margin-left:.38em}.social{display:flex;gap:9px;margin-top:20px}.social a{width:40px;height:40px;border:1px solid var(--line);display:grid;place-items:center}.footertext{font-size:12px;line-height:1.9;color:#888;text-align:right}.copy{border-top:1px solid var(--line);padding-top:22px;margin-top:35px;color:#aaa;font-size:11px}
 .whatsapp{position:fixed;z-index:70;right:22px;bottom:22px;width:60px;height:60px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:29px;box-shadow:0 12px 30px rgba(0,0,0,.2)}
 .drawer-back{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:80;display:none}.drawer{position:fixed;right:0;top:0;height:100%;width:min(430px,94vw);background:#fff;z-index:90;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}.drawer.open{transform:none}.drawer-back.open{display:block}.drawer-head{padding:24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.drawer-head h3{font:400 30px "Playfair Display",serif;margin:0}.close{border:0;background:none;font-size:25px}.cart-items{flex:1;overflow:auto;padding:18px 24px}.empty{text-align:center;color:#777;padding:70px 10px;line-height:1.7}.cartitem{display:grid;grid-template-columns:76px 1fr auto;gap:13px;padding:15px 0;border-bottom:1px solid var(--line)}.cartitem img{width:76px;height:90px;object-fit:cover}.cartitem h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin:3px 0 7px}.cartitem p{font-size:12px;color:#777;margin:0 0 10px}.qty{display:flex;align-items:center;gap:8px}.qty button{width:26px;height:26px;border:1px solid var(--line);background:#fff}.remove{border:0;background:none;color:#999;font-size:11px;margin-top:7px}.drawer-foot{border-top:1px solid var(--line);padding:20px 24px}.total{display:flex;justify-content:space-between;font-size:14px;margin-bottom:15px}.total strong{font-size:18px}.note{font-size:10px;color:#999;line-height:1.5;margin:12px 0 16px}
-.shipfield{margin-bottom:6px}.shipfield label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:6px;font-weight:700}.shipfield select{width:100%;border:1px solid var(--line);padding:12px;background:#fff;font-size:13px;outline:none}.shipnote{font-size:11px;line-height:1.6;padding:10px 12px;margin:10px 0;display:none;border-radius:2px}.shipnote.info{background:#fbf6ef;border:1px solid #eadcc9;color:#725c30}.shipnote.block{background:#fdeceb;border:1px solid #f3c8c4;color:#8a2f28}
+.shipfield{margin-bottom:6px}.shipfield label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:6px;font-weight:700}.shipfield select{width:100%;border:1px solid var(--line);padding:12px;background:#fff;font-size:13px;outline:none}
+.shipcard{display:none;align-items:flex-start;gap:12px;border:1px solid var(--line);padding:14px 15px;margin:10px 0}.shipcard.show{display:flex}.shipcard .radio{width:19px;height:19px;border-radius:50%;border:2px solid var(--wine);flex-shrink:0;margin-top:2px;position:relative}.shipcard .radio::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--wine)}.shipcard .content{flex:1;min-width:0}.shipcard .content h4{margin:0 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}.shipcard .content p{margin:0;font-size:12px;color:#777;line-height:1.5}.shipcard .price{font-weight:700;font-size:15px;white-space:nowrap}.shipcard.block{background:#fdeceb;border-color:#f3c8c4}.shipcard.block .radio{border-color:#8a2f28}.shipcard.block .radio::after{background:#8a2f28}
 .modal-back{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}.modal-back.open{display:flex}.modal{background:#fff;width:min(700px,100%);max-height:90vh;overflow:auto;padding:30px}.modalgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px}.modal img{width:100%;aspect-ratio:1/1.1;object-fit:cover}.modal h3{font:400 38px "Playfair Display",serif;margin:0 0 8px}.modal .mprice{font-size:18px;margin-bottom:22px}.sizes{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 22px}.size{min-width:48px;height:40px;border:1px solid var(--line);background:#fff}.size.active{background:var(--wine);color:#fff;border-color:var(--wine)}.quantity{display:flex;align-items:center;gap:14px;margin-bottom:22px}.quantity button{width:38px;height:38px;border:1px solid var(--line);background:#fff}.modal-close{float:right;border:0;background:none;font-size:24px}
 .loading{text-align:center;padding:50px 0;color:#777}.config-warning{display:none;background:#fff6e7;border:1px solid #ecd9ae;padding:14px;margin:20px auto;max-width:1180px;font-size:12px;color:#725c30}
 @media(max-width:850px){.navlinks{display:none}.menu{display:block;font-size:23px}.nav{height:70px}.actions .searchbtn{display:none}.hero{min-height:570px}.introgrid,.howgrid,.contactgrid,.modalgrid{grid-template-columns:1fr;gap:35px}.grid{grid-template-columns:1fr 1fr}.catalog,.how,.contact{padding:72px 0}.catalog-head{display:block}.catalog-head .btn{margin-top:20px}.footergrid{display:block}.footertext{text-align:left;margin-top:22px}}
@@ -48,7 +49,7 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 <footer><div class="container"><div class="footergrid"><div><div class="footerlogo">NARVIE</div><div class="social"><a href="#" aria-label="Instagram">◎</a><a id="whatsFooter" href="#" target="_blank" aria-label="WhatsApp">◔</a></div></div><div class="footertext">CURADORIA FEMININA<br>DETALHES QUE FAZEM A DIFERENÇA<br><br>Enviamos para todo Sergipe e algumas cidades da Bahia.</div></div><div class="copy">© 2026 Narvie. Todos os direitos reservados. <a href="maintenance.html" style="float:right;color:#aaa">Área administrativa</a></div></div></footer>
 <a class="whatsapp" id="whatsFloat" href="#" target="_blank" aria-label="WhatsApp">☎</a>
 
-<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="shipfield"><label>Cidade de entrega</label><select id="citySelect" onchange="onCityChange()"><option value="">Selecione sua cidade</option><optgroup label="Entrega própria" id="localCitiesGroup"></optgroup><optgroup label="Envio via Coopertalse / Correios" id="neighborCitiesGroup"></optgroup><option value="__outra__">Outra cidade</option></select><div class="shipnote" id="shipNote"></div></div><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note">Pagamento seguro pela InfinitePay. Pix e cartão ficam disponíveis conforme a configuração do checkout.</div><button class="btn wine full" id="checkoutBtn" onclick="checkout()">Finalizar compra</button></div></aside>
+<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="shipfield"><label>Cidade de entrega</label><select id="citySelect" onchange="onCityChange()"><option value="">Selecione sua cidade</option><optgroup label="Entrega própria" id="localCitiesGroup"></optgroup><optgroup label="Envio via Coopertalse / Correios" id="neighborCitiesGroup"></optgroup><option value="__outra__">Outra cidade</option></select><div class="shipcard" id="shipCard"><div class="radio"></div><div class="content"><h4 id="shipCardTitle"></h4><p id="shipCardDesc"></p></div><div class="price" id="shipCardPrice"></div></div></div><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note">Pagamento seguro pela InfinitePay. Pix e cartão ficam disponíveis conforme a configuração do checkout.</div><button class="btn wine full" id="checkoutBtn" onclick="checkout()">Finalizar compra</button></div></aside>
 <div class="modal-back" id="modalBack" onclick="if(event.target===this)closeModal()"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -57,21 +58,33 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 const WHATSAPP_NUMBER="5579998018722"; // Número da Narvie em formato internacional
 const money=v=>Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 let sb=null, products=[], cart=JSON.parse(localStorage.getItem("narvieCart")||"[]"), activeFilter="todos",searchTerm="";
-const DEFAULT_SHIPPING={local_cities:{"Nossa Senhora da Glória":0,"Cristinápolis":0},neighbor_cities:["Itabaiana","Lagarto","Moita Bonita","Ribeirópolis","Malhador","Macambira","Campo do Brito","São Domingos","Pinhão","Pedra Mole","São Miguel do Aleixo","Nossa Senhora Aparecida","Frei Paulo","Carira","Porto da Folha","Poço Redondo","Canindé de São Francisco","Monte Alegre de Sergipe","Gararu","Nossa Senhora de Lourdes","Itabi","Feira Nova","Estância","Boquim","Tobias Barreto","Poço Verde","Riachão do Dantas","Pedrinhas","Arauá","Itabaianinha","Umbaúba","Indiaroba","Santa Luzia do Itanhy","Tomar do Geru","Propriá","Neópolis","Pacatuba","Japoatã","Aquidabã","Muribeca","Capela","Nossa Senhora das Dores","Siriri","Japaratuba","Pirambu","Ilha das Flores","Brejo Grande","Santana do São Francisco","Amparo de São Francisco","Malhada dos Bois","Cedro de São João","Telha","Aracaju","Nossa Senhora do Socorro","São Cristóvão","Barra dos Coqueiros","Laranjeiras","Maruim","Riachuelo","Areia Branca","Divina Pastora","Santa Rosa de Lima","Carmópolis","Rosário do Catete","General Maynard"]};
+const DEFAULT_SHIPPING={local_cities:{"Nossa Senhora da Glória":0,"Cristinápolis":0},neighbor_cities:{"Itabaiana":0,"Lagarto":0,"Moita Bonita":0,"Ribeirópolis":0,"Malhador":0,"Macambira":0,"Campo do Brito":0,"São Domingos":0,"Pinhão":0,"Pedra Mole":0,"São Miguel do Aleixo":0,"Nossa Senhora Aparecida":0,"Frei Paulo":0,"Carira":0,"Porto da Folha":0,"Poço Redondo":0,"Canindé de São Francisco":0,"Monte Alegre de Sergipe":0,"Gararu":0,"Nossa Senhora de Lourdes":0,"Itabi":0,"Feira Nova":0,"Estância":0,"Boquim":0,"Tobias Barreto":0,"Poço Verde":0,"Riachão do Dantas":0,"Pedrinhas":0,"Arauá":0,"Itabaianinha":0,"Umbaúba":0,"Indiaroba":0,"Santa Luzia do Itanhy":0,"Tomar do Geru":0,"Propriá":0,"Neópolis":0,"Pacatuba":0,"Japoatã":0,"Aquidabã":0,"Muribeca":0,"Capela":0,"Nossa Senhora das Dores":0,"Siriri":0,"Japaratuba":0,"Pirambu":0,"Ilha das Flores":0,"Brejo Grande":0,"Santana do São Francisco":0,"Amparo de São Francisco":0,"Malhada dos Bois":0,"Cedro de São João":0,"Telha":0,"Aracaju":0,"Nossa Senhora do Socorro":0,"São Cristóvão":0,"Barra dos Coqueiros":0,"Laranjeiras":0,"Maruim":0,"Riachuelo":0,"Areia Branca":0,"Divina Pastora":0,"Santa Rosa de Lima":0,"Carmópolis":0,"Rosário do Catete":0,"General Maynard":0}};
 let shipping=DEFAULT_SHIPPING, selectedCity="";
 function normalizeCity(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase()}
-function localCityFee(city){const keys=Object.keys(shipping.local_cities||{});const match=keys.find(c=>normalizeCity(c)===normalizeCity(city));return match?Number(shipping.local_cities[match]||0):null}
-function cityStatus(city){if(!city)return "none";const n=normalizeCity(city);if(Object.keys(shipping.local_cities||{}).some(c=>normalizeCity(c)===n))return "local";if((shipping.neighbor_cities||[]).some(c=>normalizeCity(c)===n))return "neighbor";return "other"}
-function populateCitySelect(){const localGroup=document.getElementById("localCitiesGroup"),neighborGroup=document.getElementById("neighborCitiesGroup");localGroup.innerHTML=Object.keys(shipping.local_cities||{}).map(c=>`<option value="${c}">${c}</option>`).join("");neighborGroup.innerHTML=[...(shipping.neighbor_cities||[])].sort((a,b)=>a.localeCompare(b,"pt-BR")).map(c=>`<option value="${c}">${c}</option>`).join("")}
+function resolveCity(city){const n=normalizeCity(city);let key=Object.keys(shipping.local_cities||{}).find(c=>normalizeCity(c)===n);if(key)return{type:"local",fee:Number(shipping.local_cities[key]||0)};key=Object.keys(shipping.neighbor_cities||{}).find(c=>normalizeCity(c)===n);if(key)return{type:"neighbor",fee:Number(shipping.neighbor_cities[key]||0)};return null}
+function cityStatus(city){if(!city)return "none";if(city==="__outra__")return "other";const r=resolveCity(city);return r?r.type:"other"}
+function cityFee(city){const r=resolveCity(city);return r?r.fee:0}
+function populateCitySelect(){const localGroup=document.getElementById("localCitiesGroup"),neighborGroup=document.getElementById("neighborCitiesGroup");localGroup.innerHTML=Object.keys(shipping.local_cities||{}).map(c=>`<option value="${c}">${c}</option>`).join("");neighborGroup.innerHTML=Object.keys(shipping.neighbor_cities||{}).sort((a,b)=>a.localeCompare(b,"pt-BR")).map(c=>`<option value="${c}">${c}</option>`).join("")}
 function onCityChange(){selectedCity=document.getElementById("citySelect").value;updateShipUI()}
 function updateShipUI(){
-  const note=document.getElementById("shipNote"),btn=document.getElementById("checkoutBtn");
-  const status=selectedCity==="__outra__"?"other":cityStatus(selectedCity);
-  note.className="shipnote";
-  if(!selectedCity){note.style.display="none";btn.textContent="Finalizar compra"}
-  else if(status==="local"){const fee=localCityFee(selectedCity)||0;note.style.display="block";note.classList.add("info");note.textContent=fee>0?`Entrega própria em ${selectedCity} — frete de ${money(fee)} será somado ao total.`:`Entrega própria em ${selectedCity} — sem custo de frete.`;btn.textContent="Finalizar compra"}
-  else if(status==="neighbor"){note.style.display="block";note.classList.add("info");note.textContent=`Para ${selectedCity}, o envio é feito via Coopertalse ou Correios. Vamos calcular o frete com você pelo WhatsApp antes de fechar o pedido.`;btn.textContent="Combinar entrega no WhatsApp"}
-  else{note.style.display="block";note.classList.add("block");note.textContent="No momento não fazemos entrega automática para essa região. Fale com a gente no WhatsApp para verificar.";btn.textContent="Perguntar no WhatsApp"}
+  const card=document.getElementById("shipCard"),title=document.getElementById("shipCardTitle"),desc=document.getElementById("shipCardDesc"),price=document.getElementById("shipCardPrice"),btn=document.getElementById("checkoutBtn");
+  const status=cityStatus(selectedCity);
+  card.className="shipcard";
+  if(!selectedCity){card.classList.remove("show");btn.textContent="Finalizar compra";renderCart();return}
+  card.classList.add("show");
+  if(status==="local"||status==="neighbor"){
+    const fee=cityFee(selectedCity);
+    title.textContent=status==="local"?`Entrega própria — ${selectedCity}`:`Coopertalse/Correios — ${selectedCity}`;
+    desc.textContent=status==="local"?"Entregamos direto na cidade.":"Envio via transportadora regional.";
+    price.textContent=fee>0?money(fee):"Grátis";
+    btn.textContent="Finalizar compra";
+  }else{
+    card.classList.add("block");
+    title.textContent="Ainda não entregamos automaticamente aqui";
+    desc.textContent="Fale com a gente no WhatsApp para verificar entrega para essa cidade.";
+    price.textContent="";
+    btn.textContent="Perguntar no WhatsApp";
+  }
   renderCart();
 }
 
@@ -129,8 +142,8 @@ function renderCart(){
   let total=0;
   const rows=cart.map((item,index)=>{const p=products.find(x=>String(x.id)===String(item.id));if(!p)return "";total+=Number(p.price)*item.qty;return `<div class="cartitem"><img src="${p.image}" alt="${p.name}"><div><h4>${p.name}</h4><p>Tamanho: <b>${item.size}</b><br>${money(p.price)}</p><div class="qty"><button onclick="cartQty(${index},-1)">−</button><span>${item.qty}</span><button onclick="cartQty(${index},1)">+</button></div><button class="remove" onclick="removeItem(${index})">Remover</button></div><strong>${money(Number(p.price)*item.qty)}</strong></div>`}).join("");
   let freightRow="";
-  const status=selectedCity?(selectedCity==="__outra__"?"other":cityStatus(selectedCity)):"none";
-  if(status==="local"){const fee=localCityFee(selectedCity)||0;if(fee>0){total+=fee;freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>Frete</h4><p>Entrega própria em ${selectedCity}</p></div><strong>${money(fee)}</strong></div>`}}
+  const status=cityStatus(selectedCity);
+  if(status==="local"||status==="neighbor"){const fee=cityFee(selectedCity);if(fee>0){total+=fee;const label=status==="local"?`Entrega própria em ${selectedCity}`:`Envio via Coopertalse/Correios para ${selectedCity}`;freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>Frete</h4><p>${label}</p></div><strong>${money(fee)}</strong></div>`}}
   box.innerHTML=rows+freightRow;
   document.getElementById("total").textContent=money(total);
 }
@@ -144,12 +157,12 @@ async function checkout(){
     return {id:i.id,size:i.size,quantity:Number(i.qty)||1};
   }).filter(Boolean);
   if(!items.length){alert("Não foi possível montar seu pedido.");return}
-  const status=selectedCity==="__outra__"?"other":cityStatus(selectedCity);
+  const status=cityStatus(selectedCity);
   const cityLabel=selectedCity==="__outra__"?"Outra cidade (fora da nossa área de entrega automática)":selectedCity;
   const btn=document.getElementById("checkoutBtn");
   const oldText=btn.textContent;
 
-  if(status==="local"){
+  if(status==="local"||status==="neighbor"){
     btn.disabled=true;btn.textContent="Abrindo pagamento…";
     try{
       const order_nsu=`narvie-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
@@ -170,7 +183,7 @@ async function checkout(){
     return;
   }
 
-  // Cidade vizinha (frete via Coopertalse/Correios) ou fora da área: combina no WhatsApp.
+  // Cidade fora das duas listas: combina no WhatsApp.
   btn.disabled=true;
   try{
     const order_nsu=`narvie-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;

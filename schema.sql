@@ -159,30 +159,29 @@ to authenticated
 using (public.is_admin())
 with check (public.is_admin());
 
--- Configuração inicial de frete: cada cidade de entrega própria tem seu
--- próprio valor de frete (editável pelo painel, aba "Frete") e a lista de
--- cidades atendidas via Coopertalse/Correios (frete combinado no WhatsApp).
--- Qualquer cidade fora dessas duas listas cai automaticamente no aviso de
--- "não entregamos, fale no WhatsApp".
+-- Configuração inicial de frete: cada cidade cadastrada (entrega própria OU
+-- via Coopertalse/Correios) tem seu próprio valor de frete, editável pelo
+-- painel na aba "Frete". Qualquer cidade fora das duas listas cai
+-- automaticamente no aviso de "não entregamos, fale no WhatsApp".
 insert into public.settings (key, value) values (
   'shipping',
   jsonb_build_object(
     'local_cities', jsonb_build_object('Nossa Senhora da Glória', 0, 'Cristinápolis', 0),
-    'neighbor_cities', jsonb_build_array(
-      'Itabaiana','Lagarto','Moita Bonita','Ribeirópolis','Malhador','Macambira',
-      'Campo do Brito','São Domingos','Pinhão','Pedra Mole','São Miguel do Aleixo',
-      'Nossa Senhora Aparecida','Frei Paulo','Carira','Porto da Folha','Poço Redondo',
-      'Canindé de São Francisco','Monte Alegre de Sergipe','Gararu',
-      'Nossa Senhora de Lourdes','Itabi','Feira Nova','Estância','Boquim',
-      'Tobias Barreto','Poço Verde','Riachão do Dantas','Pedrinhas','Arauá',
-      'Itabaianinha','Umbaúba','Indiaroba','Santa Luzia do Itanhy','Tomar do Geru',
-      'Propriá','Neópolis','Pacatuba','Japoatã','Aquidabã','Muribeca','Capela',
-      'Nossa Senhora das Dores','Siriri','Japaratuba','Pirambu','Ilha das Flores',
-      'Brejo Grande','Santana do São Francisco','Amparo de São Francisco',
-      'Malhada dos Bois','Cedro de São João','Telha','Aracaju',
-      'Nossa Senhora do Socorro','São Cristóvão','Barra dos Coqueiros','Laranjeiras',
-      'Maruim','Riachuelo','Areia Branca','Divina Pastora','Santa Rosa de Lima',
-      'Carmópolis','Rosário do Catete','General Maynard'
+    'neighbor_cities', jsonb_build_object(
+      'Itabaiana',0,'Lagarto',0,'Moita Bonita',0,'Ribeirópolis',0,'Malhador',0,'Macambira',0,
+      'Campo do Brito',0,'São Domingos',0,'Pinhão',0,'Pedra Mole',0,'São Miguel do Aleixo',0,
+      'Nossa Senhora Aparecida',0,'Frei Paulo',0,'Carira',0,'Porto da Folha',0,'Poço Redondo',0,
+      'Canindé de São Francisco',0,'Monte Alegre de Sergipe',0,'Gararu',0,
+      'Nossa Senhora de Lourdes',0,'Itabi',0,'Feira Nova',0,'Estância',0,'Boquim',0,
+      'Tobias Barreto',0,'Poço Verde',0,'Riachão do Dantas',0,'Pedrinhas',0,'Arauá',0,
+      'Itabaianinha',0,'Umbaúba',0,'Indiaroba',0,'Santa Luzia do Itanhy',0,'Tomar do Geru',0,
+      'Propriá',0,'Neópolis',0,'Pacatuba',0,'Japoatã',0,'Aquidabã',0,'Muribeca',0,'Capela',0,
+      'Nossa Senhora das Dores',0,'Siriri',0,'Japaratuba',0,'Pirambu',0,'Ilha das Flores',0,
+      'Brejo Grande',0,'Santana do São Francisco',0,'Amparo de São Francisco',0,
+      'Malhada dos Bois',0,'Cedro de São João',0,'Telha',0,'Aracaju',0,
+      'Nossa Senhora do Socorro',0,'São Cristóvão',0,'Barra dos Coqueiros',0,'Laranjeiras',0,
+      'Maruim',0,'Riachuelo',0,'Areia Branca',0,'Divina Pastora',0,'Santa Rosa de Lima',0,
+      'Carmópolis',0,'Rosário do Catete',0,'General Maynard',0
     )
   )
 ) on conflict (key) do nothing;
@@ -221,13 +220,17 @@ using (public.is_admin())
 with check (public.is_admin());
 
 -- MIGRAÇÃO: se você já tinha rodado uma versão anterior deste schema.sql
--- (sem a tabela de pedidos, ou com um único "local_fee" para todas as
--- cidades de entrega própria), rode os comandos abaixo no SQL Editor do
--- Supabase para atualizar sem perder o que já existe:
+-- (sem a tabela de pedidos, com um único "local_fee" para todas as cidades
+-- de entrega própria, ou com "neighbor_cities" como lista de nomes sem
+-- valor de frete), rode o comando abaixo no SQL Editor do Supabase para
+-- converter a lista de cidades Coopertalse/Correios em uma lista com valor
+-- de frete (0 para começar — edite os valores depois pelo painel):
 --
 -- update public.settings
---   set value = jsonb_build_object(
---     'local_cities', jsonb_build_object('Nossa Senhora da Glória', 0, 'Cristinápolis', 0),
---     'neighbor_cities', coalesce(value->'neighbor_cities', '[]'::jsonb)
+--   set value = jsonb_set(
+--     value,
+--     '{neighbor_cities}',
+--     (select coalesce(jsonb_object_agg(city, 0), '{}'::jsonb)
+--      from jsonb_array_elements_text(value->'neighbor_cities') as city)
 --   )
---   where key = 'shipping' and jsonb_typeof(value->'local_cities') = 'array';
+--   where key = 'shipping' and jsonb_typeof(value->'neighbor_cities') = 'array';

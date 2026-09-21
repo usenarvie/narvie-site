@@ -73,11 +73,23 @@ export default async function handler(req, res) {
       itemsForRecord.push({ id: item.id, name, size: item.size, quantity: item.quantity, price });
     }
 
-    // Frete da entrega própria, se a cidade bater com alguma cadastrada.
+    // Frete: bate com entrega própria OU Coopertalse/Correios.
     let freightFee = 0;
-    if (cleanCity && shipping?.local_cities) {
-      const matchKey = Object.keys(shipping.local_cities).find((c) => normalizeCity(c) === normalizeCity(cleanCity));
-      if (matchKey) freightFee = Number(shipping.local_cities[matchKey] || 0);
+    let deliveryType = 'other';
+    if (cleanCity) {
+      const localCities = shipping?.local_cities || {};
+      const neighborCities = shipping?.neighbor_cities || {};
+      let matchKey = Object.keys(localCities).find((c) => normalizeCity(c) === normalizeCity(cleanCity));
+      if (matchKey) {
+        freightFee = Number(localCities[matchKey] || 0);
+        deliveryType = 'local';
+      } else {
+        matchKey = Object.keys(neighborCities).find((c) => normalizeCity(c) === normalizeCity(cleanCity));
+        if (matchKey) {
+          freightFee = Number(neighborCities[matchKey] || 0);
+          deliveryType = 'neighbor';
+        }
+      }
     }
     if (freightFee > 0) {
       total += freightFee;
@@ -96,7 +108,7 @@ export default async function handler(req, res) {
         order_nsu,
         items: itemsForRecord,
         city: cleanCity,
-        delivery_type: 'local',
+        delivery_type: deliveryType,
         channel: 'site',
         total,
         status: 'novo'

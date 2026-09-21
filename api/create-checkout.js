@@ -85,16 +85,21 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Itens do pedido inválidos.' });
     }
 
-    // Frete: só é cobrado quando a cidade informada bate com uma das
-    // cidades de "entrega própria" cadastradas nas configurações — e usa o
-    // valor daquela cidade específica. Nunca confiamos em valor de frete
-    // vindo do navegador — o valor oficial vem sempre do Supabase.
+    // Frete: cobrado quando a cidade informada bate com alguma cidade
+    // cadastrada (entrega própria OU Coopertalse/Correios) — usa o valor
+    // daquela cidade específica. Nunca confiamos em valor de frete vindo
+    // do navegador — o valor oficial vem sempre do Supabase.
     const cleanCity = String(city || '').trim();
     if (cleanCity) {
       const shipping = await fetchShippingSettings();
       const localCities = shipping?.local_cities || {};
-      const matchKey = Object.keys(localCities).find((c) => normalizeCity(c) === normalizeCity(cleanCity));
-      const feeCents = matchKey ? Math.round(Number(localCities[matchKey] || 0) * 100) : 0;
+      const neighborCities = shipping?.neighbor_cities || {};
+      let matchKey = Object.keys(localCities).find((c) => normalizeCity(c) === normalizeCity(cleanCity));
+      let feeCents = matchKey ? Math.round(Number(localCities[matchKey] || 0) * 100) : null;
+      if (feeCents === null) {
+        matchKey = Object.keys(neighborCities).find((c) => normalizeCity(c) === normalizeCity(cleanCity));
+        feeCents = matchKey ? Math.round(Number(neighborCities[matchKey] || 0) * 100) : 0;
+      }
       if (matchKey && feeCents > 0) {
         normalizedItems.push({
           quantity: 1,

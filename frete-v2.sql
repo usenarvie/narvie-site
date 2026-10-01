@@ -283,11 +283,20 @@ begin
   for it in select * from jsonb_array_elements(o.items) loop
     if coalesce(it->>'id','') not in ('', 'frete')
        and coalesce(it->>'size','') <> '' then
-      perform public.decrement_stock(
-        (it->>'id')::uuid,
-        it->>'size',
-        greatest(1, coalesce((it->>'quantity')::int, 1))
-      );
+      if coalesce(it->>'color','') <> '' then
+        perform public.decrement_stock_color(
+          (it->>'id')::uuid,
+          it->>'color',
+          it->>'size',
+          greatest(1, coalesce((it->>'quantity')::int, 1))
+        );
+      else
+        perform public.decrement_stock(
+          (it->>'id')::uuid,
+          it->>'size',
+          greatest(1, coalesce((it->>'quantity')::int, 1))
+        );
+      end if;
     end if;
   end loop;
 
@@ -304,3 +313,35 @@ begin
     revoke execute on function public.decrement_stock(uuid, text, integer) from public, anon, authenticated;
   end if;
 end $$;
+
+-- ============================================================================
+-- CORES DA PEÇA
+-- ============================================================================
+-- products.colors guarda o nome e a cor de cada opção (só para mostrar a bolinha
+-- na loja): [{"name":"Preto","hex":"#111111"}].
+-- O estoque de peça COM cores fica em products.stock assim:
+--   {"Preto": {"P": 3, "M": 2}, "Branco": {"P": 1}}
+-- Peça SEM cores continua como antes: {"P": 3, "M": 2}.
+alter table public.products add column if not exists colors jsonb not null default '[]'::jsonb;
+
+-- Baixa de estoque de uma cor + tamanho (só é chamada por dentro do banco,
+-- pela função confirm_order_payment).
+create or replace function public.decrement_stock_color(product_id uuid, item_color text, item_size text, qty int)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  update public.products
+  set stock = jsonb_set(
+    coalesce(stock, '{}'::jsonb),
+    array[item_color, item_size],
+    to_jsonb(greatest(0, coalesce((stock->item_color->>item_size)::int, 0) - qty))
+  ),
+  updated_at = now()
+  where id = product_id
+    and jsonb_typeof(stock->item_color) = 'object';
+end;
+$$;
+revoke execute on function public.decrement_stock_color(uuid, text, text, integer) from public, anon, authenticated;

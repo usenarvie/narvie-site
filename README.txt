@@ -1,3 +1,28 @@
+NOVO — OPÇÃO DE CORES NAS PEÇAS
+======================================================================
+ - No painel, ao cadastrar/editar uma peça, marque "Esta peça tem opções de cor". Aí cada cor tem
+   nome, a cor (para a bolinha na loja) e o próprio estoque por tamanho (P, M, G, GG, U).
+   Peça sem essa caixa marcada continua funcionando exatamente como antes.
+ - Na loja: a cliente escolhe a cor, depois o tamanho (só aparecem os tamanhos com estoque
+   naquela cor). Cor sem estoque aparece como "Esgotado". O carrinho, o pagamento e a aba
+   Pedidos mostram a cor escolhida.
+ - O estoque é baixado da cor e do tamanho certos quando o pagamento é confirmado.
+ - PUBLICAR (nesta ordem): 1) rode o cores.sql inteiro no SQL Editor do Supabase (pode rodar mais
+   de uma vez; não apaga nada); 2) suba index.html, maintenance.html, schema.sql, frete-v2.sql,
+   cores.sql e a pasta api/ (create-checkout.js e register-order.js mudaram) no GitHub.
+
+NOVO — RETIRADA PESSOALMENTE (sem frete)
+======================================================================
+ - No carrinho, depois de escolher a cidade (com entrega ou envio), a cliente vê duas opções:
+   "Entrega/Envio" (com o valor do frete) ou "Retirar pessoalmente" (sem frete).
+ - Na retirada ela informa só nome completo e WhatsApp (sem endereço) e paga normalmente pelo site;
+   o total é produtos, sem frete. O aviso diz que vocês combinam local e horário pelo WhatsApp.
+ - No painel > Pedidos, o pedido aparece como "Retirada pessoalmente" e o botão vira
+   "Marcar como retirado".
+ - PUBLICAR: rode de novo o frete-v2.sql inteiro no Supabase (ele só acrescenta o novo tipo
+   "retirada"; não apaga nada) e depois suba index.html, maintenance.html, schema.sql,
+   frete-v2.sql e api/create-checkout.js no GitHub.
+
 ATUALIZAÇÃO — CHECKOUT COM ENTREGA PRÓPRIA / ENVIO E FRETES EDITÁVEIS
 ======================================================================
 COMO PUBLICAR (nesta ordem — é importante):

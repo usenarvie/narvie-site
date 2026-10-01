@@ -1,39 +1,14 @@
-// Chamado depois que a cliente volta do pagamento no site (InfinitePay).
-// Registra o pedido na tabela "orders" para aparecer na aba "Pedidos" do
-// painel. Não envia e-mail — a própria InfinitePay já avisa o pagamento.
+// Chamado quando a cliente volta do pagamento no site (InfinitePay).
+// O pedido já foi registrado por /api/create-checkout com status
+// "aguardando_pagamento". Aqui só confirmamos: o banco marca o pedido como
+// pago ("novo" = aguardando envio) e baixa o estoque, tudo em uma única
+// operação (função confirm_order_payment). Chamar de novo — por exemplo,
+// recarregando a página — não baixa o estoque duas vezes.
+// Não envia e-mail — a própria InfinitePay já avisa o pagamento.
 // Nunca deve travar a experiência da cliente: qualquer erro aqui só é
 // registrado no log do Vercel, a resposta sempre volta 200.
 const SUPABASE_URL = process.env.NARVIE_SUPABASE_URL || 'https://fzkkupeophllpxetfdjg.supabase.co';
 const SUPABASE_ANON_KEY = process.env.NARVIE_SUPABASE_ANON_KEY || 'sb_publishable_bFpZAMgy6-cIbL3QkxTCMw_-Q3jY_lg';
-
-function normalizeCity(s) {
-  return String(s || '')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .trim()
-    .toLowerCase();
-}
-
-async function fetchOfficialProducts(ids) {
-  if (!ids.length) return [];
-  const filter = encodeURIComponent(`(${ids.join(',')})`);
-  const url = `${SUPABASE_URL}/rest/v1/products?id=in.${filter}&select=id,name,price`;
-  const response = await fetch(url, {
-    headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
-  });
-  if (!response.ok) return [];
-  return response.json().catch(() => []);
-}
-
-async function fetchShippingSettings() {
-  const url = `${SUPABASE_URL}/rest/v1/settings?key=eq.shipping&select=value`;
-  const response = await fetch(url, {
-    headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
-  });
-  if (!response.ok) return null;
-  const rows = await response.json().catch(() => []);
-  return rows[0]?.value || null;
-}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -41,89 +16,34 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { order_nsu = '', items: rawItems = [], city = '' } = req.body || {};
-
-    const cleanItems = (Array.isArray(rawItems) ? rawItems : [])
-      .map((item) => ({
-        id: String(item.id || '').trim(),
-        size: String(item.size || '').trim(),
-        quantity: Math.max(1, Math.floor(Number(item.quantity) || 1))
-      }))
-      .filter((item) => item.id);
-
-    if (!order_nsu || !cleanItems.length) {
+    const order_nsu = String((req.body || {}).order_nsu || '').trim();
+    if (!order_nsu) {
       return res.status(200).json({ skipped: true });
     }
 
-    const cleanCity = String(city || '').trim();
-    const ids = [...new Set(cleanItems.map((item) => item.id))];
-    const [officialProducts, shipping] = await Promise.all([
-      fetchOfficialProducts(ids),
-      fetchShippingSettings()
-    ]);
-    const productMap = new Map(officialProducts.map((p) => [String(p.id), p]));
-
-    let total = 0;
-    const itemsForRecord = [];
-    for (const item of cleanItems) {
-      const product = productMap.get(item.id);
-      const name = product ? product.name : 'Peça';
-      const price = product ? Number(product.price) : 0;
-      total += price * item.quantity;
-      itemsForRecord.push({ id: item.id, name, size: item.size, quantity: item.quantity, price });
-    }
-
-    // Frete: bate com entrega própria OU Coopertalse/Correios.
-    let freightFee = 0;
-    let deliveryType = 'other';
-    if (cleanCity) {
-      const localCities = shipping?.local_cities || {};
-      const neighborCities = shipping?.neighbor_cities || {};
-      let matchKey = Object.keys(localCities).find((c) => normalizeCity(c) === normalizeCity(cleanCity));
-      if (matchKey) {
-        freightFee = Number(localCities[matchKey] || 0);
-        deliveryType = 'local';
-      } else {
-        matchKey = Object.keys(neighborCities).find((c) => normalizeCity(c) === normalizeCity(cleanCity));
-        if (matchKey) {
-          freightFee = Number(neighborCities[matchKey] || 0);
-          deliveryType = 'neighbor';
-        }
-      }
-    }
-    if (freightFee > 0) {
-      total += freightFee;
-      itemsForRecord.push({ id: 'frete', name: 'Frete', size: '', quantity: 1, price: freightFee });
-    }
-
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/orders?on_conflict=order_nsu`, {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/confirm_order_payment`, {
       method: 'POST',
       headers: {
         apikey: SUPABASE_ANON_KEY,
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-        'Content-Type': 'application/json',
-        Prefer: 'resolution=ignore-duplicates,return=minimal'
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify([{
-        order_nsu,
-        items: itemsForRecord,
-        city: cleanCity,
-        delivery_type: deliveryType,
-        channel: 'site',
-        total,
-        status: 'novo'
-      }])
+      body: JSON.stringify({ p_nsu: order_nsu })
     });
 
     if (!response.ok) {
       const data = await response.text().catch(() => '');
-      console.error('Falha ao registrar pedido pago no site:', data);
+      console.error('Falha ao confirmar o pagamento do pedido:', order_nsu, data);
       return res.status(200).json({ saved: false });
     }
 
-    return res.status(200).json({ saved: true });
+    const result = await response.json().catch(() => null); // 'confirmed' | 'already' | 'not_found'
+    if (result === 'not_found') {
+      console.error('Pedido não encontrado ao confirmar o pagamento:', order_nsu);
+    }
+    return res.status(200).json({ saved: result === 'confirmed' || result === 'already', result });
   } catch (error) {
-    console.error('Erro ao registrar pedido pago no site:', error);
+    console.error('Erro ao confirmar o pagamento do pedido:', error);
     return res.status(200).json({ saved: false });
   }
 }

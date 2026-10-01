@@ -129,8 +129,11 @@ export default async function handler(req, res) {
     }
 
     // ---------- Cidade, bairro e frete (oficial, vem do painel) ----------
+    // Retirada pessoalmente: sem frete e sem endereço (a cliente retira no local).
+    const isPickup = String(body.delivery_method || '').trim() === 'retirada';
+
     const cityInput = cleanText(body.city, 120);
-    if (!cityInput) {
+    if (!cityInput && !isPickup) {
       return res.status(400).json({ error: 'Selecione a cidade de entrega.' });
     }
 
@@ -139,7 +142,7 @@ export default async function handler(req, res) {
       'Falha ao consultar o frete.'
     );
     const city = cities.find((c) => normalizeText(c.name) === normalizeText(cityInput));
-    if (!city) {
+    if (!city && !isPickup) {
       return res.status(400).json({ error: 'Essa cidade não está disponível para pagamento no site.' });
     }
 
@@ -162,7 +165,11 @@ export default async function handler(req, res) {
     let deliveryType = 'neighbor';
     let freightDescription = '';
 
-    if (city.kind === 'entrega_propria') {
+    if (isPickup) {
+      // Frete zero: nenhuma linha de frete vai para a InfinitePay nem para o pedido.
+      deliveryType = 'retirada';
+      feeValue = 0;
+    } else if (city.kind === 'entrega_propria') {
       deliveryType = 'local';
       street = cleanText(body.street, 160);
       houseNumber = cleanText(body.house_number, 20);
@@ -264,7 +271,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         order_nsu: nsu,
         items: recordItems,
-        city: city.name,
+        city: city ? city.name : (cityInput || null),
         neighborhood: neighborhoodName || null,
         street: street || null,
         house_number: houseNumber || null,

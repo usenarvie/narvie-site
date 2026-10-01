@@ -75,6 +75,7 @@ export default async function handler(req, res) {
       .map((item) => ({
         id: String(item.id || '').trim(),
         size: String(item.size || '').trim(),
+        color: String(item.color || '').trim(),
         quantity: Math.max(1, Math.floor(Number(item.quantity) || 1))
       }))
       .filter((item) => item.id);
@@ -103,10 +104,19 @@ export default async function handler(req, res) {
       }
       // Checa o estoque de verdade no banco, não o que a cliente via na
       // tela quando abriu o site — evita vender a mesma peça duas vezes.
-      const available = Number((product.stock || {})[item.size] || 0);
+      // Peça com cores: stock = { "Preto": { "P": 3 } }. Sem cores: stock = { "P": 3 }.
+      const stockObj = product.stock || {};
+      const colored = Object.values(stockObj).some((v) => v && typeof v === 'object');
+      const color = colored ? item.color : '';
+      if (colored && !color) {
+        return res.status(400).json({ error: `Escolha a cor de ${product.name}.` });
+      }
+      const sizeStock = colored ? (stockObj[color] || {}) : stockObj;
+      const available = Number(sizeStock[item.size] || 0);
+      const label = `${product.name}${color ? ` (${color})` : ''}`;
       if (available < item.quantity) {
         return res.status(409).json({
-          error: `${product.name} (tamanho ${item.size}) não tem mais estoque suficiente. Restam ${available} unidade(s).`
+          error: `${label} (tamanho ${item.size}) não tem mais estoque suficiente. Restam ${available} unidade(s).`
         });
       }
       const priceCents = Math.round(Number(product.price) * 100); // preço oficial, em centavos
@@ -117,12 +127,13 @@ export default async function handler(req, res) {
       lineItems.push({
         quantity: item.quantity,
         price: priceCents,
-        description: item.size ? `${product.name} — tamanho ${item.size}` : product.name
+        description: item.size ? `${product.name}${color ? ` — ${color}` : ''} — tamanho ${item.size}` : product.name
       });
       recordItems.push({
         id: item.id,
         name: product.name,
         size: item.size,
+        color,
         quantity: item.quantity,
         price: priceCents / 100
       });

@@ -30,6 +30,7 @@ export default async function handler(req, res) {
       .map((item) => ({
         id: String(item.id || '').trim(),
         size: String(item.size || '').trim(),
+        color: String(item.color || '').trim(),
         quantity: Math.max(1, Math.floor(Number(item.quantity) || 1))
       }))
       .filter((item) => item.id);
@@ -48,7 +49,7 @@ export default async function handler(req, res) {
       const name = product ? product.name : 'Peça';
       const price = product ? Number(product.price) : 0;
       total += price * item.quantity;
-      return { id: item.id, name, size: item.size, quantity: item.quantity, price };
+      return { id: item.id, name, size: item.size, color: item.color, quantity: item.quantity, price };
     });
 
     const safeType = ['local', 'neighbor', 'other'].includes(delivery_type) ? delivery_type : 'other';

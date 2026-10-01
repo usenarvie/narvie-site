@@ -1,3 +1,43 @@
+ATUALIZAÇÃO — CHECKOUT COM ENTREGA PRÓPRIA / ENVIO E FRETES EDITÁVEIS
+======================================================================
+COMO PUBLICAR (nesta ordem — é importante):
+ 1. Supabase > SQL Editor > New query: cole TODO o conteúdo de frete-v2.sql e clique em Run.
+    Pode rodar mais de uma vez sem problema. Ele NÃO apaga nada e traz para o painel novo
+    os valores de frete que você já tinha cadastrado.
+ 2. Suba os arquivos deste pacote no GitHub (index.html, maintenance.html, schema.sql,
+    frete-v2.sql e a pasta api/). O Vercel publica sozinho.
+ 3. Entre no painel > aba "Fretes / Entregas" e preencha os valores. Cidade ou bairro SEM
+    valor não aparece para as clientes (elas caem em "Outra cidade" e falam no WhatsApp).
+    Digite 0 para frete grátis.
+
+COMO FUNCIONA O CHECKOUT
+ - A cliente escolhe primeiro a cidade.
+ - Entrega própria (Nossa Senhora da Glória, Cristinápolis e outras que você cadastrar):
+   pede nome completo, WhatsApp, bairro (só os bairros daquela cidade), rua/avenida, número,
+   complemento e ponto de referência (os dois últimos opcionais). A entrega é o valor do bairro;
+   bairro sem valor próprio usa o "valor padrão da cidade".
+ - Envio (demais cidades de Sergipe, 73 já cadastradas): pede só nome completo e WhatsApp,
+   com o aviso de que o pedido vai por transporte/rodoviária e é retirado no local de chegada
+   combinado. O valor é um só por cidade.
+ - O total (produtos + entrega/envio) é calculado no servidor com os valores do painel, e é
+   exatamente esse total que vai para a InfinitePay.
+ - O pedido (cliente, endereço, itens e valores) é gravado ANTES de a cliente ir pagar, com
+   status "Aguardando pagamento". Quando ela volta do pagamento, vira "Aguardando envio" e o
+   estoque é baixado (uma única vez).
+ - Se a cliente pagar mas fechar a página antes de voltar para o site, o pedido continua na aba
+   Pedidos > "Aguardando pagamento": confira o aviso da InfinitePay e clique em "Confirmar
+   pagamento" (isso baixa o estoque).
+
+OUTRAS CORREÇÕES
+ - schema.sql tinha linhas soltas no lugar da função is_admin() e uma lista com mais de 100
+   argumentos que impedia o arquivo de rodar. Os dois problemas foram corrigidos.
+ - A baixa de estoque deixou de poder ser chamada por qualquer visitante.
+ - O painel agora avisa claramente quando a conta não tem permissão para salvar (antes, o
+   banco ignorava o salvamento em silêncio).
+
+----------------------------------------------------------------------
+(Abaixo, o README da versão anterior. Onde falar de frete em "settings", vale o que está acima.)
+
 NARVIE V3 — SITE + PAINEL PRIVADO
 
 O que mudou

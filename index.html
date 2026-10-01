@@ -29,6 +29,21 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 
 .payment-section{padding:54px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#faf9f7}.payment-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:42px;align-items:center}.payment-copy .eyebrow{margin-bottom:10px}.payment-copy h2{font:400 34px "Playfair Display",serif;margin:0 0 12px}.payment-copy p{font-size:13px;line-height:1.8;color:#777;max-width:560px}.secure-note{display:flex;align-items:center;gap:10px;margin-top:20px;font-size:11px;letter-spacing:.04em;color:#666}.lockmark{width:30px;height:30px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;background:#fff;font-size:14px}.payment-box{background:#fff;border:1px solid var(--line);padding:25px}.payment-title{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#777;margin-bottom:16px}.brand-row{display:flex;flex-wrap:wrap;gap:10px}.pay-brand{height:42px;min-width:76px;padding:0 15px;border:1px solid #e5e1dc;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;letter-spacing:.02em;font-size:14px}.pay-brand.visa{font-style:italic;font-size:20px}.pay-brand.mc{font-size:12px;letter-spacing:-.04em}.pay-brand.elo{font-size:18px}.pay-brand.amex{font-size:10px;line-height:1.05;text-align:center}.pay-brand.pix{font-size:13px}.payment-foot{margin-top:16px;padding-top:15px;border-top:1px solid #eee;font-size:10px;color:#999;line-height:1.6}.payment-foot b{color:#666}
 @media(max-width:850px){.payment-wrap{grid-template-columns:1fr;gap:24px}.payment-copy h2{font-size:30px}}
+/* Checkout: entrega própria / envio */
+.drawer-foot{display:flex;flex-direction:column;max-height:66vh}
+.cart-items{min-height:130px}
+.ship-scroll{overflow-y:auto;min-height:0;flex:0 1 auto;margin:0 -24px;padding:0 24px 2px}
+.custform{display:none;margin-top:2px}
+.custform.show{display:block}
+.custform label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#999;margin:12px 0 6px;font-weight:700}
+.custform label small{text-transform:none;letter-spacing:0;font-weight:500;color:#aaa}
+.custform input,.custform select{width:100%;border:1px solid var(--line);padding:12px;background:#fff;font-size:13px;outline:none;font-family:inherit;border-radius:0;color:var(--ink)}
+.custform input:focus,.custform select:focus{border-color:var(--wine)}
+.custform .row2{display:grid;grid-template-columns:104px 1fr;gap:10px}
+.envio-notice{display:none;background:var(--cream);border:1px solid var(--line);padding:12px 14px;font-size:12px;line-height:1.6;color:#5b4a4d;margin:10px 0 2px}
+.envio-notice.show{display:block}
+.envio-notice b{color:var(--wine)}
+@media(max-width:560px){.custform input,.custform select,.shipfield select{font-size:16px}}
 </style>
 </head>
 <body>
@@ -49,7 +64,7 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 <footer><div class="container"><div class="footergrid"><div><div class="footerlogo">NARVIE</div><div class="social"><a href="#" aria-label="Instagram">◎</a><a id="whatsFooter" href="#" target="_blank" aria-label="WhatsApp">◔</a></div></div><div class="footertext">CURADORIA FEMININA<br>DETALHES QUE FAZEM A DIFERENÇA<br><br>Enviamos para todo Sergipe e algumas cidades da Bahia.</div></div><div class="copy">© 2026 Narvie. Todos os direitos reservados. <a href="maintenance.html" style="float:right;color:#aaa">Área administrativa</a></div></div></footer>
 <a class="whatsapp" id="whatsFloat" href="#" target="_blank" aria-label="WhatsApp">☎</a>
 
-<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="shipfield"><label>Cidade de entrega</label><select id="citySelect" onchange="onCityChange()"><option value="">Selecione sua cidade</option><optgroup label="Entrega própria" id="localCitiesGroup"></optgroup><optgroup label="Envio via Coopertalse / Correios" id="neighborCitiesGroup"></optgroup><option value="__outra__">Outra cidade</option></select><div class="shipcard" id="shipCard"><div class="radio"></div><div class="content"><h4 id="shipCardTitle"></h4><p id="shipCardDesc"></p></div><div class="price" id="shipCardPrice"></div></div></div><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note">Pagamento seguro pela InfinitePay. Pix e cartão ficam disponíveis conforme a configuração do checkout.</div><button class="btn wine full" id="checkoutBtn" onclick="checkout()">Finalizar compra</button></div></aside>
+<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="ship-scroll"><div class="shipfield"><label for="citySelect">Cidade de entrega</label><select id="citySelect" onchange="onCityChange()"><option value="">Selecione sua cidade</option><optgroup label="Entrega própria" id="localCitiesGroup"></optgroup><optgroup label="Envio por transporte / rodoviária" id="neighborCitiesGroup"></optgroup><option value="__outra__">Outra cidade</option></select><div class="shipcard" id="shipCard"><div class="radio"></div><div class="content"><h4 id="shipCardTitle"></h4><p id="shipCardDesc"></p></div><div class="price" id="shipCardPrice"></div></div><div class="envio-notice" id="envioNotice"><b>Como funciona o envio:</b> nessa cidade o pedido é enviado por transporte/rodoviária e deve ser retirado no local de chegada combinado. Falamos com você pelo WhatsApp para combinar os detalhes.</div><div class="custform" id="customerFields"><label for="custName">Nome completo</label><input id="custName" type="text" autocomplete="name" placeholder="Seu nome completo"><label for="custWhats">WhatsApp</label><input id="custWhats" type="tel" inputmode="tel" autocomplete="tel" placeholder="(79) 99999-9999"></div><div class="custform" id="localFields"><label for="nbSelect">Bairro</label><select id="nbSelect" onchange="onNeighborhoodChange()"></select><label for="addrStreet">Rua / Avenida</label><input id="addrStreet" type="text" autocomplete="address-line1" placeholder="Ex.: Rua das Flores"><div class="row2"><div><label for="addrNumber">Número</label><input id="addrNumber" type="text" autocomplete="off" placeholder="Ex.: 120"></div><div><label for="addrComplement">Complemento <small>(opcional)</small></label><input id="addrComplement" type="text" autocomplete="address-line2" placeholder="Apto, bloco..."></div></div><label for="addrRef">Ponto de referência <small>(opcional)</small></label><input id="addrRef" type="text" autocomplete="off" placeholder="Ex.: perto da praça"></div></div></div><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note">Pagamento seguro pela InfinitePay. Pix e cartão ficam disponíveis conforme a configuração do checkout.</div><button class="btn wine full" id="checkoutBtn" onclick="checkout()">Finalizar compra</button></div></aside>
 <div class="modal-back" id="modalBack" onclick="if(event.target===this)closeModal()"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -58,25 +73,59 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 const WHATSAPP_NUMBER="5579998018722"; // Número da Narvie em formato internacional
 const money=v=>Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 let sb=null, products=[], cart=JSON.parse(localStorage.getItem("narvieCart")||"[]"), activeFilter="todos",searchTerm="";
-const DEFAULT_SHIPPING={local_cities:{"Nossa Senhora da Glória":0,"Cristinápolis":0},neighbor_cities:{"Itabaiana":0,"Lagarto":0,"Moita Bonita":0,"Ribeirópolis":0,"Malhador":0,"Macambira":0,"Campo do Brito":0,"São Domingos":0,"Pinhão":0,"Pedra Mole":0,"São Miguel do Aleixo":0,"Nossa Senhora Aparecida":0,"Frei Paulo":0,"Carira":0,"Porto da Folha":0,"Poço Redondo":0,"Canindé de São Francisco":0,"Monte Alegre de Sergipe":0,"Gararu":0,"Nossa Senhora de Lourdes":0,"Itabi":0,"Feira Nova":0,"Estância":0,"Boquim":0,"Tobias Barreto":0,"Poço Verde":0,"Riachão do Dantas":0,"Pedrinhas":0,"Arauá":0,"Itabaianinha":0,"Umbaúba":0,"Indiaroba":0,"Santa Luzia do Itanhy":0,"Tomar do Geru":0,"Propriá":0,"Neópolis":0,"Pacatuba":0,"Japoatã":0,"Aquidabã":0,"Muribeca":0,"Capela":0,"Nossa Senhora das Dores":0,"Siriri":0,"Japaratuba":0,"Pirambu":0,"Ilha das Flores":0,"Brejo Grande":0,"Santana do São Francisco":0,"Amparo de São Francisco":0,"Malhada dos Bois":0,"Cedro de São João":0,"Telha":0,"Aracaju":0,"Nossa Senhora do Socorro":0,"São Cristóvão":0,"Barra dos Coqueiros":0,"Laranjeiras":0,"Maruim":0,"Riachuelo":0,"Areia Branca":0,"Divina Pastora":0,"Santa Rosa de Lima":0,"Carmópolis":0,"Rosário do Catete":0,"General Maynard":0}};
-let shipping=DEFAULT_SHIPPING, selectedCity="";
-function normalizeCity(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase()}
-function resolveCity(city){const n=normalizeCity(city);let key=Object.keys(shipping.local_cities||{}).find(c=>normalizeCity(c)===n);if(key)return{type:"local",fee:Number(shipping.local_cities[key]||0)};key=Object.keys(shipping.neighbor_cities||{}).find(c=>normalizeCity(c)===n);if(key)return{type:"neighbor",fee:Number(shipping.neighbor_cities[key]||0)};return null}
-function cityStatus(city){if(!city)return "none";if(city==="__outra__")return "other";const r=resolveCity(city);return r?r.type:"other"}
-function cityFee(city){const r=resolveCity(city);return r?r.fee:0}
-function populateCitySelect(){const localGroup=document.getElementById("localCitiesGroup"),neighborGroup=document.getElementById("neighborCitiesGroup");localGroup.innerHTML=Object.keys(shipping.local_cities||{}).map(c=>`<option value="${c}">${c}</option>`).join("");neighborGroup.innerHTML=Object.keys(shipping.neighbor_cities||{}).sort((a,b)=>a.localeCompare(b,"pt-BR")).map(c=>`<option value="${c}">${c}</option>`).join("")}
-function onCityChange(){selectedCity=document.getElementById("citySelect").value;updateShipUI()}
+// Frete: as cidades, bairros e valores vêm do banco (tabelas shipping_cities e
+// shipping_neighborhoods), editados pelo painel. Nada de valor fixo no código.
+let shipCities=[], selectedCity="", selectedNeighborhood="";
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const byName=(a,b)=>a.name.localeCompare(b.name,"pt-BR");
+const numOrNull=v=>(v===null||v===undefined||v==="")?null:Number(v);
+function normalizeCity(s){return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g," ").trim().toLowerCase()}
+function findCity(name){const n=normalizeCity(name);return shipCities.find(c=>normalizeCity(c.name)===n)||null}
+// Bairro sem valor próprio usa o valor padrão da cidade; sem nenhum dos dois, não é vendável.
+function neighborhoodFee(city,nb){const f=numOrNull(nb.fee);return f!==null?f:numOrNull(city.fee)}
+function sellableNeighborhoods(city){return(city.neighborhoods||[]).filter(n=>neighborhoodFee(city,n)!==null)}
+function cityAvailable(c){return c.kind==="entrega_propria"?sellableNeighborhoods(c).length>0:numOrNull(c.fee)!==null}
+// "local" = entrega própria, "neighbor" = envio por transporte, "other" = combinar no WhatsApp
+function cityStatus(city){if(!city)return "none";if(city==="__outra__")return "other";const c=findCity(city);if(!c||!cityAvailable(c))return "other";return c.kind==="entrega_propria"?"local":"neighbor"}
+function currentFee(){const c=findCity(selectedCity);if(!c)return null;if(c.kind==="entrega_propria"){const nb=(c.neighborhoods||[]).find(n=>normalizeCity(n.name)===normalizeCity(selectedNeighborhood));return nb?neighborhoodFee(c,nb):null}return numOrNull(c.fee)}
+function populateCitySelect(){
+  const localGroup=document.getElementById("localCitiesGroup"),neighborGroup=document.getElementById("neighborCitiesGroup");
+  const ok=shipCities.filter(cityAvailable);
+  const opt=c=>`<option value="${esc(c.name)}">${esc(c.name)}</option>`;
+  localGroup.innerHTML=ok.filter(c=>c.kind==="entrega_propria").sort(byName).map(opt).join("");
+  neighborGroup.innerHTML=ok.filter(c=>c.kind==="envio").sort(byName).map(opt).join("");
+  localGroup.style.display=localGroup.children.length?"":"none";
+  neighborGroup.style.display=neighborGroup.children.length?"":"none";
+}
+function populateNeighborhoodSelect(){
+  const c=findCity(selectedCity),sel=document.getElementById("nbSelect");
+  const list=c?sellableNeighborhoods(c).sort(byName):[];
+  sel.innerHTML='<option value="">Selecione o bairro</option>'+list.map(n=>`<option value="${esc(n.name)}">${esc(n.name)}</option>`).join("");
+  selectedNeighborhood="";
+}
+function onCityChange(){selectedCity=document.getElementById("citySelect").value;populateNeighborhoodSelect();updateShipUI()}
+function onNeighborhoodChange(){selectedNeighborhood=document.getElementById("nbSelect").value;updateShipUI()}
+function formatWhats(v){const d=String(v||"").replace(/\D/g,"").slice(0,11);if(d.length<=2)return d?`(${d}`:"";if(d.length<=6)return`(${d.slice(0,2)}) ${d.slice(2)}`;if(d.length<=10)return`(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;return`(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`}
 function updateShipUI(){
   const card=document.getElementById("shipCard"),title=document.getElementById("shipCardTitle"),desc=document.getElementById("shipCardDesc"),price=document.getElementById("shipCardPrice"),btn=document.getElementById("checkoutBtn");
   const status=cityStatus(selectedCity);
+  const customer=document.getElementById("customerFields"),localF=document.getElementById("localFields"),notice=document.getElementById("envioNotice");
   card.className="shipcard";
+  customer.classList.toggle("show",status==="local"||status==="neighbor");
+  localF.classList.toggle("show",status==="local");
+  notice.classList.toggle("show",status==="neighbor");
   if(!selectedCity){card.classList.remove("show");btn.textContent="Finalizar compra";renderCart();return}
   card.classList.add("show");
   if(status==="local"||status==="neighbor"){
-    const fee=cityFee(selectedCity);
-    title.textContent=status==="local"?`Entrega própria — ${selectedCity}`:`Coopertalse/Correios — ${selectedCity}`;
-    desc.textContent=status==="local"?"Entregamos direto na cidade.":"Envio via transportadora regional.";
-    price.textContent=fee>0?money(fee):"Grátis";
+    const fee=currentFee();
+    if(status==="local"){
+      title.textContent=`Entrega própria — ${selectedCity}`;
+      desc.textContent=selectedNeighborhood?`Bairro: ${selectedNeighborhood}`:"Selecione o bairro para ver o valor da entrega.";
+    }else{
+      title.textContent=`Envio — ${selectedCity}`;
+      desc.textContent="Enviado por transporte/rodoviária, com retirada no local de chegada combinado.";
+    }
+    price.textContent=fee===null?"—":(fee>0?money(fee):"Grátis");
     btn.textContent="Finalizar compra";
   }else{
     card.classList.add("block");
@@ -100,6 +149,10 @@ async function init(){
       {id:"demo2",name:"Tee Colcci",price:40,image:"assets/colcci.jpg",category:"classica",description:"Modelo urbano e versátil para compor looks leves.",stock:{P:8,M:8,G:8,GG:8}},
       {id:"demo3",name:"T-shirt Fresh Sardines",price:40,image:"assets/fresh.jpg",category:"estampa",description:"Estampa Fresh Sardines com personalidade e cor.",stock:{P:8,M:8,G:8,GG:8}}
     ];
+    shipCities=[
+      {id:"d1",name:"Nossa Senhora da Glória",kind:"entrega_propria",fee:null,neighborhoods:[{id:"b1",name:"Centro",fee:5},{id:"b2",name:"Bairro Exemplo",fee:7}]},
+      {id:"d2",name:"Aracaju",kind:"envio",fee:18,neighborhoods:[]}
+    ];
     populateCitySelect();
     renderProducts(); save(); return;
   }
@@ -108,9 +161,10 @@ async function init(){
   if(error){console.error(error);document.getElementById("grid").innerHTML='<div class="loading">Não foi possível carregar a coleção.</div>';return}
   products=(data||[]).map(p=>({...p,image:p.image_path?url+"/storage/v1/object/public/product-images/"+p.image_path:""}));
   try{
-    const {data:settingsRow}=await sb.from("settings").select("value").eq("key","shipping").maybeSingle();
-    if(settingsRow?.value)shipping={...DEFAULT_SHIPPING,...settingsRow.value};
-  }catch(e){console.error(e)}
+    const {data:rows,error:shipError}=await sb.from("shipping_cities").select("id,name,kind,fee,shipping_neighborhoods(id,name,fee)").order("name");
+    if(shipError)throw shipError;
+    shipCities=(rows||[]).map(c=>({id:c.id,name:c.name,kind:c.kind,fee:c.fee,neighborhoods:(c.shipping_neighborhoods||[]).slice().sort(byName)}));
+  }catch(e){console.error("Não foi possível carregar o frete:",e)}
   populateCitySelect();
   renderProducts(); save();
 }
@@ -143,11 +197,30 @@ function renderCart(){
   const rows=cart.map((item,index)=>{const p=products.find(x=>String(x.id)===String(item.id));if(!p)return "";total+=Number(p.price)*item.qty;return `<div class="cartitem"><img src="${p.image}" alt="${p.name}"><div><h4>${p.name}</h4><p>Tamanho: <b>${item.size}</b><br>${money(p.price)}</p><div class="qty"><button onclick="cartQty(${index},-1)">−</button><span>${item.qty}</span><button onclick="cartQty(${index},1)">+</button></div><button class="remove" onclick="removeItem(${index})">Remover</button></div><strong>${money(Number(p.price)*item.qty)}</strong></div>`}).join("");
   let freightRow="";
   const status=cityStatus(selectedCity);
-  if(status==="local"||status==="neighbor"){const fee=cityFee(selectedCity);if(fee>0){total+=fee;const label=status==="local"?`Entrega própria em ${selectedCity}`:`Envio via Coopertalse/Correios para ${selectedCity}`;freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>Frete</h4><p>${label}</p></div><strong>${money(fee)}</strong></div>`}}
+  if(status==="local"||status==="neighbor"){const fee=currentFee();if(fee!==null&&fee>0){total+=fee;const label=status==="local"?`Entrega em ${esc(selectedNeighborhood)}, ${esc(selectedCity)}`:`Envio para ${esc(selectedCity)}`;freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>${status==="local"?"Entrega":"Envio"}</h4><p>${label}</p></div><strong>${money(fee)}</strong></div>`}}
   box.innerHTML=rows+freightRow;
   document.getElementById("total").textContent=money(total);
 }
 function cartQty(i,n){const item=cart[i];if(n>0){const p=products.find(x=>String(x.id)===String(item.id));const max=p?stockFor(p,item.size):999;if(item.qty+n>max)return}item.qty+=n;if(item.qty<=0)cart.splice(i,1);save()}function removeItem(i){cart.splice(i,1);save()}function openCart(){renderCart();document.getElementById("drawer").classList.add("open");document.getElementById("back").classList.add("open")}function closeCart(){document.getElementById("drawer").classList.remove("open");document.getElementById("back").classList.remove("open")}function closeModal(){document.getElementById("modalBack").classList.remove("open")}
+function validWhats(v){let d=String(v||"").replace(/\D/g,"");if((d.length===12||d.length===13)&&d.startsWith("55"))d=d.slice(2);return(d.length===10||d.length===11)&&Number(d.slice(0,2))>=11}
+// Lê e valida o formulário da cidade escolhida. Devolve null (e avisa) se algo faltar.
+function readDeliveryForm(status){
+  const val=id=>document.getElementById(id).value.trim();
+  const fail=(msg,id)=>{alert(msg);const el=document.getElementById(id);if(el)el.focus();return null};
+  const name=val("custName");
+  if(!/\S{2,}\s+\S{2,}/.test(name))return fail("Informe seu nome completo.","custName");
+  const whats=val("custWhats");
+  if(!validWhats(whats))return fail("Informe um WhatsApp válido, com DDD.","custWhats");
+  const data={customer_name:name,customer_whatsapp:whats};
+  if(status==="local"){
+    if(!selectedNeighborhood)return fail("Selecione o bairro.","nbSelect");
+    if(!val("addrStreet"))return fail("Informe a rua ou avenida.","addrStreet");
+    if(!val("addrNumber"))return fail('Informe o número (ou "s/n").',"addrNumber");
+    Object.assign(data,{neighborhood:selectedNeighborhood,street:val("addrStreet"),house_number:val("addrNumber"),complement:val("addrComplement"),reference:val("addrRef")});
+  }
+  if(currentFee()===null){alert("Não foi possível calcular a entrega. Escolha a cidade novamente ou fale com a gente no WhatsApp.");return null}
+  return data;
+}
 async function checkout(){
   if(!cart.length){alert("Seu carrinho está vazio.");return}
   if(!selectedCity){alert("Selecione a cidade de entrega.");return}
@@ -163,13 +236,15 @@ async function checkout(){
   const oldText=btn.textContent;
 
   if(status==="local"||status==="neighbor"){
+    const delivery=readDeliveryForm(status);
+    if(!delivery)return;
     btn.disabled=true;btn.textContent="Abrindo pagamento…";
     try{
       const order_nsu=`narvie-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
       const response=await fetch('/api/create-checkout',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({items,order_nsu,city:cityLabel})
+        body:JSON.stringify({items,order_nsu,city:cityLabel,...delivery})
       });
       const data=await response.json().catch(()=>({}));
       if(!response.ok||!data.url)throw new Error(data.error||'Não foi possível abrir o pagamento.');
@@ -199,6 +274,7 @@ async function checkout(){
     btn.disabled=false;btn.textContent=oldText;
   }
 }
+document.getElementById("custWhats").addEventListener("input",e=>{e.target.value=formatWhats(e.target.value)});
 document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");activeFilter=b.dataset.filter;renderProducts()}));
 document.getElementById("search").addEventListener("input",e=>{searchTerm=e.target.value;renderProducts()});
 init();

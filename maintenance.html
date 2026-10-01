@@ -145,18 +145,19 @@ function renderOrders(){
   box.innerHTML=list.map(o=>{
     const itemsHtml=(o.items||[]).map(i=>`${esc(i.name||i.id)}${i.size?' (tam. '+esc(i.size)+')':''} × ${i.quantity||1}`).join('<br>');
     const channelBadge=o.channel==='site'?'<span class="badge badge-site">Site</span>':'<span class="badge badge-whatsapp">WhatsApp</span>';
-    const statusBadge=o.status==='enviado'?'<span class="badge badge-enviado">Enviado</span>':o.status==='aguardando_pagamento'?'<span class="badge badge-pagto">Aguardando pagamento</span>':'<span class="badge badge-novo">Aguardando envio</span>';
+    const isRet=o.delivery_type==='retirada';
+    const statusBadge=o.status==='enviado'?`<span class="badge badge-enviado">${isRet?'Retirado':'Enviado'}</span>`:o.status==='aguardando_pagamento'?'<span class="badge badge-pagto">Aguardando pagamento</span>':`<span class="badge badge-novo">${isRet?'Aguardando retirada':'Aguardando envio'}</span>`;
     const money=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
     const total=money(o.total);
     const date=o.created_at?new Date(o.created_at).toLocaleString('pt-BR'):'';
     const phone=String(o.customer_whatsapp||'').replace(/^55/,'');
     const phoneFmt=phone.length>=10?`(${phone.slice(0,2)}) ${phone.slice(2,phone.length-4)}-${phone.slice(-4)}`:phone;
     const customer=o.customer_name?`<p class="order-meta"><b>${esc(o.customer_name)}</b>${o.customer_whatsapp?` · <a href="https://wa.me/${esc(o.customer_whatsapp)}" target="_blank" rel="noopener">${esc(phoneFmt)}</a>`:''}</p>`:'';
-    const address=o.delivery_type==='local'&&o.street?`<p class="order-meta">${esc(o.street)}, ${esc(o.house_number||'s/n')}${o.complement?' — '+esc(o.complement):''} · ${esc(o.neighborhood||'')}${o.reference?'<br>Ref.: '+esc(o.reference):''}</p>`:(o.delivery_type==='neighbor'&&o.customer_name?'<p class="order-meta">Envio por transporte/rodoviária — retirada no local de chegada combinado.</p>':'');
-    const breakdown=o.subtotal!=null&&o.customer_name?`<p class="order-meta">Produtos ${money(o.subtotal)} + ${o.delivery_type==='local'?'entrega':'envio'} ${money(o.shipping_fee)}</p>`:'';
+    const address=isRet?'<p class="order-meta"><b>Retirada pessoalmente</b> — combinar local e horário pelo WhatsApp.</p>':o.delivery_type==='local'&&o.street?`<p class="order-meta">${esc(o.street)}, ${esc(o.house_number||'s/n')}${o.complement?' — '+esc(o.complement):''} · ${esc(o.neighborhood||'')}${o.reference?'<br>Ref.: '+esc(o.reference):''}</p>`:(o.delivery_type==='neighbor'&&o.customer_name?'<p class="order-meta">Envio por transporte/rodoviária — retirada no local de chegada combinado.</p>':'');
+    const breakdown=o.subtotal!=null&&o.customer_name?`<p class="order-meta">Produtos ${money(o.subtotal)} + ${isRet?'retirada (sem frete)':o.delivery_type==='local'?'entrega':'envio'} ${isRet?'':money(o.shipping_fee)}</p>`:'';
     let action;
     if(o.status==='aguardando_pagamento')action=`<button class="btn" style="padding:9px 13px" onclick="confirmOrderPayment('${esc(o.order_nsu)}')">Confirmar pagamento</button><button class="btn alt" style="padding:9px 13px" onclick="deleteOrder('${o.id}')">Excluir</button>`;
-    else if(o.status==='novo')action=`<button class="btn" style="padding:9px 13px" onclick="markOrderStatus('${o.id}','enviado')">Marcar como enviado</button>`;
+    else if(o.status==='novo')action=`<button class="btn" style="padding:9px 13px" onclick="markOrderStatus('${o.id}','enviado')">${isRet?'Marcar como retirado':'Marcar como enviado'}</button>`;
     else action=`<button class="btn alt" style="padding:9px 13px" onclick="markOrderStatus('${o.id}','novo')">Reabrir pedido</button>`;
     return `<div class="order"><div class="order-head"><div><h3>${esc(o.city||'Cidade não informada')}</h3><p class="order-meta">${date} · Pedido ${esc(o.order_nsu)}</p></div><div style="display:flex;gap:6px;flex-wrap:wrap">${channelBadge}${statusBadge}</div></div>${customer}${address}<div class="order-items">${itemsHtml||'Sem itens'}</div>${breakdown}<p class="order-meta"><b>Total: ${total}</b></p><div class="order-actions">${action}</div></div>`;
   }).join('');

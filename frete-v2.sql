@@ -237,6 +237,23 @@ begin
     check (status in ('aguardando_pagamento','novo','enviado'));
 end $$;
 
+-- 5b. NOVO TIPO DE ENTREGA: 'retirada' (a cliente retira pessoalmente, sem frete).
+do $$
+declare c record;
+begin
+  for c in
+    select conname from pg_constraint
+    where conrelid = 'public.orders'::regclass
+      and contype = 'c'
+      and pg_get_constraintdef(oid) ilike '%delivery_type%'
+  loop
+    execute format('alter table public.orders drop constraint %I', c.conname);
+  end loop;
+  alter table public.orders
+    add constraint orders_delivery_type_check
+    check (delivery_type in ('local','neighbor','other','retirada'));
+end $$;
+
 -- 6. CONFIRMAÇÃO DE PAGAMENTO + BAIXA DE ESTOQUE ------------------------------
 -- Em uma única operação: marca o pedido como pago ("novo") e baixa o estoque.
 -- Só baixa na primeira vez, então recarregar a página de "pagamento concluído"

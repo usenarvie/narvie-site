@@ -43,6 +43,15 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 .envio-notice{display:none;background:var(--cream);border:1px solid var(--line);padding:12px 14px;font-size:12px;line-height:1.6;color:#5b4a4d;margin:10px 0 2px}
 .envio-notice.show{display:block}
 .envio-notice b{color:var(--wine)}
+.methodpick{display:none;gap:8px;margin:10px 0 2px}
+.methodpick.show{display:grid;grid-template-columns:1fr 1fr}
+.methodopt{display:flex;align-items:flex-start;gap:9px;text-align:left;border:1px solid var(--line);background:#fff;padding:11px 12px;cursor:pointer;font-family:inherit;color:var(--ink);border-radius:0}
+.methodopt .dot{width:16px;height:16px;border-radius:50%;border:2px solid #cfc7c0;flex-shrink:0;margin-top:1px;position:relative}
+.methodopt.on{border-color:var(--wine);background:var(--cream)}
+.methodopt.on .dot{border-color:var(--wine)}
+.methodopt.on .dot::after{content:"";position:absolute;inset:2px;border-radius:50%;background:var(--wine)}
+.methodopt b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.methodopt small{display:block;font-size:11px;color:#777;margin-top:3px}
 @media(max-width:560px){.custform input,.custform select,.shipfield select{font-size:16px}}
 </style>
 </head>
@@ -64,7 +73,7 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 <footer><div class="container"><div class="footergrid"><div><div class="footerlogo">NARVIE</div><div class="social"><a href="#" aria-label="Instagram">◎</a><a id="whatsFooter" href="#" target="_blank" aria-label="WhatsApp">◔</a></div></div><div class="footertext">CURADORIA FEMININA<br>DETALHES QUE FAZEM A DIFERENÇA<br><br>Enviamos para todo Sergipe e algumas cidades da Bahia.</div></div><div class="copy">© 2026 Narvie. Todos os direitos reservados. <a href="maintenance.html" style="float:right;color:#aaa">Área administrativa</a></div></div></footer>
 <a class="whatsapp" id="whatsFloat" href="#" target="_blank" aria-label="WhatsApp">☎</a>
 
-<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="ship-scroll"><div class="shipfield"><label for="citySelect">Cidade de entrega</label><select id="citySelect" onchange="onCityChange()"><option value="">Selecione sua cidade</option><optgroup label="Entrega própria" id="localCitiesGroup"></optgroup><optgroup label="Envio por transporte / rodoviária" id="neighborCitiesGroup"></optgroup><option value="__outra__">Outra cidade</option></select><div class="shipcard" id="shipCard"><div class="radio"></div><div class="content"><h4 id="shipCardTitle"></h4><p id="shipCardDesc"></p></div><div class="price" id="shipCardPrice"></div></div><div class="envio-notice" id="envioNotice"><b>Como funciona o envio:</b> nessa cidade o pedido é enviado por transporte/rodoviária e deve ser retirado no local de chegada combinado. Falamos com você pelo WhatsApp para combinar os detalhes.</div><div class="custform" id="customerFields"><label for="custName">Nome completo</label><input id="custName" type="text" autocomplete="name" placeholder="Seu nome completo"><label for="custWhats">WhatsApp</label><input id="custWhats" type="tel" inputmode="tel" autocomplete="tel" placeholder="(79) 99999-9999"></div><div class="custform" id="localFields"><label for="nbSelect">Bairro</label><select id="nbSelect" onchange="onNeighborhoodChange()"></select><label for="addrStreet">Rua / Avenida</label><input id="addrStreet" type="text" autocomplete="address-line1" placeholder="Ex.: Rua das Flores"><div class="row2"><div><label for="addrNumber">Número</label><input id="addrNumber" type="text" autocomplete="off" placeholder="Ex.: 120"></div><div><label for="addrComplement">Complemento <small>(opcional)</small></label><input id="addrComplement" type="text" autocomplete="address-line2" placeholder="Apto, bloco..."></div></div><label for="addrRef">Ponto de referência <small>(opcional)</small></label><input id="addrRef" type="text" autocomplete="off" placeholder="Ex.: perto da praça"></div></div></div><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note">Pagamento seguro pela InfinitePay. Pix e cartão ficam disponíveis conforme a configuração do checkout.</div><button class="btn wine full" id="checkoutBtn" onclick="checkout()">Finalizar compra</button></div></aside>
+<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="ship-scroll"><div class="shipfield"><label for="citySelect">Cidade de entrega</label><select id="citySelect" onchange="onCityChange()"><option value="">Selecione sua cidade</option><optgroup label="Entrega própria" id="localCitiesGroup"></optgroup><optgroup label="Envio por transporte / rodoviária" id="neighborCitiesGroup"></optgroup><option value="__outra__">Outra cidade</option></select><div class="methodpick" id="methodPick"><button type="button" class="methodopt on" id="mEntrega" onclick="setMethod('entrega')"><span class="dot"></span><span><b id="mEntregaTitle">Entrega</b><small id="mEntregaPrice"></small></span></button><button type="button" class="methodopt" id="mRetirada" onclick="setMethod('retirada')"><span class="dot"></span><span><b>Retirar pessoalmente</b><small>Sem frete</small></span></button></div><div class="shipcard" id="shipCard"><div class="radio"></div><div class="content"><h4 id="shipCardTitle"></h4><p id="shipCardDesc"></p></div><div class="price" id="shipCardPrice"></div></div><div class="envio-notice" id="envioNotice"><b>Como funciona o envio:</b> nessa cidade o pedido é enviado por transporte/rodoviária e deve ser retirado no local de chegada combinado. Falamos com você pelo WhatsApp para combinar os detalhes.</div><div class="envio-notice" id="pickupNotice"><b>Retirada pessoalmente:</b> sem frete. Depois do pagamento, falamos com você pelo WhatsApp para combinar o local e o horário da retirada.</div><div class="custform" id="customerFields"><label for="custName">Nome completo</label><input id="custName" type="text" autocomplete="name" placeholder="Seu nome completo"><label for="custWhats">WhatsApp</label><input id="custWhats" type="tel" inputmode="tel" autocomplete="tel" placeholder="(79) 99999-9999"></div><div class="custform" id="localFields"><label for="nbSelect">Bairro</label><select id="nbSelect" onchange="onNeighborhoodChange()"></select><label for="addrStreet">Rua / Avenida</label><input id="addrStreet" type="text" autocomplete="address-line1" placeholder="Ex.: Rua das Flores"><div class="row2"><div><label for="addrNumber">Número</label><input id="addrNumber" type="text" autocomplete="off" placeholder="Ex.: 120"></div><div><label for="addrComplement">Complemento <small>(opcional)</small></label><input id="addrComplement" type="text" autocomplete="address-line2" placeholder="Apto, bloco..."></div></div><label for="addrRef">Ponto de referência <small>(opcional)</small></label><input id="addrRef" type="text" autocomplete="off" placeholder="Ex.: perto da praça"></div></div></div><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note">Pagamento seguro pela InfinitePay. Pix e cartão ficam disponíveis conforme a configuração do checkout.</div><button class="btn wine full" id="checkoutBtn" onclick="checkout()">Finalizar compra</button></div></aside>
 <div class="modal-back" id="modalBack" onclick="if(event.target===this)closeModal()"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -75,7 +84,7 @@ const money=v=>Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"
 let sb=null, products=[], cart=JSON.parse(localStorage.getItem("narvieCart")||"[]"), activeFilter="todos",searchTerm="";
 // Frete: as cidades, bairros e valores vêm do banco (tabelas shipping_cities e
 // shipping_neighborhoods), editados pelo painel. Nada de valor fixo no código.
-let shipCities=[], selectedCity="", selectedNeighborhood="";
+let shipCities=[], selectedCity="", selectedNeighborhood="", deliveryMethod="entrega"; // "entrega" (paga o frete) ou "retirada" (sem frete)
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const byName=(a,b)=>a.name.localeCompare(b.name,"pt-BR");
 const numOrNull=v=>(v===null||v===undefined||v==="")?null:Number(v);
@@ -87,7 +96,10 @@ function sellableNeighborhoods(city){return(city.neighborhoods||[]).filter(n=>ne
 function cityAvailable(c){return c.kind==="entrega_propria"?sellableNeighborhoods(c).length>0:numOrNull(c.fee)!==null}
 // "local" = entrega própria, "neighbor" = envio por transporte, "other" = combinar no WhatsApp
 function cityStatus(city){if(!city)return "none";if(city==="__outra__")return "other";const c=findCity(city);if(!c||!cityAvailable(c))return "other";return c.kind==="entrega_propria"?"local":"neighbor"}
-function currentFee(){const c=findCity(selectedCity);if(!c)return null;if(c.kind==="entrega_propria"){const nb=(c.neighborhoods||[]).find(n=>normalizeCity(n.name)===normalizeCity(selectedNeighborhood));return nb?neighborhoodFee(c,nb):null}return numOrNull(c.fee)}
+// Retirada pessoalmente: só vale para cidades com entrega/envio disponível (as que mostram o frete).
+function isPickup(){return deliveryMethod==="retirada"&&["local","neighbor"].includes(cityStatus(selectedCity))}
+function currentFee(){if(isPickup())return 0;return deliveryFee()}
+function deliveryFee(){const c=findCity(selectedCity);if(!c)return null;if(c.kind==="entrega_propria"){const nb=(c.neighborhoods||[]).find(n=>normalizeCity(n.name)===normalizeCity(selectedNeighborhood));return nb?neighborhoodFee(c,nb):null}return numOrNull(c.fee)}
 function populateCitySelect(){
   const localGroup=document.getElementById("localCitiesGroup"),neighborGroup=document.getElementById("neighborCitiesGroup");
   const ok=shipCities.filter(cityAvailable);
@@ -103,6 +115,17 @@ function populateNeighborhoodSelect(){
   sel.innerHTML='<option value="">Selecione o bairro</option>'+list.map(n=>`<option value="${esc(n.name)}">${esc(n.name)}</option>`).join("");
   selectedNeighborhood="";
 }
+function setMethod(m){deliveryMethod=m==="retirada"?"retirada":"entrega";updateShipUI()}
+function updateMethodPick(status){
+  const box=document.getElementById("methodPick"),ok=status==="local"||status==="neighbor";
+  box.classList.toggle("show",ok);
+  if(!ok)return;
+  const fee=deliveryFee();
+  document.getElementById("mEntregaTitle").textContent=status==="local"?"Entrega":"Envio";
+  document.getElementById("mEntregaPrice").textContent=fee===null?"Valor por bairro":(fee>0?money(fee):"Grátis");
+  document.getElementById("mEntrega").classList.toggle("on",deliveryMethod!=="retirada");
+  document.getElementById("mRetirada").classList.toggle("on",deliveryMethod==="retirada");
+}
 function onCityChange(){selectedCity=document.getElementById("citySelect").value;populateNeighborhoodSelect();updateShipUI()}
 function onNeighborhoodChange(){selectedNeighborhood=document.getElementById("nbSelect").value;updateShipUI()}
 function formatWhats(v){const d=String(v||"").replace(/\D/g,"").slice(0,11);if(d.length<=2)return d?`(${d}`:"";if(d.length<=6)return`(${d.slice(0,2)}) ${d.slice(2)}`;if(d.length<=10)return`(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;return`(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`}
@@ -112,13 +135,19 @@ function updateShipUI(){
   const customer=document.getElementById("customerFields"),localF=document.getElementById("localFields"),notice=document.getElementById("envioNotice");
   card.className="shipcard";
   customer.classList.toggle("show",status==="local"||status==="neighbor");
-  localF.classList.toggle("show",status==="local");
-  notice.classList.toggle("show",status==="neighbor");
+  const pickup=isPickup();
+  localF.classList.toggle("show",status==="local"&&!pickup);
+  notice.classList.toggle("show",status==="neighbor"&&!pickup);
+  document.getElementById("pickupNotice").classList.toggle("show",pickup);
+  updateMethodPick(status);
   if(!selectedCity){card.classList.remove("show");btn.textContent="Finalizar compra";renderCart();return}
   card.classList.add("show");
   if(status==="local"||status==="neighbor"){
     const fee=currentFee();
-    if(status==="local"){
+    if(pickup){
+      title.textContent="Retirada pessoalmente";
+      desc.textContent="Sem frete: você retira o pedido pessoalmente.";
+    }else if(status==="local"){
       title.textContent=`Entrega própria — ${selectedCity}`;
       desc.textContent=selectedNeighborhood?`Bairro: ${selectedNeighborhood}`:"Selecione o bairro para ver o valor da entrega.";
     }else{
@@ -197,7 +226,7 @@ function renderCart(){
   const rows=cart.map((item,index)=>{const p=products.find(x=>String(x.id)===String(item.id));if(!p)return "";total+=Number(p.price)*item.qty;return `<div class="cartitem"><img src="${p.image}" alt="${p.name}"><div><h4>${p.name}</h4><p>Tamanho: <b>${item.size}</b><br>${money(p.price)}</p><div class="qty"><button onclick="cartQty(${index},-1)">−</button><span>${item.qty}</span><button onclick="cartQty(${index},1)">+</button></div><button class="remove" onclick="removeItem(${index})">Remover</button></div><strong>${money(Number(p.price)*item.qty)}</strong></div>`}).join("");
   let freightRow="";
   const status=cityStatus(selectedCity);
-  if(status==="local"||status==="neighbor"){const fee=currentFee();if(fee!==null&&fee>0){total+=fee;const label=status==="local"?`Entrega em ${esc(selectedNeighborhood)}, ${esc(selectedCity)}`:`Envio para ${esc(selectedCity)}`;freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>${status==="local"?"Entrega":"Envio"}</h4><p>${label}</p></div><strong>${money(fee)}</strong></div>`}}
+  if(status==="local"||status==="neighbor"){const fee=currentFee();if(fee!==null&&fee>0){total+=fee;const label=status==="local"?`Entrega em ${esc(selectedNeighborhood)}, ${esc(selectedCity)}`:`Envio para ${esc(selectedCity)}`;freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>${status==="local"?"Entrega":"Envio"}</h4><p>${label}</p></div><strong>${money(fee)}</strong></div>`}else if(isPickup()){freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>Retirada</h4><p>Retirada pessoalmente</p></div><strong>Grátis</strong></div>`}}
   box.innerHTML=rows+freightRow;
   document.getElementById("total").textContent=money(total);
 }
@@ -236,7 +265,8 @@ async function checkout(){
   const oldText=btn.textContent;
 
   if(status==="local"||status==="neighbor"){
-    const delivery=readDeliveryForm(status);
+    const pickup=isPickup();
+    const delivery=readDeliveryForm(pickup?"retirada":status);
     if(!delivery)return;
     btn.disabled=true;btn.textContent="Abrindo pagamento…";
     try{
@@ -244,7 +274,7 @@ async function checkout(){
       const response=await fetch('/api/create-checkout',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({items,order_nsu,city:cityLabel,...delivery})
+        body:JSON.stringify({items,order_nsu,city:cityLabel,...delivery,delivery_method:pickup?"retirada":"entrega"})
       });
       const data=await response.json().catch(()=>({}));
       if(!response.ok||!data.url)throw new Error(data.error||'Não foi possível abrir o pagamento.');

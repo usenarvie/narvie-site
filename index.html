@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#4b0a18">
 <title>NARVIE — Moda Feminina</title>
-<meta name="description" content="Narvie — moda feminina online. T-shirts selecionadas para mulheres que gostam de detalhes que fazem a diferença.">
+<meta name="description" content="Narvie — moda feminina online. Peças selecionadas para mulheres que gostam de detalhes que fazem a diferença.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
 :root{--wine:#4b0a18;--wine2:#6d2b39;--rose:#b58b8f;--cream:#f6f2ec;--paper:#fffdfa;--ink:#161417;--muted:#716b6b;--line:#e5dfd8;--green:#25d366;--shadow:0 20px 60px rgba(38,17,22,.11)}
@@ -70,7 +70,7 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 <section class="hero"><div class="hero-content"><div class="kicker">Moda feminina</div><h1>NARVIE</h1><div class="hero-sub">Para mulheres que deixam sua marca.</div><a class="btn white" href="#catalogo">Conhecer coleção</a></div></section>
 <section class="intro"><div class="container introgrid"><div><div class="eyebrow">Moda feminina online</div><h2>Seu estilo,<br>do seu jeito.</h2></div><p>Uma curadoria de peças femininas para quem gosta de vestir personalidade. Escolha sua favorita, selecione o tamanho e finalize sua compra pelo site. Em caso de dúvidas, pode entrar em contato pelo WhatsApp.</p></div></section>
 
-<section class="catalog" id="catalogo"><div class="container"><div class="catalog-head"><div><div class="eyebrow">Coleção Narvie</div><h2>Nossas T-shirts</h2><p>Escolha uma peça para ver detalhes, tamanhos e adicionar ao carrinho.</p></div><button class="btn wine" onclick="openCart()">Ver carrinho (<span id="cartCount2">0</span>)</button></div><input id="search" class="search" type="search" placeholder="Buscar por produto..."><div class="filters"><button class="filter active" data-filter="todos">Todos</button><button class="filter" data-filter="estampa">Estampadas</button><button class="filter" data-filter="classica">Clássicas</button><button class="filter" data-filter="40">Até R$ 40</button></div><div id="grid" class="grid"><div class="loading">Carregando coleção…</div></div><div id="noresults" class="noresults">Nenhum produto encontrado.</div></div></section>
+<section class="catalog" id="catalogo"><div class="container"><div class="catalog-head"><div><div class="eyebrow">Coleção Narvie</div><h2>Nossas Peças</h2><p>Escolha uma peça para ver detalhes, tamanhos e adicionar ao carrinho.</p></div><button class="btn wine" onclick="openCart()">Ver carrinho (<span id="cartCount2">0</span>)</button></div><input id="search" class="search" type="search" placeholder="Buscar por produto..."><div class="filters"><button class="filter active" data-filter="todos">Todos</button><button class="filter" data-filter="tshirt">T-shirts</button><button class="filter" data-filter="short">Shorts</button><button class="filter" data-filter="vestido">Vestidos</button><button class="filter" data-filter="blusa">Blusas</button><button class="filter" data-filter="40">Até R$ 40</button></div><div id="grid" class="grid"><div class="loading">Carregando coleção…</div></div><div id="noresults" class="noresults">Nenhum produto encontrado.</div></div></section>
 
 <section class="how" id="como-funciona"><div class="container howgrid"><div><div class="eyebrow">Uma experiência simples</div><h2>Como funciona</h2><p style="color:#666;line-height:1.8">Monte seu carrinho, escolha os tamanhos e finalize o pagamento com segurança pela InfinitePay. O WhatsApp continua disponível para atendimento.</p></div><div class="steps"><div class="step"><div class="num">01</div><div><h3>Escolha suas peças</h3><p>Explore a coleção e abra cada produto para selecionar o tamanho.</p></div></div><div class="step"><div class="num">02</div><div><h3>Monte o carrinho</h3><p>Defina quantidade e confira o resumo antes de finalizar.</p></div></div><div class="step"><div class="num">03</div><div><h3>Finalize com segurança</h3><p>O site leva você direto para o checkout seguro da InfinitePay, com Pix ou cartão.</p></div></div><div class="step"><div class="num">04</div><div><h3>Receba a confirmação</h3><p>Depois do pagamento, você volta para a Narvie com o resumo da compra. Nosso WhatsApp fica disponível para atendimento.</p></div></div></div></div><div class="container brand"><img src="assets/brand.jpg" alt="Narvie"><div class="brandtext"><div><h2>NARVIE</h2><p>Obrigada por fazer parte dessa história.</p></div></div></div></section>
 
@@ -181,9 +181,9 @@ async function init(){
   if(!url||!key||url.includes("COLE_AQUI")||key.includes("COLE_AQUI")){
     document.getElementById("configWarning").style.display="block";
     products=[
-      {id:"demo1",name:"Tee Sardines",price:40,image:"assets/sardines.jpg",category:"estampa",description:"Estampa exclusiva inspirada no universo Sardines.",stock:{P:8,M:8,G:8,GG:8}},
-      {id:"demo2",name:"Tee Colcci",price:40,image:"assets/colcci.jpg",category:"classica",description:"Modelo urbano e versátil para compor looks leves.",stock:{P:8,M:8,G:8,GG:8}},
-      {id:"demo3",name:"T-shirt Fresh Sardines",price:40,image:"assets/fresh.jpg",category:"estampa",description:"Estampa Fresh Sardines com personalidade e cor.",stock:{P:8,M:8,G:8,GG:8}}
+      {id:"demo1",name:"Tee Sardines",price:40,image:"assets/sardines.jpg",type:"tshirt",category:"estampa",description:"Estampa exclusiva inspirada no universo Sardines.",stock:{P:8,M:8,G:8,GG:8}},
+      {id:"demo2",name:"Tee Colcci",price:40,image:"assets/colcci.jpg",type:"tshirt",category:"classica",description:"Modelo urbano e versátil para compor looks leves.",stock:{P:8,M:8,G:8,GG:8}},
+      {id:"demo3",name:"T-shirt Fresh Sardines",price:40,image:"assets/fresh.jpg",type:"tshirt",category:"estampa",description:"Estampa Fresh Sardines com personalidade e cor.",stock:{P:8,M:8,G:8,GG:8}}
     ];
     shipCities=[
       {id:"d1",name:"Nossa Senhora da Glória",kind:"entrega_propria",fee:null,neighborhoods:[{id:"b1",name:"Centro",fee:5},{id:"b2",name:"Bairro Exemplo",fee:7}]},
@@ -207,7 +207,7 @@ async function init(){
 function save(){localStorage.setItem("narvieCart",JSON.stringify(cart));renderCart();document.getElementById("cartCount").textContent=cart.reduce((s,i)=>s+i.qty,0);document.getElementById("cartCount2").textContent=cart.reduce((s,i)=>s+i.qty,0)}
 function renderProducts(){
  const grid=document.getElementById("grid");
- const list=products.filter(p=>(activeFilter==="todos"||activeFilter===p.category||(activeFilter==="40"&&Number(p.price)<=40))&&p.name.toLowerCase().includes(searchTerm.toLowerCase()));
+ const list=products.filter(p=>(activeFilter==="todos"||activeFilter===(p.type||"tshirt")||(activeFilter==="40"&&Number(p.price)<=40))&&p.name.toLowerCase().includes(searchTerm.toLowerCase()));
  document.getElementById("noresults").style.display=list.length?"none":"block";
  grid.innerHTML=list.map(p=>`<article class="card"><span class="tag">${p.category==="estampa"?"Estampa exclusiva":"Essencial"}</span><div class="pic"><img src="${p.image}" alt="${p.name}"></div><div class="info"><h3>${p.name}</h3><div class="desc">${p.description||""}</div>${cardDots(p)}<div class="price">${money(p.price)}</div><div class="product-actions"><button class="btn wine" onclick="openProduct('${p.id}')">${isColored(p)?"Escolher cor e tamanho":"Escolher tamanho"}</button><button class="quick" onclick="quickAdd('${p.id}')">+</button></div></div></article>`).join("") || "";
 }

@@ -15,6 +15,7 @@ create table if not exists public.products (
   description text not null default '',
   price numeric(10,2) not null default 0 check (price >= 0),
   category text not null default 'estampa' check (category in ('estampa','classica')),
+  type text not null default 'tshirt' check (type in ('tshirt','short','vestido','blusa')),
   -- stock guarda a quantidade disponível por tamanho, ex.: {"P": 3, "M": 5, "G": 0}
   -- os tamanhos ativos da peça são as chaves deste objeto.
   stock jsonb not null default '{}'::jsonb,

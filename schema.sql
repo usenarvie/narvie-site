@@ -14,6 +14,7 @@ create table if not exists public.products (
   name text not null,
   description text not null default '',
   price numeric(10,2) not null default 0 check (price >= 0),
+  price_card numeric(10,2) check (price_card is null or price_card >= 0),
   category text not null default 'estampa' check (category in ('estampa','classica')),
   type text not null default 'tshirt' check (type in ('tshirt','short','vestido','blusa')),
   -- stock guarda a quantidade disponível por tamanho, ex.: {"P": 3, "M": 5, "G": 0}
@@ -332,6 +333,7 @@ create table if not exists public.orders (
   delivery_type text not null default 'other' check (delivery_type in ('local','neighbor','other','retirada')),
   channel text not null default 'site' check (channel in ('site','whatsapp')),
   total numeric(10,2) not null default 0,
+  payment_method text check (payment_method in ('pix','cartao')),
   status text not null default 'novo',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()

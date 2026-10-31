@@ -84,6 +84,27 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 .card{display:flex;flex-direction:column}.info{flex:1;display:flex;flex-direction:column}.product-actions{margin-top:auto}.price2{margin-bottom:12px}
 .price2 .sep{display:none}.price2 .inst{display:block}
 }
+
+/* Página de cada produto */
+.prodpage h3{font:400 38px "Playfair Display",serif;margin:0 0 8px}
+.prodpage .mprice{font-size:18px;margin-bottom:22px}
+@media(max-width:560px){.prodpage h3{font-size:32px}}
+.prodpage{position:fixed;inset:0;z-index:70;background:var(--paper);overflow-y:auto;-webkit-overflow-scrolling:touch;display:none}
+.prodpage.open{display:block}
+.pp-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top,0px)) 18px 10px;background:rgba(255,253,250,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.pp-back,.pp-cart{border:0;background:none;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ink);padding:10px 0;font-family:inherit}
+.pp-wrap{max-width:1080px;margin:0 auto;padding:24px 20px 70px}
+.prodpage .modalgrid img{width:100%;aspect-ratio:1/1.1;object-fit:cover;display:block}
+.related{margin-top:60px;padding-top:42px;border-top:1px solid var(--line)}
+.related h2{text-align:center;font-size:26px;margin:0 0 26px}
+.rel-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:12px;scrollbar-width:none}
+.rel-track::-webkit-scrollbar{display:none}
+.rel-item{flex:0 0 240px;scroll-snap-align:start;cursor:pointer;text-align:center}
+.rel-item .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.rel-item h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin:12px 0 4px}
+.rel-item .price,.rel-item .price2{text-align:center}
+.rel-buy{border:0;background:none;text-decoration:underline;text-underline-offset:4px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-family:inherit;margin-top:2px;padding:6px}
+@media(max-width:560px){.rel-item{flex-basis:62%}.related h2{font-size:22px}.pp-wrap{padding:16px 16px 60px}}
 </style>
 </head>
 <body>
@@ -106,7 +127,7 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 
 <div class="modal-back" id="pixBack"><div class="modal pixbox"><button class="close" onclick="closePix()" style="position:absolute;right:14px;top:10px">×</button><div class="eyebrow">Narvie</div><h3>Pague com Pix</h3><div class="pixamount" id="pixAmount"></div><div id="pixQr"></div><textarea class="pixcode" id="pixCode" readonly></textarea><button class="btn wine full" style="margin-top:10px" onclick="copyPix()" id="pixCopyBtn">Copiar código Pix</button><div class="pixsteps"><b>Como pagar:</b><br>1. Abra o app do seu banco e escolha Pix.<br>2. Escaneie o QR Code ou use “Pix copia e cola”.<br>3. Confira o valor e pague.<br>4. Envie o comprovante pra gente no WhatsApp para confirmarmos seu pedido.</div><button class="btn full" onclick="sendProof()" style="background:#25d366;color:#fff;border:0">Enviar comprovante no WhatsApp</button></div></div>
 <div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="ship-scroll"><div class="shipfield"><label for="citySelect">Cidade de entrega</label><select id="citySelect" onchange="onCityChange()"><option value="">Selecione sua cidade</option><optgroup label="Entrega própria" id="localCitiesGroup"></optgroup><optgroup label="Envio por transporte / rodoviária" id="neighborCitiesGroup"></optgroup><option value="__outra__">Outra cidade</option></select><div class="methodpick" id="methodPick"><button type="button" class="methodopt on" id="mEntrega" onclick="setMethod('entrega')"><span class="dot"></span><span><b id="mEntregaTitle">Entrega</b><small id="mEntregaPrice"></small></span></button><button type="button" class="methodopt" id="mRetirada" onclick="setMethod('retirada')"><span class="dot"></span><span><b>Retirar pessoalmente</b><small>Sem frete</small></span></button></div><div class="shipcard" id="shipCard"><div class="radio"></div><div class="content"><h4 id="shipCardTitle"></h4><p id="shipCardDesc"></p></div><div class="price" id="shipCardPrice"></div></div><div class="envio-notice" id="envioNotice"><b>Como funciona o envio:</b> nessa cidade o pedido é enviado por transporte/rodoviária e deve ser retirado no local de chegada combinado. Falamos com você pelo WhatsApp para combinar os detalhes.</div><div class="envio-notice" id="pickupNotice"><b>Retirada pessoalmente:</b> sem frete. Depois do pagamento, falamos com você pelo WhatsApp para combinar o local e o horário da retirada.</div><div class="custform" id="customerFields"><label for="custName">Nome completo</label><input id="custName" type="text" autocomplete="name" placeholder="Seu nome completo"><label for="custWhats">WhatsApp</label><input id="custWhats" type="tel" inputmode="tel" autocomplete="tel" placeholder="(79) 99999-9999"></div><div class="custform" id="localFields"><label for="nbSelect">Bairro</label><select id="nbSelect" onchange="onNeighborhoodChange()"></select><label for="addrStreet">Rua / Avenida</label><input id="addrStreet" type="text" autocomplete="address-line1" placeholder="Ex.: Rua das Flores"><div class="row2"><div><label for="addrNumber">Número</label><input id="addrNumber" type="text" autocomplete="off" placeholder="Ex.: 120"></div><div><label for="addrComplement">Complemento <small>(opcional)</small></label><input id="addrComplement" type="text" autocomplete="address-line2" placeholder="Apto, bloco..."></div></div><label for="addrRef">Ponto de referência <small>(opcional)</small></label><input id="addrRef" type="text" autocomplete="off" placeholder="Ex.: perto da praça"></div></div></div><div class="paypick" id="payPick"><button type="button" class="methodopt on" id="payPix" onclick="setPay('pix')"><span class="dot"></span><span><b>Pix</b><small id="payPixTotal"></small></span></button><button type="button" class="methodopt" id="payCard" onclick="setPay('cartao')"><span class="dot"></span><span><b>Cartão</b><small id="payCardTotal"></small></span></button></div><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note" id="payNote"></div><button class="btn wine full" id="checkoutBtn" onclick="checkout()">Finalizar compra</button></div></aside>
-<div class="modal-back" id="modalBack" onclick="if(event.target===this)closeModal()"><div class="modal"><button class="modal-close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
+<div class="prodpage" id="prodPage"><div class="pp-bar"><button class="pp-back" onclick="closeModal()" aria-label="Voltar para a coleção">← Voltar</button><div class="logo" style="font-size:20px">NARVIE</div><button class="pp-cart" onclick="openCart()" aria-label="Abrir carrinho">Carrinho (<span id="cartCount3">0</span>)</button></div><div class="pp-wrap"><div id="modalContent"></div><section class="related" id="relatedBox"></section></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
@@ -229,7 +250,7 @@ async function init(){
   populateCitySelect();
   renderProducts(); save();
 }
-function save(){localStorage.setItem("narvieCart",JSON.stringify(cart));renderCart();document.getElementById("cartCount").textContent=cart.reduce((s,i)=>s+i.qty,0);document.getElementById("cartCount2").textContent=cart.reduce((s,i)=>s+i.qty,0)}
+function save(){localStorage.setItem("narvieCart",JSON.stringify(cart));renderCart();document.getElementById("cartCount").textContent=cart.reduce((s,i)=>s+i.qty,0);document.getElementById("cartCount2").textContent=cart.reduce((s,i)=>s+i.qty,0);const c3=document.getElementById("cartCount3");if(c3)c3.textContent=cart.reduce((s,i)=>s+i.qty,0)}
 function renderProducts(){
  const grid=document.getElementById("grid");
  const list=products.filter(p=>(activeFilter==="todos"||activeFilter===(p.type||"tshirt"))&&p.name.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -266,8 +287,24 @@ function openProduct(id){
  document.getElementById("modalContent").innerHTML=`<div class="modalgrid"><img src="${p.image}" alt="${p.name}"><div><div class="eyebrow">Narvie</div><h3>${p.name}</h3>${priceBlock(p,"mprice")}<p style="color:#777;line-height:1.7;font-size:14px">${p.description||""}</p>${colorsHtml}<strong ${lbl}>Escolha o tamanho</strong><div class="sizes" id="sizesBox"></div><div class="quantity"><span>Quantidade</span><button onclick="changeModalQty(-1)">−</button><b id="modalQty">1</b><button onclick="changeModalQty(1)">+</button></div><button class="btn wine full" onclick="addFromModal('${p.id}')">Adicionar ao carrinho</button></div></div>`;
  window.modalProduct=id;window.modalSize=null;window.modalColor=null;window.modalQty=1;
  renderSizes();
- document.getElementById("modalBack").classList.add("open");
+ document.getElementById("relatedBox").innerHTML=relatedHtml(p);
+ // Cada peça tem a sua própria página (endereço #produto-ID), com botão voltar do celular funcionando.
+ if(productIdFromHash()!==String(id)){const d=((history.state&&history.state.nd)||0)+1;history.pushState({nd:d},"","#produto-"+encodeURIComponent(id))}
+ if(!window.baseTitle)window.baseTitle=document.title;
+ document.title=p.name+" | Narvie";
+ const pg=document.getElementById("prodPage");pg.classList.add("open");pg.scrollTop=0;document.body.style.overflow="hidden";
 }
+function productIdFromHash(){const m=location.hash.match(/^#produto-(.+)$/);return m?decodeURIComponent(m[1]):null}
+function relatedHtml(p){
+ const t=x=>x.type||"tshirt";
+ const others=products.filter(x=>String(x.id)!==String(p.id));
+ const list=[...others.filter(x=>t(x)===t(p)),...others.filter(x=>t(x)!==t(p))].slice(0,8);
+ if(!list.length)return"";
+ return `<h2>Produtos relacionados</h2><div class="rel-track">${list.map(x=>`<article class="rel-item" onclick="openProduct('${x.id}')"><div class="pic"><img src="${x.image}" alt="${esc(x.name)}" loading="lazy"></div><h4>${esc(x.name)}</h4>${priceBlock(x,"price")}<button class="rel-buy" type="button">Ver peça</button></article>`).join("")}</div>`;
+}
+function hideProduct(){document.getElementById("prodPage").classList.remove("open");document.body.style.overflow="";if(window.baseTitle)document.title=window.baseTitle}
+function syncRoute(){const id=productIdFromHash();if(id&&products.some(x=>String(x.id)===id)){if(String(window.modalProduct)!==id||!document.getElementById("prodPage").classList.contains("open"))openProduct(id)}else hideProduct()}
+window.addEventListener("popstate",syncRoute);
 function renderSizes(){
  const p=products.find(x=>String(x.id)===String(window.modalProduct)),box=document.getElementById("sizesBox");
  if(!p||!box)return;
@@ -278,7 +315,7 @@ function renderSizes(){
 function selectColor(el){document.querySelectorAll(".swatch").forEach(x=>x.classList.remove("active"));el.classList.add("active");window.modalColor=el.dataset.color;window.modalSize=null;window.modalQty=1;document.getElementById("modalQty").textContent=1;renderSizes()}
 function selectSize(el,size){document.querySelectorAll(".size").forEach(x=>x.classList.remove("active"));el.classList.add("active");window.modalSize=size;window.modalQty=1;document.getElementById("modalQty").textContent=1}
 function changeModalQty(n){const p=products.find(x=>String(x.id)===String(window.modalProduct));const max=window.modalSize&&p?Math.max(0,stockFor(p,window.modalSize,window.modalColor)-qtyInCart(p.id,window.modalSize,window.modalColor)):99;window.modalQty=Math.min(max||1,Math.max(1,window.modalQty+n));document.getElementById("modalQty").textContent=window.modalQty}
-function addFromModal(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;if(isColored(p)&&!window.modalColor){alert("Escolha uma cor.");return}if(!window.modalSize){alert("Escolha um tamanho.");return}const color=isColored(p)?window.modalColor:"";const left=stockFor(p,window.modalSize,color)-qtyInCart(id,window.modalSize,color);if(left<=0){alert("Esse tamanho está esgotado.");return}addToCart(id,window.modalSize,Math.min(window.modalQty,left),color);closeModal();openCart()}
+function addFromModal(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;if(isColored(p)&&!window.modalColor){alert("Escolha uma cor.");return}if(!window.modalSize){alert("Escolha um tamanho.");return}const color=isColored(p)?window.modalColor:"";const left=stockFor(p,window.modalSize,color)-qtyInCart(id,window.modalSize,color);if(left<=0){alert("Esse tamanho está esgotado.");return}addToCart(id,window.modalSize,Math.min(window.modalQty,left),color);openCart()}
 function quickAdd(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;if(isColored(p)){openProduct(id);return}const size=sizesOf(p).find(sz=>stockFor(p,sz)-qtyInCart(id,sz)>0);if(!size){alert("Essa peça está esgotada no momento.");return}addToCart(id,size,1);openCart()}
 function addToCart(id,size,qty,color=""){const p=products.find(x=>String(x.id)===String(id));const max=p?stockFor(p,size,color):qty;const already=qtyInCart(id,size,color);const room=Math.max(0,max-already);const add=Math.min(qty,room);if(add<=0)return;const found=cart.find(x=>String(x.id)===String(id)&&x.size===size&&(x.color||"")===color);if(found)found.qty+=add;else cart.push({id,size,color,qty:add});save()}
 function renderCart(){
@@ -321,7 +358,7 @@ async function showPix(pix,nsu,name){
 function closePix(){document.getElementById("pixBack").classList.remove("open")}
 async function copyPix(){const t=document.getElementById("pixCode");try{await navigator.clipboard.writeText(t.value)}catch(e){t.select();document.execCommand("copy")}const b=document.getElementById("pixCopyBtn");b.textContent="Código copiado!";setTimeout(()=>b.textContent="Copiar código Pix",2200)}
 function sendProof(){if(!lastPix)return;window.open(whatsUrl(`Olá! Acabei de pagar meu pedido na NARVIE por Pix.\n\nPedido: ${lastPix.nsu}\nNome: ${lastPix.name}\nValor: ${money(lastPix.amount)}\n\nSegue o comprovante:`),"_blank")}
-function cartQty(i,n){const item=cart[i];if(n>0){const p=products.find(x=>String(x.id)===String(item.id));const max=p?stockFor(p,item.size,item.color||""):999;if(item.qty+n>max)return}item.qty+=n;if(item.qty<=0)cart.splice(i,1);save()}function removeItem(i){cart.splice(i,1);save()}function openCart(){renderCart();document.getElementById("drawer").classList.add("open");document.getElementById("back").classList.add("open")}function closeCart(){document.getElementById("drawer").classList.remove("open");document.getElementById("back").classList.remove("open")}function closeModal(){document.getElementById("modalBack").classList.remove("open")}
+function cartQty(i,n){const item=cart[i];if(n>0){const p=products.find(x=>String(x.id)===String(item.id));const max=p?stockFor(p,item.size,item.color||""):999;if(item.qty+n>max)return}item.qty+=n;if(item.qty<=0)cart.splice(i,1);save()}function removeItem(i){cart.splice(i,1);save()}function openCart(){renderCart();document.getElementById("drawer").classList.add("open");document.getElementById("back").classList.add("open")}function closeCart(){document.getElementById("drawer").classList.remove("open");document.getElementById("back").classList.remove("open")}function closeModal(){const d=(history.state&&history.state.nd)||0;if(productIdFromHash()&&d>0){history.go(-d)}else{if(productIdFromHash())history.replaceState(null,"",location.pathname+location.search);hideProduct()}}
 function validWhats(v){let d=String(v||"").replace(/\D/g,"");if((d.length===12||d.length===13)&&d.startsWith("55"))d=d.slice(2);return(d.length===10||d.length===11)&&Number(d.slice(0,2))>=11}
 // Lê e valida o formulário da cidade escolhida. Devolve null (e avisa) se algo faltar.
 function readDeliveryForm(status){
@@ -405,7 +442,7 @@ async function checkout(){
 document.getElementById("custWhats").addEventListener("input",e=>{e.target.value=formatWhats(e.target.value)});
 document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");activeFilter=b.dataset.filter;renderProducts()}));
 document.getElementById("search").addEventListener("input",e=>{searchTerm=e.target.value;renderProducts()});
-init();
+init().then(syncRoute);
 </script>
 </body>
 </html>

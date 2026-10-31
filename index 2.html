@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#4b0a18">
+<title>NARVIE — Moda Feminina</title>
+<meta name="description" content="Narvie — moda feminina online. Peças selecionadas para mulheres que gostam de detalhes que fazem a diferença.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+:root{--wine:#4b0a18;--wine2:#6d2b39;--rose:#b58b8f;--cream:#f6f2ec;--paper:#fffdfa;--ink:#161417;--muted:#716b6b;--line:#e5dfd8;--green:#25d366;--shadow:0 20px 60px rgba(38,17,22,.11)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",Arial,sans-serif}button,input{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}.container{width:min(1180px,92%);margin:auto}
+.topbar{background:var(--wine);color:#fff;text-align:center;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:9px}
+header{position:sticky;top:0;z-index:50;background:rgba(255,253,250,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.nav{height:78px;display:flex;align-items:center;justify-content:space-between}.logo{font-family:"Playfair Display",serif;font-size:26px;letter-spacing:.4em;margin-left:.4em}.navlinks{display:flex;gap:32px;font-size:12px;letter-spacing:.16em;text-transform:uppercase}.navlinks a:hover{color:var(--wine2)}.actions{display:flex;gap:8px}.iconbtn{border:1px solid var(--line);background:transparent;width:42px;height:42px;display:grid;place-items:center;border-radius:50%;font-size:18px;position:relative}.badge{position:absolute;right:-3px;top:-3px;background:var(--wine);color:#fff;border-radius:50%;font-size:9px;width:18px;height:18px;display:grid;place-items:center}.menu{display:none}
+.hero{min-height:650px;position:relative;display:flex;align-items:center;overflow:hidden;background:#3b0612}.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(40,0,10,.72),rgba(50,0,15,.15)),url("assets/hero.jpg") center/cover}.hero-content{position:relative;color:#fff;padding:100px 0;width:min(1180px,92%)}.kicker{font-size:11px;letter-spacing:.38em;text-transform:uppercase;color:#e9c8a7;margin-bottom:22px}.hero h1{font:400 clamp(70px,12vw,145px)/.8 "Playfair Display",serif;letter-spacing:.04em;margin:0}.hero-sub{font-size:14px;letter-spacing:.32em;text-transform:uppercase;margin:24px 0 32px}.btn{border:1px solid var(--ink);background:transparent;min-height:48px;padding:0 25px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;transition:.25s}.btn:hover{background:var(--ink);color:#fff}.btn.wine{background:var(--wine);border-color:var(--wine);color:#fff}.btn.wine:hover{background:#320610}.btn.white{color:#fff;border-color:#fff}.btn.white:hover{background:#fff;color:var(--wine)}.btn.full{width:100%}
+.intro{background:var(--cream);padding:80px 0}.introgrid{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:end}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.34em;text-transform:uppercase;color:var(--wine2)}h2{font:400 clamp(43px,6vw,70px)/1.02 "Playfair Display",serif;margin:13px 0 20px}.intro p{font-size:18px;line-height:1.8;color:#5e5959;margin:0}
+.catalog{padding:100px 0}.catalog-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:40px}.catalog-head p{color:var(--muted);margin:0}.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}.filter{border:1px solid var(--line);background:#fff;padding:11px 17px;font-size:11px;letter-spacing:.13em;text-transform:uppercase}.filter.active,.filter:hover{background:var(--wine);border-color:var(--wine);color:#fff}.search{width:100%;border:0;border-bottom:1px solid #bbb;background:transparent;padding:15px 4px;font-size:15px;outline:none;margin-bottom:30px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.card{border:1px solid var(--line);background:#fff;overflow:hidden;transition:.25s;position:relative}.card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}.pic{aspect-ratio:4/4.9;background:#eee;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover;display:block;transition:.4s}.card:hover .pic img{transform:scale(1.025)}.tag{position:absolute;top:13px;left:13px;background:#fff;padding:7px 9px;font-size:9px;letter-spacing:.14em;text-transform:uppercase}.info{padding:20px}.info h3{font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin:0 0 7px}.desc{font-size:12px;line-height:1.55;color:#777;min-height:38px}.price{font-size:16px;margin:13px 0 17px}.product-actions{display:grid;grid-template-columns:1fr 48px;gap:8px}.quick{border:1px solid var(--line);background:#fff;font-size:18px}.noresults{text-align:center;padding:60px 0;color:#777;display:none}
+.how{background:var(--cream);padding:95px 0}.howgrid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}.steps{display:grid;gap:24px}.step{display:grid;grid-template-columns:45px 1fr;gap:16px}.num{font:400 25px "Playfair Display",serif;color:var(--wine2)}.step h3{font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:3px 0 6px}.step p{font-size:14px;color:#6b6666;line-height:1.7;margin:0}.brand{margin-top:70px;height:440px;position:relative;overflow:hidden}.brand img{width:100%;height:100%;object-fit:cover;filter:brightness(.7)}.brandtext{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#fff}.brandtext h2{font-size:clamp(45px,7vw,82px);margin:0 0 12px}.brandtext p{font:italic 24px "Playfair Display",serif}
+.contact{padding:100px 0}.contactgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px}.contact p{font-size:18px;line-height:1.8;color:#666}.contactbox{border:1px solid var(--line);padding:34px;background:#fff}.contactbox h3{font-family:"Playfair Display",serif;font-size:34px;font-weight:400;margin:0 0 20px}.contactbox input{width:100%;border:0;border-bottom:1px solid #bbb;padding:15px 0;outline:none;margin-bottom:12px;background:transparent}
+footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:flex;justify-content:space-between;gap:30px}.footerlogo{font:400 28px "Playfair Display",serif;letter-spacing:.38em;margin-left:.38em}.social{display:flex;gap:9px;margin-top:20px}.social a{width:40px;height:40px;border:1px solid var(--line);display:grid;place-items:center}.footertext{font-size:12px;line-height:1.9;color:#888;text-align:right}.copy{border-top:1px solid var(--line);padding-top:22px;margin-top:35px;color:#aaa;font-size:11px}
+.whatsapp{position:fixed;z-index:70;right:22px;bottom:22px;width:60px;height:60px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:29px;box-shadow:0 12px 30px rgba(0,0,0,.2)}
+.drawer-back{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:80;display:none}.drawer{position:fixed;right:0;top:0;height:100%;width:min(430px,94vw);background:#fff;z-index:90;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}.drawer.open{transform:none}.drawer-back.open{display:block}.drawer-head{padding:24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.drawer-head h3{font:400 30px "Playfair Display",serif;margin:0}.close{border:0;background:none;font-size:25px}.cart-items{flex:1;overflow:auto;padding:18px 24px}.empty{text-align:center;color:#777;padding:70px 10px;line-height:1.7}.cartitem{display:grid;grid-template-columns:76px 1fr auto;gap:13px;padding:15px 0;border-bottom:1px solid var(--line)}.cartitem img{width:76px;height:90px;object-fit:cover}.cartitem h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin:3px 0 7px}.cartitem p{font-size:12px;color:#777;margin:0 0 10px}.qty{display:flex;align-items:center;gap:8px}.qty button{width:26px;height:26px;border:1px solid var(--line);background:#fff}.remove{border:0;background:none;color:#999;font-size:11px;margin-top:7px}.drawer-foot{border-top:1px solid var(--line);padding:20px 24px}.total{display:flex;justify-content:space-between;font-size:14px;margin-bottom:15px}.total strong{font-size:18px}.note{font-size:10px;color:#999;line-height:1.5;margin:12px 0 16px}
+.shipfield{margin-bottom:6px}.shipfield label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:6px;font-weight:700}.shipfield select{width:100%;border:1px solid var(--line);padding:12px;background:#fff;font-size:13px;outline:none}
+.shipcard{display:none;align-items:flex-start;gap:12px;border:1px solid var(--line);padding:14px 15px;margin:10px 0}.shipcard.show{display:flex}.shipcard .radio{width:19px;height:19px;border-radius:50%;border:2px solid var(--wine);flex-shrink:0;margin-top:2px;position:relative}.shipcard .radio::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--wine)}.shipcard .content{flex:1;min-width:0}.shipcard .content h4{margin:0 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}.shipcard .content p{margin:0;font-size:12px;color:#777;line-height:1.5}.shipcard .price{font-weight:700;font-size:15px;white-space:nowrap}.shipcard.block{background:#fdeceb;border-color:#f3c8c4}.shipcard.block .radio{border-color:#8a2f28}.shipcard.block .radio::after{background:#8a2f28}
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}.modal-back.open{display:flex}.modal{background:#fff;width:min(700px,100%);max-height:90vh;overflow:auto;padding:30px}.modalgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px}.modal img{width:100%;aspect-ratio:1/1.1;object-fit:cover}.modal h3{font:400 38px "Playfair Display",serif;margin:0 0 8px}.modal .mprice{font-size:18px;margin-bottom:22px}.sizes{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 22px}.size{min-width:48px;height:40px;border:1px solid var(--line);background:#fff}.size.active{background:var(--wine);color:#fff;border-color:var(--wine)}.quantity{display:flex;align-items:center;gap:14px;margin-bottom:22px}.quantity button{width:38px;height:38px;border:1px solid var(--line);background:#fff}.modal-close{float:right;border:0;background:none;font-size:24px}
+.loading{text-align:center;padding:50px 0;color:#777}.config-warning{display:none;background:#fff6e7;border:1px solid #ecd9ae;padding:14px;margin:20px auto;max-width:1180px;font-size:12px;color:#725c30}
+@media(max-width:850px){.navlinks{display:none}.menu{display:block;font-size:23px}.nav{height:70px}.actions .searchbtn{display:none}.hero{min-height:570px}.introgrid,.howgrid,.contactgrid,.modalgrid{grid-template-columns:1fr;gap:35px}.grid{grid-template-columns:1fr 1fr}.catalog,.how,.contact{padding:72px 0}.catalog-head{display:block}.catalog-head .btn{margin-top:20px}.footergrid{display:block}.footertext{text-align:left;margin-top:22px}}
+@media(max-width:560px){.logo{font-size:22px}.hero h1{font-size:70px}.hero-content{padding:75px 0}.brand{height:380px}.modal{padding:20px}}
+
+.payment-section{padding:54px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#faf9f7}.payment-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:42px;align-items:center}.payment-copy .eyebrow{margin-bottom:10px}.payment-copy h2{font:400 34px "Playfair Display",serif;margin:0 0 12px}.payment-copy p{font-size:13px;line-height:1.8;color:#777;max-width:560px}.secure-note{display:flex;align-items:center;gap:10px;margin-top:20px;font-size:11px;letter-spacing:.04em;color:#666}.lockmark{width:30px;height:30px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;background:#fff;font-size:14px}.payment-box{background:#fff;border:1px solid var(--line);padding:25px}.payment-title{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#777;margin-bottom:16px}.brand-row{display:flex;flex-wrap:wrap;gap:10px}.pay-brand{height:42px;min-width:76px;padding:0 15px;border:1px solid #e5e1dc;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;letter-spacing:.02em;font-size:14px}.pay-brand.visa{font-style:italic;font-size:20px}.pay-brand.mc{font-size:12px;letter-spacing:-.04em}.pay-brand.elo{font-size:18px}.pay-brand.amex{font-size:10px;line-height:1.05;text-align:center}.pay-brand.pix{font-size:13px}.payment-foot{margin-top:16px;padding-top:15px;border-top:1px solid #eee;font-size:10px;color:#999;line-height:1.6}.payment-foot b{color:#666}
+@media(max-width:850px){.payment-wrap{grid-template-columns:1fr;gap:24px}.payment-copy h2{font-size:30px}}
+/* Checkout: entrega própria / envio */
+.drawer-foot{display:flex;flex-direction:column;max-height:66vh}
+.cart-items{min-height:130px}
+.ship-scroll{overflow-y:auto;min-height:0;flex:0 1 auto;margin:0 -24px;padding:0 24px 2px}
+.custform{display:none;margin-top:2px}
+.custform.show{display:block}
+.custform label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#999;margin:12px 0 6px;font-weight:700}
+.custform label small{text-transform:none;letter-spacing:0;font-weight:500;color:#aaa}
+.custform input,.custform select{width:100%;border:1px solid var(--line);padding:12px;background:#fff;font-size:13px;outline:none;font-family:inherit;border-radius:0;color:var(--ink)}
+.custform input:focus,.custform select:focus{border-color:var(--wine)}
+.custform .row2{display:grid;grid-template-columns:104px 1fr;gap:10px}
+.envio-notice{display:none;background:var(--cream);border:1px solid var(--line);padding:12px 14px;font-size:12px;line-height:1.6;color:#5b4a4d;margin:10px 0 2px}
+.envio-notice.show{display:block}
+.envio-notice b{color:var(--wine)}
+.methodpick{display:none;gap:8px;margin:10px 0 2px}
+.methodpick.show{display:grid;grid-template-columns:1fr 1fr}
+.methodopt{display:flex;align-items:flex-start;gap:9px;text-align:left;border:1px solid var(--line);background:#fff;padding:11px 12px;cursor:pointer;font-family:inherit;color:var(--ink);border-radius:0}
+.methodopt .dot{width:16px;height:16px;border-radius:50%;border:2px solid #cfc7c0;flex-shrink:0;margin-top:1px;position:relative}
+.methodopt.on{border-color:var(--wine);background:var(--cream)}
+.methodopt.on .dot{border-color:var(--wine)}
+.methodopt.on .dot::after{content:"";position:absolute;inset:2px;border-radius:50%;background:var(--wine)}
+.methodopt b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.methodopt small{display:block;font-size:11px;color:#777;margin-top:3px}
+.swatches{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+.swatch{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;padding:7px 11px;font-size:12px;cursor:pointer;font-family:inherit;color:var(--ink);border-radius:0}
+.swatch i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(0,0,0,.25);display:inline-block;flex-shrink:0}
+.swatch.active{border-color:var(--wine);background:var(--cream)}
+.swatch:disabled{opacity:.4;cursor:not-allowed}
+.dots{display:flex;gap:5px;margin:0 0 10px}
+.dots i{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.25);display:inline-block}
+@media(max-width:560px){.custform input,.custform select,.shipfield select{font-size:16px}}
+
+.price2{font-size:12px;color:#777;margin:-10px 0 14px;line-height:1.5}.price small,.mprice small{font-weight:400;font-size:11px;color:#777;margin-left:4px}.mprice2{font-size:13px;color:#777;margin:-16px 0 20px}
+.paypick{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 2px}
+.pixbox{text-align:center}.pixbox h3{margin:0 0 6px}.pixbox .pixamount{font-size:22px;margin:4px 0 14px}#pixQr{display:flex;justify-content:center;margin:0 auto 14px;min-height:10px}#pixQr img,#pixQr canvas{max-width:100%}.pixcode{width:100%;box-sizing:border-box;height:84px;font-size:11px;font-family:monospace;border:1px solid var(--line);padding:8px;resize:none;color:#555;background:#faf9f7}.pixsteps{font-size:12px;color:#777;line-height:1.7;text-align:left;margin:14px 0}
+
+/* Celular: duas peças lado a lado */
+@media(max-width:560px){
+.grid{grid-template-columns:1fr 1fr;gap:12px}
+.info{padding:12px 10px 14px}
+.info h3{font-size:11px;letter-spacing:.05em;line-height:1.35;margin-bottom:4px}
+.desc{display:none}
+.tag{top:8px;left:8px;padding:5px 6px;font-size:8px;letter-spacing:.1em}
+.dots{margin:6px 0 4px}
+.price{font-size:14px;margin:8px 0 3px;white-space:normal;line-height:1.3}
+.price small{display:block;margin:1px 0 0;font-size:10px}
+.price2{font-size:11px;line-height:1.4;margin:0 0 12px}
+.product-actions{grid-template-columns:1fr 36px;gap:6px}
+.product-actions .btn{padding:10px 4px;font-size:9px;letter-spacing:.08em;line-height:1.3}
+.quick{font-size:16px}
+}
+@media(max-width:560px){
+.card{display:flex;flex-direction:column}.info{flex:1;display:flex;flex-direction:column}.product-actions{margin-top:auto}.price2{margin-bottom:12px}
+.price2 .sep{display:none}.price2 .inst{display:block}
+}
+
+/* Página de cada produto */
+.prodpage h3{font:400 38px "Playfair Display",serif;margin:0 0 8px}
+.prodpage .mprice{font-size:18px;margin-bottom:22px}
+@media(max-width:560px){.prodpage h3{font-size:32px}}
+.prodpage{position:fixed;inset:0;z-index:70;background:var(--paper);overflow-y:auto;-webkit-overflow-scrolling:touch;display:none}
+.prodpage.open{display:block}
+.pp-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top,0px)) 18px 10px;background:rgba(255,253,250,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.pp-back,.pp-cart{border:0;background:none;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ink);padding:10px 0;font-family:inherit}
+.pp-wrap{max-width:1080px;margin:0 auto;padding:24px 20px 70px}
+.prodpage .modalgrid img{width:100%;aspect-ratio:1/1.1;object-fit:cover;display:block}
+.related{margin-top:60px;padding-top:42px;border-top:1px solid var(--line)}
+.related h2{text-align:center;font-size:26px;margin:0 0 26px}
+.rel-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:12px;scrollbar-width:none}
+.rel-track::-webkit-scrollbar{display:none}
+.rel-item{flex:0 0 240px;scroll-snap-align:start;cursor:pointer;text-align:center}
+.rel-item .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.rel-item h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin:12px 0 4px}
+.rel-item .price,.rel-item .price2{text-align:center}
+.rel-buy{border:0;background:none;text-decoration:underline;text-underline-offset:4px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-family:inherit;margin-top:2px;padding:6px}
+@media(max-width:560px){.rel-item{flex-basis:62%}.related h2{font-size:22px}.pp-wrap{padding:16px 16px 60px}}
+</style>
+</head>
+<body>
+<div class="topbar">Envio para todo Sergipe • Atendimento pelo WhatsApp</div>
+<header><div class="container nav"><a class="logo" href="#">NARVIE</a><nav class="navlinks"><a href="#catalogo">Catálogo</a><a href="#como-funciona">Como funciona</a><a href="#atendimento">Atendimento</a></nav><div class="actions"><button class="iconbtn searchbtn" onclick="document.getElementById('search').focus()" aria-label="Buscar">⌕</button><button class="iconbtn" onclick="openCart()" aria-label="Carrinho">♧<span class="badge" id="cartCount">0</span></button></div></div></header>
+
+<div id="configWarning" class="config-warning">Configure o Supabase em <b>supabase-config.js</b> para carregar o catálogo publicado.</div>
+<section class="hero"><div class="hero-content"><div class="kicker">Moda feminina</div><h1>NARVIE</h1><div class="hero-sub">Para mulheres que deixam sua marca.</div><a class="btn white" href="#catalogo">Conhecer coleção</a></div></section>
+<section class="intro"><div class="container introgrid"><div><div class="eyebrow">Moda feminina online</div><h2>Seu estilo,<br>do seu jeito.</h2></div><p>Uma curadoria de peças femininas para quem gosta de vestir personalidade. Escolha sua favorita, selecione o tamanho e finalize sua compra pelo site. Em caso de dúvidas, pode entrar em contato pelo WhatsApp.</p></div></section>
+
+<section class="catalog" id="catalogo"><div class="container"><div class="catalog-head"><div><div class="eyebrow">Coleção Narvie</div><h2>Nossas Peças</h2><p>Escolha uma peça para ver detalhes, tamanhos e adicionar ao carrinho.</p></div><button class="btn wine" onclick="openCart()">Ver carrinho (<span id="cartCount2">0</span>)</button></div><input id="search" class="search" type="search" placeholder="Buscar por produto..."><div class="filters"><button class="filter active" data-filter="todos">Todos</button><button class="filter" data-filter="tshirt">T-shirts</button><button class="filter" data-filter="short">Shorts</button><button class="filter" data-filter="vestido">Vestidos</button><button class="filter" data-filter="blusa">Blusas</button></div><div id="grid" class="grid"><div class="loading">Carregando coleção…</div></div><div id="noresults" class="noresults">Nenhum produto encontrado.</div></div></section>
+
+<section class="how" id="como-funciona"><div class="container howgrid"><div><div class="eyebrow">Uma experiência simples</div><h2>Como funciona</h2><p style="color:#666;line-height:1.8">Monte seu carrinho, escolha os tamanhos e finalize o pagamento com segurança pela InfinitePay. O WhatsApp continua disponível para atendimento.</p></div><div class="steps"><div class="step"><div class="num">01</div><div><h3>Escolha suas peças</h3><p>Explore a coleção e abra cada produto para selecionar o tamanho.</p></div></div><div class="step"><div class="num">02</div><div><h3>Monte o carrinho</h3><p>Defina quantidade e confira o resumo antes de finalizar.</p></div></div><div class="step"><div class="num">03</div><div><h3>Finalize com segurança</h3><p>O site leva você direto para o checkout seguro da InfinitePay, com Pix ou cartão.</p></div></div><div class="step"><div class="num">04</div><div><h3>Receba a confirmação</h3><p>Depois do pagamento, você volta para a Narvie com o resumo da compra. Nosso WhatsApp fica disponível para atendimento.</p></div></div></div></div><div class="container brand"><img src="assets/brand.jpg" alt="Narvie"><div class="brandtext"><div><h2>NARVIE</h2><p>Obrigada por fazer parte dessa história.</p></div></div></div></section>
+
+
+<section class="payment-section" aria-label="Pagamento seguro"><div class="container payment-wrap"><div class="payment-copy"><div class="eyebrow">Pagamento NARVIE</div><h2>Compre com tranquilidade.</h2><p>Na hora de finalizar seu pedido, o pagamento pode ser processado com segurança pela InfinitePay. Uma experiência simples, elegante e segura do começo ao fim.</p><div class="secure-note"><span class="lockmark">⌁</span><span><b>Pagamento seguro</b><br>Checkout protegido pela InfinitePay.</span></div></div><div class="payment-box"><div class="payment-title">Formas de pagamento</div><div class="brand-row"><span class="pay-brand visa">VISA</span><span class="pay-brand mc">mastercard</span><span class="pay-brand elo">elo</span><span class="pay-brand amex">AMERICAN<br>EXPRESS</span><span class="pay-brand pix">◇ Pix</span></div><div class="payment-foot">Pagamento processado pela <b>InfinitePay</b>. As opções disponíveis podem variar conforme o checkout e o pedido.</div></div></div></section>
+<section class="contact" id="atendimento"><div class="container contactgrid"><div><div class="eyebrow">Atendimento</div><h2>Fale com a gente</h2><p>Ficou com alguma dúvida? Ajudamos com tamanhos, pedidos e entrega. Enviamos para todo Sergipe e algumas cidades da Bahia.</p><a class="btn wine" id="whatsContact" href="#" target="_blank">Falar no WhatsApp</a></div><div class="contactbox"><h3>Quer receber novidades?</h3><p style="font-size:13px;color:#777;line-height:1.6">Deixe seu nome e Instagram. A Narvie pode entrar em contato para avisar sobre novidades.</p><input placeholder="Seu nome"><input placeholder="@seuinstagram"><button class="btn full" onclick="alert('Cadastro recebido!')">Quero novidades</button></div></div></section>
+<footer><div class="container"><div class="footergrid"><div><div class="footerlogo">NARVIE</div><div class="social"><a href="#" aria-label="Instagram">◎</a><a id="whatsFooter" href="#" target="_blank" aria-label="WhatsApp">◔</a></div></div><div class="footertext">CURADORIA FEMININA<br>DETALHES QUE FAZEM A DIFERENÇA<br><br>Enviamos para todo Sergipe e algumas cidades da Bahia.</div></div><div class="copy">© 2026 Narvie. Todos os direitos reservados. <a href="maintenance.html" style="float:right;color:#aaa">Área administrativa</a></div></div></footer>
+<a class="whatsapp" id="whatsFloat" href="#" target="_blank" aria-label="WhatsApp">☎</a>
+
+<div class="modal-back" id="pixBack"><div class="modal pixbox"><button class="close" onclick="closePix()" style="position:absolute;right:14px;top:10px">×</button><div class="eyebrow">Narvie</div><h3>Pague com Pix</h3><div class="pixamount" id="pixAmount"></div><div id="pixQr"></div><textarea class="pixcode" id="pixCode" readonly></textarea><button class="btn wine full" style="margin-top:10px" onclick="copyPix()" id="pixCopyBtn">Copiar código Pix</button><div class="pixsteps"><b>Como pagar:</b><br>1. Abra o app do seu banco e escolha Pix.<br>2. Escaneie o QR Code ou use “Pix copia e cola”.<br>3. Confira o valor e pague.<br>4. Envie o comprovante pra gente no WhatsApp para confirmarmos seu pedido.</div><button class="btn full" onclick="sendProof()" style="background:#25d366;color:#fff;border:0">Enviar comprovante no WhatsApp</button></div></div>
+<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="ship-scroll"><div class="shipfield"><label for="citySelect">Cidade de entrega</label><select id="citySelect" onchange="onCityChange()"><option value="">Selecione sua cidade</option><optgroup label="Entrega própria" id="localCitiesGroup"></optgroup><optgroup label="Envio por transporte / rodoviária" id="neighborCitiesGroup"></optgroup><option value="__outra__">Outra cidade</option></select><div class="methodpick" id="methodPick"><button type="button" class="methodopt on" id="mEntrega" onclick="setMethod('entrega')"><span class="dot"></span><span><b id="mEntregaTitle">Entrega</b><small id="mEntregaPrice"></small></span></button><button type="button" class="methodopt" id="mRetirada" onclick="setMethod('retirada')"><span class="dot"></span><span><b>Retirar pessoalmente</b><small>Sem frete</small></span></button></div><div class="shipcard" id="shipCard"><div class="radio"></div><div class="content"><h4 id="shipCardTitle"></h4><p id="shipCardDesc"></p></div><div class="price" id="shipCardPrice"></div></div><div class="envio-notice" id="envioNotice"><b>Como funciona o envio:</b> nessa cidade o pedido é enviado por transporte/rodoviária e deve ser retirado no local de chegada combinado. Falamos com você pelo WhatsApp para combinar os detalhes.</div><div class="envio-notice" id="pickupNotice"><b>Retirada pessoalmente:</b> sem frete. Depois do pagamento, falamos com você pelo WhatsApp para combinar o local e o horário da retirada.</div><div class="custform" id="customerFields"><label for="custName">Nome completo</label><input id="custName" type="text" autocomplete="name" placeholder="Seu nome completo"><label for="custWhats">WhatsApp</label><input id="custWhats" type="tel" inputmode="tel" autocomplete="tel" placeholder="(79) 99999-9999"></div><div class="custform" id="localFields"><label for="nbSelect">Bairro</label><select id="nbSelect" onchange="onNeighborhoodChange()"></select><label for="addrStreet">Rua / Avenida</label><input id="addrStreet" type="text" autocomplete="address-line1" placeholder="Ex.: Rua das Flores"><div class="row2"><div><label for="addrNumber">Número</label><input id="addrNumber" type="text" autocomplete="off" placeholder="Ex.: 120"></div><div><label for="addrComplement">Complemento <small>(opcional)</small></label><input id="addrComplement" type="text" autocomplete="address-line2" placeholder="Apto, bloco..."></div></div><label for="addrRef">Ponto de referência <small>(opcional)</small></label><input id="addrRef" type="text" autocomplete="off" placeholder="Ex.: perto da praça"></div></div></div><div class="paypick" id="payPick"><button type="button" class="methodopt on" id="payPix" onclick="setPay('pix')"><span class="dot"></span><span><b>Pix</b><small id="payPixTotal"></small></span></button><button type="button" class="methodopt" id="payCard" onclick="setPay('cartao')"><span class="dot"></span><span><b>Cartão</b><small id="payCardTotal"></small></span></button></div><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note" id="payNote"></div><button class="btn wine full" id="checkoutBtn" onclick="checkout()">Finalizar compra</button></div></aside>
+<div class="prodpage" id="prodPage"><div class="pp-bar"><button class="pp-back" onclick="closeModal()" aria-label="Voltar para a coleção">← Voltar</button><div class="logo" style="font-size:20px">NARVIE</div><button class="pp-cart" onclick="openCart()" aria-label="Abrir carrinho">Carrinho (<span id="cartCount3">0</span>)</button></div><div class="pp-wrap"><div id="modalContent"></div><section class="related" id="relatedBox"></section></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+const WHATSAPP_NUMBER="5579998018722"; // Número da Narvie em formato internacional
+const money=v=>Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+let sb=null, products=[], cart=JSON.parse(localStorage.getItem("narvieCart")||"[]"), activeFilter="todos",searchTerm="";
+// Frete: as cidades, bairros e valores vêm do banco (tabelas shipping_cities e
+// shipping_neighborhoods), editados pelo painel. Nada de valor fixo no código.
+let shipCities=[], selectedCity="", selectedNeighborhood="", deliveryMethod="entrega"; // "entrega" (paga o frete) ou "retirada" (sem frete)
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const byName=(a,b)=>a.name.localeCompare(b.name,"pt-BR");
+const numOrNull=v=>(v===null||v===undefined||v==="")?null:Number(v);
+function normalizeCity(s){return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g," ").trim().toLowerCase()}
+function findCity(name){const n=normalizeCity(name);return shipCities.find(c=>normalizeCity(c.name)===n)||null}
+// Bairro sem valor próprio usa o valor padrão da cidade; sem nenhum dos dois, não é vendável.
+function neighborhoodFee(city,nb){const f=numOrNull(nb.fee);return f!==null?f:numOrNull(city.fee)}
+function sellableNeighborhoods(city){return(city.neighborhoods||[]).filter(n=>neighborhoodFee(city,n)!==null)}
+function cityAvailable(c){return c.kind==="entrega_propria"?sellableNeighborhoods(c).length>0:numOrNull(c.fee)!==null}
+// "local" = entrega própria, "neighbor" = envio por transporte, "other" = combinar no WhatsApp
+function cityStatus(city){if(!city)return "none";if(city==="__outra__")return "other";const c=findCity(city);if(!c||!cityAvailable(c))return "other";return c.kind==="entrega_propria"?"local":"neighbor"}
+// Retirada pessoalmente: só vale para cidades com entrega/envio disponível (as que mostram o frete).
+function isPickup(){return deliveryMethod==="retirada"&&["local","neighbor"].includes(cityStatus(selectedCity))}
+function currentFee(){if(isPickup())return 0;return deliveryFee()}
+function deliveryFee(){const c=findCity(selectedCity);if(!c)return null;if(c.kind==="entrega_propria"){const nb=(c.neighborhoods||[]).find(n=>normalizeCity(n.name)===normalizeCity(selectedNeighborhood));return nb?neighborhoodFee(c,nb):null}return numOrNull(c.fee)}
+function populateCitySelect(){
+  const localGroup=document.getElementById("localCitiesGroup"),neighborGroup=document.getElementById("neighborCitiesGroup");
+  const ok=shipCities.filter(cityAvailable);
+  const opt=c=>`<option value="${esc(c.name)}">${esc(c.name)}</option>`;
+  localGroup.innerHTML=ok.filter(c=>c.kind==="entrega_propria").sort(byName).map(opt).join("");
+  neighborGroup.innerHTML=ok.filter(c=>c.kind==="envio").sort(byName).map(opt).join("");
+  localGroup.style.display=localGroup.children.length?"":"none";
+  neighborGroup.style.display=neighborGroup.children.length?"":"none";
+}
+function populateNeighborhoodSelect(){
+  const c=findCity(selectedCity),sel=document.getElementById("nbSelect");
+  const list=c?sellableNeighborhoods(c).sort(byName):[];
+  sel.innerHTML='<option value="">Selecione o bairro</option>'+list.map(n=>`<option value="${esc(n.name)}">${esc(n.name)}</option>`).join("");
+  selectedNeighborhood="";
+}
+function setMethod(m){deliveryMethod=m==="retirada"?"retirada":"entrega";updateShipUI()}
+function updateMethodPick(status){
+  const box=document.getElementById("methodPick"),ok=status==="local"||status==="neighbor";
+  box.classList.toggle("show",ok);
+  if(!ok)return;
+  const fee=deliveryFee();
+  document.getElementById("mEntregaTitle").textContent=status==="local"?"Entrega":"Envio";
+  document.getElementById("mEntregaPrice").textContent=fee===null?"Valor por bairro":(fee>0?money(fee):"Grátis");
+  document.getElementById("mEntrega").classList.toggle("on",deliveryMethod!=="retirada");
+  document.getElementById("mRetirada").classList.toggle("on",deliveryMethod==="retirada");
+}
+function onCityChange(){selectedCity=document.getElementById("citySelect").value;populateNeighborhoodSelect();updateShipUI()}
+function onNeighborhoodChange(){selectedNeighborhood=document.getElementById("nbSelect").value;updateShipUI()}
+function formatWhats(v){const d=String(v||"").replace(/\D/g,"").slice(0,11);if(d.length<=2)return d?`(${d}`:"";if(d.length<=6)return`(${d.slice(0,2)}) ${d.slice(2)}`;if(d.length<=10)return`(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;return`(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`}
+function updateShipUI(){
+  const card=document.getElementById("shipCard"),title=document.getElementById("shipCardTitle"),desc=document.getElementById("shipCardDesc"),price=document.getElementById("shipCardPrice"),btn=document.getElementById("checkoutBtn");
+  const status=cityStatus(selectedCity);
+  const customer=document.getElementById("customerFields"),localF=document.getElementById("localFields"),notice=document.getElementById("envioNotice");
+  card.className="shipcard";
+  customer.classList.toggle("show",status==="local"||status==="neighbor");
+  const pickup=isPickup();
+  localF.classList.toggle("show",status==="local"&&!pickup);
+  notice.classList.toggle("show",status==="neighbor"&&!pickup);
+  document.getElementById("pickupNotice").classList.toggle("show",pickup);
+  updateMethodPick(status);
+  if(!selectedCity){card.classList.remove("show");btn.textContent="Finalizar compra";renderCart();return}
+  card.classList.add("show");
+  if(status==="local"||status==="neighbor"){
+    const fee=currentFee();
+    if(pickup){
+      title.textContent="Retirada pessoalmente";
+      desc.textContent="Sem frete: você retira o pedido pessoalmente.";
+    }else if(status==="local"){
+      title.textContent=`Entrega própria — ${selectedCity}`;
+      desc.textContent=selectedNeighborhood?`Bairro: ${selectedNeighborhood}`:"Selecione o bairro para ver o valor da entrega.";
+    }else{
+      title.textContent=`Envio — ${selectedCity}`;
+      desc.textContent="Enviado por transporte/rodoviária, com retirada no local de chegada combinado.";
+    }
+    price.textContent=fee===null?"—":(fee>0?money(fee):"Grátis");
+    btn.textContent="Finalizar compra";
+  }else{
+    card.classList.add("block");
+    title.textContent="Ainda não entregamos automaticamente aqui";
+    desc.textContent="Fale com a gente no WhatsApp para verificar entrega para essa cidade.";
+    price.textContent="";
+    btn.textContent="Perguntar no WhatsApp";
+  }
+  renderCart();
+}
+
+function whatsUrl(text=""){return WHATSAPP_NUMBER ? "https://wa.me/"+WHATSAPP_NUMBER+(text?"?text="+encodeURIComponent(text):""):"#"}
+["whatsContact","whatsFooter","whatsFloat"].forEach(id=>document.getElementById(id).href=whatsUrl());
+
+async function init(){
+  const url=window.NARVIE_SUPABASE_URL, key=window.NARVIE_SUPABASE_ANON_KEY;
+  if(!url||!key||url.includes("COLE_AQUI")||key.includes("COLE_AQUI")){
+    document.getElementById("configWarning").style.display="block";
+    products=[
+      {id:"demo1",name:"Tee Sardines",price:40,image:"assets/sardines.jpg",type:"tshirt",category:"estampa",description:"Estampa exclusiva inspirada no universo Sardines.",stock:{P:8,M:8,G:8,GG:8}},
+      {id:"demo2",name:"Tee Colcci",price:40,image:"assets/colcci.jpg",type:"tshirt",category:"classica",description:"Modelo urbano e versátil para compor looks leves.",stock:{P:8,M:8,G:8,GG:8}},
+      {id:"demo3",name:"T-shirt Fresh Sardines",price:40,image:"assets/fresh.jpg",type:"tshirt",category:"estampa",description:"Estampa Fresh Sardines com personalidade e cor.",stock:{P:8,M:8,G:8,GG:8}}
+    ];
+    shipCities=[
+      {id:"d1",name:"Nossa Senhora da Glória",kind:"entrega_propria",fee:null,neighborhoods:[{id:"b1",name:"Centro",fee:5},{id:"b2",name:"Bairro Exemplo",fee:7}]},
+      {id:"d2",name:"Aracaju",kind:"envio",fee:18,neighborhoods:[]}
+    ];
+    populateCitySelect();
+    renderProducts(); save(); return;
+  }
+  sb=window.supabase.createClient(url,key);
+  const {data,error}=await sb.from("products").select("*").eq("status","published").order("created_at",{ascending:false});
+  if(error){console.error(error);document.getElementById("grid").innerHTML='<div class="loading">Não foi possível carregar a coleção.</div>';return}
+  products=(data||[]).map(p=>({...p,image:p.image_path?url+"/storage/v1/object/public/product-images/"+p.image_path:""}));
+  try{
+    const {data:rows,error:shipError}=await sb.from("shipping_cities").select("id,name,kind,fee,shipping_neighborhoods(id,name,fee)").order("name");
+    if(shipError)throw shipError;
+    shipCities=(rows||[]).map(c=>({id:c.id,name:c.name,kind:c.kind,fee:c.fee,neighborhoods:(c.shipping_neighborhoods||[]).slice().sort(byName)}));
+  }catch(e){console.error("Não foi possível carregar o frete:",e)}
+  populateCitySelect();
+  renderProducts(); save();
+}
+function save(){localStorage.setItem("narvieCart",JSON.stringify(cart));renderCart();document.getElementById("cartCount").textContent=cart.reduce((s,i)=>s+i.qty,0);document.getElementById("cartCount2").textContent=cart.reduce((s,i)=>s+i.qty,0);const c3=document.getElementById("cartCount3");if(c3)c3.textContent=cart.reduce((s,i)=>s+i.qty,0)}
+function renderProducts(){
+ const grid=document.getElementById("grid");
+ const list=products.filter(p=>(activeFilter==="todos"||activeFilter===(p.type||"tshirt"))&&p.name.toLowerCase().includes(searchTerm.toLowerCase()));
+ document.getElementById("noresults").style.display=list.length?"none":"block";
+ grid.innerHTML=list.map(p=>`<article class="card"><span class="tag">${p.category==="estampa"?"Estampa exclusiva":"Essencial"}</span><div class="pic"><img src="${p.image}" alt="${p.name}"></div><div class="info"><h3>${p.name}</h3><div class="desc">${p.description||""}</div>${cardDots(p)}${priceBlock(p,"price")}<div class="product-actions"><button class="btn wine" onclick="openProduct('${p.id}')">${isColored(p)?"Escolher cor e tamanho":"Escolher tamanho"}</button><button class="quick" onclick="quickAdd('${p.id}')">+</button></div></div></article>`).join("") || "";
+}
+let payMethod="pix";
+const MAX_INSTALLMENTS=3;
+function cardPriceOf(p){const c=Number(p&&p.price_card);return c>0?c:Number(p.price)}
+function unitPrice(p){return payMethod==="cartao"?cardPriceOf(p):Number(p.price)}
+function priceBlock(p,cls){const card=cardPriceOf(p);return `<div class="${cls}">${money(p.price)}<small>à vista no Pix</small></div><div class="${cls==="mprice"?"mprice2":"price2"}">${money(card)} no cartão<span class="sep"> · </span><span class="inst">até ${MAX_INSTALLMENTS}x de ${money(card/MAX_INSTALLMENTS)}</span></div>`}
+const SIZE_ORDER=["PP","P","M","G","GG","U"];
+function sortSizes(keys){return keys.slice().sort((a,b)=>{const ia=SIZE_ORDER.indexOf(a),ib=SIZE_ORDER.indexOf(b);if(ia===-1&&ib===-1)return a.localeCompare(b);if(ia===-1)return 1;if(ib===-1)return -1;return ia-ib})}
+// Peça com cores: stock = {"Preto":{"P":3,"M":2},"Branco":{...}}. Peça sem cores: stock = {"P":3,"M":2}.
+function isColored(p){return Object.values((p&&p.stock)||{}).some(v=>v&&typeof v==="object")}
+function safeHex(h){return /^#[0-9a-f]{3,8}$/i.test(String(h||""))?h:"#cccccc"}
+function colorsOf(p){
+  if(!isColored(p))return [];
+  const names=Object.keys(p.stock),meta=Array.isArray(p.colors)?p.colors:[];
+  const known=meta.filter(c=>c&&names.includes(c.name));
+  const extra=names.filter(n=>!known.some(c=>c.name===n)).map(n=>({name:n,hex:"#cccccc"}));
+  return known.concat(extra).map(c=>({name:c.name,hex:safeHex(c.hex)}));
+}
+function stockOf(p,color){const st=(p&&p.stock)||{};return isColored(p)?(st[color]||{}):st}
+function sizesOf(p,color){return sortSizes(Object.keys(stockOf(p,color)))}
+function colorTotal(p,color){return Object.values(stockOf(p,color)).reduce((a,b)=>a+Number(b||0),0)}
+function cardDots(p){const cs=colorsOf(p);return cs.length?`<div class="dots">${cs.map(c=>`<i title="${esc(c.name)}" style="background:${c.hex}"></i>`).join("")}</div>`:""}
+function stockFor(p,size,color){return Number(stockOf(p,color)[size]||0)}
+function qtyInCart(id,size,color){return cart.filter(x=>String(x.id)===String(id)&&x.size===size&&(x.color||"")===(color||"")).reduce((s,x)=>s+x.qty,0)}
+function openProduct(id){
+ const p=products.find(x=>String(x.id)===String(id)); if(!p)return;
+ const lbl='style="font-size:11px;letter-spacing:.15em;text-transform:uppercase"';
+ const colorsHtml=isColored(p)?`<strong ${lbl}>Escolha a cor</strong><div class="swatches">${colorsOf(p).map(c=>{const out=colorTotal(p,c.name)<=0;return `<button type="button" class="swatch" ${out?"disabled":""} data-color="${esc(c.name)}" onclick="selectColor(this)"><i style="background:${c.hex}"></i><span>${esc(c.name)}${out?" · Esgotado":""}</span></button>`}).join("")}</div>`:"";
+ document.getElementById("modalContent").innerHTML=`<div class="modalgrid"><img src="${p.image}" alt="${p.name}"><div><div class="eyebrow">Narvie</div><h3>${p.name}</h3>${priceBlock(p,"mprice")}<p style="color:#777;line-height:1.7;font-size:14px">${p.description||""}</p>${colorsHtml}<strong ${lbl}>Escolha o tamanho</strong><div class="sizes" id="sizesBox"></div><div class="quantity"><span>Quantidade</span><button onclick="changeModalQty(-1)">−</button><b id="modalQty">1</b><button onclick="changeModalQty(1)">+</button></div><button class="btn wine full" onclick="addFromModal('${p.id}')">Adicionar ao carrinho</button></div></div>`;
+ window.modalProduct=id;window.modalSize=null;window.modalColor=null;window.modalQty=1;
+ renderSizes();
+ document.getElementById("relatedBox").innerHTML=relatedHtml(p);
+ // Cada peça tem a sua própria página (endereço #produto-ID), com botão voltar do celular funcionando.
+ if(productIdFromHash()!==String(id)){const d=((history.state&&history.state.nd)||0)+1;history.pushState({nd:d},"","#produto-"+encodeURIComponent(id))}
+ if(!window.baseTitle)window.baseTitle=document.title;
+ document.title=p.name+" | Narvie";
+ const pg=document.getElementById("prodPage");pg.classList.add("open");pg.scrollTop=0;document.body.style.overflow="hidden";
+}
+function productIdFromHash(){const m=location.hash.match(/^#produto-(.+)$/);return m?decodeURIComponent(m[1]):null}
+function relatedHtml(p){
+ const t=x=>x.type||"tshirt";
+ const others=products.filter(x=>String(x.id)!==String(p.id));
+ const list=others.filter(x=>t(x)===t(p)).slice(0,8); // só peças do mesmo tipo (short mostra short)
+ if(!list.length)return"";
+ return `<h2>Produtos relacionados</h2><div class="rel-track">${list.map(x=>`<article class="rel-item" onclick="openProduct('${x.id}')"><div class="pic"><img src="${x.image}" alt="${esc(x.name)}" loading="lazy"></div><h4>${esc(x.name)}</h4>${priceBlock(x,"price")}<button class="rel-buy" type="button">Ver peça</button></article>`).join("")}</div>`;
+}
+function hideProduct(){document.getElementById("prodPage").classList.remove("open");document.body.style.overflow="";if(window.baseTitle)document.title=window.baseTitle}
+function syncRoute(){const id=productIdFromHash();if(id&&products.some(x=>String(x.id)===id)){if(String(window.modalProduct)!==id||!document.getElementById("prodPage").classList.contains("open"))openProduct(id)}else hideProduct()}
+window.addEventListener("popstate",syncRoute);
+function renderSizes(){
+ const p=products.find(x=>String(x.id)===String(window.modalProduct)),box=document.getElementById("sizesBox");
+ if(!p||!box)return;
+ if(isColored(p)&&!window.modalColor){box.innerHTML='<span style="font-size:12px;color:#999">Escolha uma cor para ver os tamanhos.</span>';return}
+ const sizes=sizesOf(p,window.modalColor);
+ box.innerHTML=sizes.map(sz=>{const left=stockFor(p,sz,window.modalColor);return `<button class="size" ${left<=0?'disabled style="opacity:.35;cursor:not-allowed"':""} onclick="selectSize(this,'${sz}')">${sz}${left<=0?" · Esgotado":""}</button>`}).join("")||'<span style="font-size:12px;color:#999">Sem tamanhos cadastrados</span>';
+}
+function selectColor(el){document.querySelectorAll(".swatch").forEach(x=>x.classList.remove("active"));el.classList.add("active");window.modalColor=el.dataset.color;window.modalSize=null;window.modalQty=1;document.getElementById("modalQty").textContent=1;renderSizes()}
+function selectSize(el,size){document.querySelectorAll(".size").forEach(x=>x.classList.remove("active"));el.classList.add("active");window.modalSize=size;window.modalQty=1;document.getElementById("modalQty").textContent=1}
+function changeModalQty(n){const p=products.find(x=>String(x.id)===String(window.modalProduct));const max=window.modalSize&&p?Math.max(0,stockFor(p,window.modalSize,window.modalColor)-qtyInCart(p.id,window.modalSize,window.modalColor)):99;window.modalQty=Math.min(max||1,Math.max(1,window.modalQty+n));document.getElementById("modalQty").textContent=window.modalQty}
+function addFromModal(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;if(isColored(p)&&!window.modalColor){alert("Escolha uma cor.");return}if(!window.modalSize){alert("Escolha um tamanho.");return}const color=isColored(p)?window.modalColor:"";const left=stockFor(p,window.modalSize,color)-qtyInCart(id,window.modalSize,color);if(left<=0){alert("Esse tamanho está esgotado.");return}addToCart(id,window.modalSize,Math.min(window.modalQty,left),color);openCart()}
+function quickAdd(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;if(isColored(p)){openProduct(id);return}const size=sizesOf(p).find(sz=>stockFor(p,sz)-qtyInCart(id,sz)>0);if(!size){alert("Essa peça está esgotada no momento.");return}addToCart(id,size,1);openCart()}
+function addToCart(id,size,qty,color=""){const p=products.find(x=>String(x.id)===String(id));const max=p?stockFor(p,size,color):qty;const already=qtyInCart(id,size,color);const room=Math.max(0,max-already);const add=Math.min(qty,room);if(add<=0)return;const found=cart.find(x=>String(x.id)===String(id)&&x.size===size&&(x.color||"")===color);if(found)found.qty+=add;else cart.push({id,size,color,qty:add});save()}
+function renderCart(){
+  const box=document.getElementById("cartItems");
+  if(!cart.length){box.innerHTML='<div class="empty">Seu carrinho está vazio.<br><br>Escolha uma peça da coleção para começar.</div>';document.getElementById("total").textContent=money(0);updatePayUI(0);return}
+  let total=0;
+  const rows=cart.map((item,index)=>{const p=products.find(x=>String(x.id)===String(item.id));if(!p)return "";total+=unitPrice(p)*item.qty;return `<div class="cartitem"><img src="${p.image}" alt="${p.name}"><div><h4>${p.name}</h4><p>${item.color?`Cor: <b>${esc(item.color)}</b><br>`:""}Tamanho: <b>${item.size}</b><br>${money(unitPrice(p))}</p><div class="qty"><button onclick="cartQty(${index},-1)">−</button><span>${item.qty}</span><button onclick="cartQty(${index},1)">+</button></div><button class="remove" onclick="removeItem(${index})">Remover</button></div><strong>${money(unitPrice(p)*item.qty)}</strong></div>`}).join("");
+  let freightRow="";
+  const status=cityStatus(selectedCity);
+  if(status==="local"||status==="neighbor"){const fee=currentFee();if(fee!==null&&fee>0){total+=fee;const label=status==="local"?`Entrega em ${esc(selectedNeighborhood)}, ${esc(selectedCity)}`:`Envio para ${esc(selectedCity)}`;freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>${status==="local"?"Entrega":"Envio"}</h4><p>${label}</p></div><strong>${money(fee)}</strong></div>`}else if(isPickup()){freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>Retirada</h4><p>Retirada pessoalmente</p></div><strong>Grátis</strong></div>`}}
+  box.innerHTML=rows+freightRow;
+  document.getElementById("total").textContent=money(total);
+  updatePayUI(total);
+}
+// Mostra no seletor quanto fica o total em cada forma de pagamento.
+function updatePayUI(totalNow){
+  let fee=0;const status=cityStatus(selectedCity);
+  if(status==="local"||status==="neighbor"){const f=currentFee();if(f!==null&&f>0)fee=f}
+  let pix=fee,card=fee;
+  cart.forEach(i=>{const p=products.find(x=>String(x.id)===String(i.id));if(!p)return;pix+=Number(p.price)*i.qty;card+=cardPriceOf(p)*i.qty});
+  document.getElementById("payPixTotal").textContent=money(pix);
+  document.getElementById("payCardTotal").textContent=money(card)+" · até "+MAX_INSTALLMENTS+"x de "+money(card/MAX_INSTALLMENTS);
+  document.getElementById("payPix").classList.toggle("on",payMethod==="pix");
+  document.getElementById("payCard").classList.toggle("on",payMethod==="cartao");
+  document.getElementById("payNote").textContent=payMethod==="pix"?"Pix: você paga pelo QR Code e confirmamos seu pedido pelo WhatsApp.":"Cartão em até "+MAX_INSTALLMENTS+"x, com pagamento seguro pela InfinitePay.";
+  const btn=document.getElementById("checkoutBtn");if(btn&&!btn.disabled)btn.textContent=payMethod==="pix"?"Gerar Pix":"Pagar com cartão";
+}
+function setPay(m){payMethod=m==="cartao"?"cartao":"pix";renderCart()}
+// ----- Pix -----
+let lastPix=null;
+function loadQrLib(){return new Promise((ok,no)=>{if(window.QRCode)return ok();const sc=document.createElement("script");sc.src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)})}
+async function showPix(pix,nsu,name){
+  lastPix={payload:pix.payload,amount:pix.amount,nsu,name};
+  document.getElementById("pixAmount").textContent=money(pix.amount);
+  document.getElementById("pixCode").value=pix.payload;
+  const box=document.getElementById("pixQr");box.innerHTML="";
+  document.getElementById("pixBack").classList.add("open");
+  try{await loadQrLib();new QRCode(box,{text:pix.payload,width:220,height:220,correctLevel:QRCode.CorrectLevel.M})}catch(e){console.error(e);box.innerHTML='<small style="color:#999">Use o código “copia e cola” abaixo.</small>'}
+}
+function closePix(){document.getElementById("pixBack").classList.remove("open")}
+async function copyPix(){const t=document.getElementById("pixCode");try{await navigator.clipboard.writeText(t.value)}catch(e){t.select();document.execCommand("copy")}const b=document.getElementById("pixCopyBtn");b.textContent="Código copiado!";setTimeout(()=>b.textContent="Copiar código Pix",2200)}
+function sendProof(){if(!lastPix)return;window.open(whatsUrl(`Olá! Acabei de pagar meu pedido na NARVIE por Pix.\n\nPedido: ${lastPix.nsu}\nNome: ${lastPix.name}\nValor: ${money(lastPix.amount)}\n\nSegue o comprovante:`),"_blank")}
+function cartQty(i,n){const item=cart[i];if(n>0){const p=products.find(x=>String(x.id)===String(item.id));const max=p?stockFor(p,item.size,item.color||""):999;if(item.qty+n>max)return}item.qty+=n;if(item.qty<=0)cart.splice(i,1);save()}function removeItem(i){cart.splice(i,1);save()}function openCart(){renderCart();document.getElementById("drawer").classList.add("open");document.getElementById("back").classList.add("open")}function closeCart(){document.getElementById("drawer").classList.remove("open");document.getElementById("back").classList.remove("open")}function closeModal(){const d=(history.state&&history.state.nd)||0;if(productIdFromHash()&&d>0){history.go(-d)}else{if(productIdFromHash())history.replaceState(null,"",location.pathname+location.search);hideProduct()}}
+function validWhats(v){let d=String(v||"").replace(/\D/g,"");if((d.length===12||d.length===13)&&d.startsWith("55"))d=d.slice(2);return(d.length===10||d.length===11)&&Number(d.slice(0,2))>=11}
+// Lê e valida o formulário da cidade escolhida. Devolve null (e avisa) se algo faltar.
+function readDeliveryForm(status){
+  const val=id=>document.getElementById(id).value.trim();
+  const fail=(msg,id)=>{alert(msg);const el=document.getElementById(id);if(el)el.focus();return null};
+  const name=val("custName");
+  if(!/\S{2,}\s+\S{2,}/.test(name))return fail("Informe seu nome completo.","custName");
+  const whats=val("custWhats");
+  if(!validWhats(whats))return fail("Informe um WhatsApp válido, com DDD.","custWhats");
+  const data={customer_name:name,customer_whatsapp:whats};
+  if(status==="local"){
+    if(!selectedNeighborhood)return fail("Selecione o bairro.","nbSelect");
+    if(!val("addrStreet"))return fail("Informe a rua ou avenida.","addrStreet");
+    if(!val("addrNumber"))return fail('Informe o número (ou "s/n").',"addrNumber");
+    Object.assign(data,{neighborhood:selectedNeighborhood,street:val("addrStreet"),house_number:val("addrNumber"),complement:val("addrComplement"),reference:val("addrRef")});
+  }
+  if(currentFee()===null){alert("Não foi possível calcular a entrega. Escolha a cidade novamente ou fale com a gente no WhatsApp.");return null}
+  return data;
+}
+async function checkout(){
+  if(!cart.length){alert("Seu carrinho está vazio.");return}
+  if(!selectedCity){alert("Selecione a cidade de entrega.");return}
+  const items=cart.map(i=>{
+    const p=products.find(x=>String(x.id)===String(i.id));
+    if(!p)return null;
+    return {id:i.id,size:i.size,color:i.color||"",quantity:Number(i.qty)||1};
+  }).filter(Boolean);
+  if(!items.length){alert("Não foi possível montar seu pedido.");return}
+  const status=cityStatus(selectedCity);
+  const cityLabel=selectedCity==="__outra__"?"Outra cidade (fora da nossa área de entrega automática)":selectedCity;
+  const btn=document.getElementById("checkoutBtn");
+  const oldText=btn.textContent;
+
+  if(status==="local"||status==="neighbor"){
+    const pickup=isPickup();
+    const delivery=readDeliveryForm(pickup?"retirada":status);
+    if(!delivery)return;
+    btn.disabled=true;btn.textContent=payMethod==="pix"?"Gerando Pix…":"Abrindo pagamento…";
+    try{
+      const order_nsu=`narvie-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+      const response=await fetch('/api/create-checkout',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({items,order_nsu,city:cityLabel,...delivery,delivery_method:pickup?"retirada":"entrega",payment_method:payMethod})
+      });
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok||(!data.url&&!data.pix))throw new Error(data.error||'Não foi possível abrir o pagamento.');
+      if(data.pix){
+        // Pix: o pedido já ficou registrado como "aguardando pagamento". Limpa o carrinho e mostra o QR Code.
+        cart=[];save();closeCart();
+        btn.disabled=false;btn.textContent=oldText;
+        await showPix(data.pix,order_nsu,delivery.customer_name);
+        return;
+      }
+      localStorage.setItem('narvieLastOrder',JSON.stringify({order_nsu,items,city:cityLabel,createdAt:new Date().toISOString()}));
+      window.location.href=data.url;
+    }catch(error){
+      console.error(error);
+      alert(error.message||'Não foi possível abrir o pagamento. Tente novamente.');
+      btn.disabled=false;btn.textContent=oldText;
+    }
+    return;
+  }
+
+  // Cidade fora das duas listas: combina no WhatsApp.
+  btn.disabled=true;
+  try{
+    const order_nsu=`narvie-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+    fetch('/api/register-order',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({items,order_nsu,city:cityLabel,delivery_type:status})
+    }).catch(()=>{});
+    const lines=cart.map(item=>{const p=products.find(x=>String(x.id)===String(item.id));return p?`• ${p.name} (${item.color?item.color+', ':''}tam. ${item.size}) x${item.qty}`:''}).filter(Boolean).join('\n');
+    const msg=`Olá! Quero fazer um pedido na NARVIE:\n\n${lines}\n\nCidade de entrega: ${cityLabel}\nPedido: ${order_nsu}\n\nPodem me passar o valor do frete?`;
+    window.open(whatsUrl(msg),'_blank');
+  }finally{
+    btn.disabled=false;btn.textContent=oldText;
+  }
+}
+document.getElementById("custWhats").addEventListener("input",e=>{e.target.value=formatWhats(e.target.value)});
+document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");activeFilter=b.dataset.filter;renderProducts()}));
+document.getElementById("search").addEventListener("input",e=>{searchTerm=e.target.value;renderProducts()});
+init().then(syncRoute);
+</script>
+</body>
+</html>

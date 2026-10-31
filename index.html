@@ -25,7 +25,7 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 .modal-back{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}.modal-back.open{display:flex}.modal{background:#fff;width:min(700px,100%);max-height:90vh;overflow:auto;padding:30px}.modalgrid{display:grid;grid-template-columns:1fr 1fr;gap:30px}.modal img{width:100%;aspect-ratio:1/1.1;object-fit:cover}.modal h3{font:400 38px "Playfair Display",serif;margin:0 0 8px}.modal .mprice{font-size:18px;margin-bottom:22px}.sizes{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 22px}.size{min-width:48px;height:40px;border:1px solid var(--line);background:#fff}.size.active{background:var(--wine);color:#fff;border-color:var(--wine)}.quantity{display:flex;align-items:center;gap:14px;margin-bottom:22px}.quantity button{width:38px;height:38px;border:1px solid var(--line);background:#fff}.modal-close{float:right;border:0;background:none;font-size:24px}
 .loading{text-align:center;padding:50px 0;color:#777}.config-warning{display:none;background:#fff6e7;border:1px solid #ecd9ae;padding:14px;margin:20px auto;max-width:1180px;font-size:12px;color:#725c30}
 @media(max-width:850px){.navlinks{display:none}.menu{display:block;font-size:23px}.nav{height:70px}.actions .searchbtn{display:none}.hero{min-height:570px}.introgrid,.howgrid,.contactgrid,.modalgrid{grid-template-columns:1fr;gap:35px}.grid{grid-template-columns:1fr 1fr}.catalog,.how,.contact{padding:72px 0}.catalog-head{display:block}.catalog-head .btn{margin-top:20px}.footergrid{display:block}.footertext{text-align:left;margin-top:22px}}
-@media(max-width:560px){.grid{grid-template-columns:1fr}.logo{font-size:22px}.hero h1{font-size:70px}.hero-content{padding:75px 0}.brand{height:380px}.modal{padding:20px}}
+@media(max-width:560px){.logo{font-size:22px}.hero h1{font-size:70px}.hero-content{padding:75px 0}.brand{height:380px}.modal{padding:20px}}
 
 .payment-section{padding:54px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#faf9f7}.payment-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:42px;align-items:center}.payment-copy .eyebrow{margin-bottom:10px}.payment-copy h2{font:400 34px "Playfair Display",serif;margin:0 0 12px}.payment-copy p{font-size:13px;line-height:1.8;color:#777;max-width:560px}.secure-note{display:flex;align-items:center;gap:10px;margin-top:20px;font-size:11px;letter-spacing:.04em;color:#666}.lockmark{width:30px;height:30px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;background:#fff;font-size:14px}.payment-box{background:#fff;border:1px solid var(--line);padding:25px}.payment-title{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#777;margin-bottom:16px}.brand-row{display:flex;flex-wrap:wrap;gap:10px}.pay-brand{height:42px;min-width:76px;padding:0 15px;border:1px solid #e5e1dc;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;letter-spacing:.02em;font-size:14px}.pay-brand.visa{font-style:italic;font-size:20px}.pay-brand.mc{font-size:12px;letter-spacing:-.04em}.pay-brand.elo{font-size:18px}.pay-brand.amex{font-size:10px;line-height:1.05;text-align:center}.pay-brand.pix{font-size:13px}.payment-foot{margin-top:16px;padding-top:15px;border-top:1px solid #eee;font-size:10px;color:#999;line-height:1.6}.payment-foot b{color:#666}
 @media(max-width:850px){.payment-wrap{grid-template-columns:1fr;gap:24px}.payment-copy h2{font-size:30px}}
@@ -64,6 +64,26 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 .price2{font-size:12px;color:#777;margin:-10px 0 14px;line-height:1.5}.price small,.mprice small{font-weight:400;font-size:11px;color:#777;margin-left:4px}.mprice2{font-size:13px;color:#777;margin:-16px 0 20px}
 .paypick{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 2px}
 .pixbox{text-align:center}.pixbox h3{margin:0 0 6px}.pixbox .pixamount{font-size:22px;margin:4px 0 14px}#pixQr{display:flex;justify-content:center;margin:0 auto 14px;min-height:10px}#pixQr img,#pixQr canvas{max-width:100%}.pixcode{width:100%;box-sizing:border-box;height:84px;font-size:11px;font-family:monospace;border:1px solid var(--line);padding:8px;resize:none;color:#555;background:#faf9f7}.pixsteps{font-size:12px;color:#777;line-height:1.7;text-align:left;margin:14px 0}
+
+/* Celular: duas peças lado a lado */
+@media(max-width:560px){
+.grid{grid-template-columns:1fr 1fr;gap:12px}
+.info{padding:12px 10px 14px}
+.info h3{font-size:11px;letter-spacing:.05em;line-height:1.35;margin-bottom:4px}
+.desc{display:none}
+.tag{top:8px;left:8px;padding:5px 6px;font-size:8px;letter-spacing:.1em}
+.dots{margin:6px 0 4px}
+.price{font-size:14px;margin:8px 0 3px;white-space:normal;line-height:1.3}
+.price small{display:block;margin:1px 0 0;font-size:10px}
+.price2{font-size:11px;line-height:1.4;margin:0 0 12px}
+.product-actions{grid-template-columns:1fr 36px;gap:6px}
+.product-actions .btn{padding:10px 4px;font-size:9px;letter-spacing:.08em;line-height:1.3}
+.quick{font-size:16px}
+}
+@media(max-width:560px){
+.card{display:flex;flex-direction:column}.info{flex:1;display:flex;flex-direction:column}.product-actions{margin-top:auto}.price2{margin-bottom:12px}
+.price2 .sep{display:none}.price2 .inst{display:block}
+}
 </style>
 </head>
 <body>
@@ -220,7 +240,7 @@ let payMethod="pix";
 const MAX_INSTALLMENTS=3;
 function cardPriceOf(p){const c=Number(p&&p.price_card);return c>0?c:Number(p.price)}
 function unitPrice(p){return payMethod==="cartao"?cardPriceOf(p):Number(p.price)}
-function priceBlock(p,cls){const card=cardPriceOf(p);return `<div class="${cls}">${money(p.price)}<small>à vista no Pix</small></div><div class="${cls==="mprice"?"mprice2":"price2"}">${money(card)} no cartão · até ${MAX_INSTALLMENTS}x de ${money(card/MAX_INSTALLMENTS)}</div>`}
+function priceBlock(p,cls){const card=cardPriceOf(p);return `<div class="${cls}">${money(p.price)}<small>à vista no Pix</small></div><div class="${cls==="mprice"?"mprice2":"price2"}">${money(card)} no cartão<span class="sep"> · </span><span class="inst">até ${MAX_INSTALLMENTS}x de ${money(card/MAX_INSTALLMENTS)}</span></div>`}
 const SIZE_ORDER=["PP","P","M","G","GG","U"];
 function sortSizes(keys){return keys.slice().sort((a,b)=>{const ia=SIZE_ORDER.indexOf(a),ib=SIZE_ORDER.indexOf(b);if(ia===-1&&ib===-1)return a.localeCompare(b);if(ia===-1)return 1;if(ib===-1)return -1;return ia-ib})}
 // Peça com cores: stock = {"Preto":{"P":3,"M":2},"Branco":{...}}. Peça sem cores: stock = {"P":3,"M":2}.

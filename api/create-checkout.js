@@ -1,3 +1,5 @@
+import { quoteForItems, cleanCep } from '../lib/superfrete.js';
+
 // Preço, frete e total SEMPRE são calculados aqui, no servidor, a partir do
 // Supabase (fonte oficial). Nunca confiamos em valor enviado pelo navegador,
 // para impedir que alguém altere o preço de uma peça ou o frete antes de pagar.
@@ -134,7 +136,7 @@ function orderEmailHtml(o) {
 <table style="width:100%;border-collapse:collapse;font-size:14px">
 ${row('Pedido', o.order_nsu)}${row('Forma de pagamento', pix ? 'Pix (valor à vista)' : 'Cartão (até 3x)')}
 ${row('Cliente', o.customer_name)}${wa ? `<tr><td style="padding:6px 12px 6px 0;color:#777">WhatsApp</td><td style="padding:6px 0"><b><a href="https://wa.me/${wa}">${htmlEsc(o.customer_whatsapp)}</a></b></td></tr>` : ''}
-${row('Entrega', ({ local: 'Entrega própria na cidade', neighbor: 'Envio por transporte', retirada: 'Retirada pessoalmente' })[o.delivery_type] || o.delivery_type)}${row('Cidade', o.city)}${row('Bairro', o.neighborhood)}${row('Rua', o.street)}${row('Número', o.house_number)}${row('Complemento', o.complement)}${row('Ponto de referência', o.reference)}
+${row('Entrega', ({ local: 'Entrega própria na cidade', neighbor: 'Envio por transporte', retirada: 'Retirada pessoalmente', other: 'Envio pelo SuperFrete' })[o.delivery_type] || o.delivery_type)}${o.shipping ? row('Serviço de envio', o.shipping.shipping_service) + row('Prazo', o.shipping.shipping_days ? o.shipping.shipping_days + ' dias úteis' : '') + row('Postar em', o.shipping.shipping_origin) + row('CEP de destino', o.shipping.shipping_cep) : ''}${row('Cidade', o.city)}${row('Bairro', o.neighborhood)}${row('Rua', o.street)}${row('Número', o.house_number)}${row('Complemento', o.complement)}${row('Ponto de referência', o.reference)}
 </table>
 <h3 style="margin:22px 0 6px">Itens</h3>
 <table style="width:100%;border-collapse:collapse;font-size:14px;border-top:1px solid #eee">${items}</table>
@@ -244,6 +246,8 @@ export default async function handler(req, res) {
     // ---------- Cidade, bairro e frete (oficial, vem do painel) ----------
     // Retirada pessoalmente: sem frete e sem endereço (a cliente retira no local).
     const isPickup = String(body.delivery_method || '').trim() === 'retirada';
+    // Envio pelo SuperFrete (fora da entrega própria): o frete é cotado aqui, pelo CEP.
+    const isCorreios = String(body.delivery_method || '').trim() === 'correios';
 
     const cityInput = cleanText(body.city, 120);
     if (!cityInput && !isPickup) {
@@ -255,7 +259,7 @@ export default async function handler(req, res) {
       'Falha ao consultar o frete.'
     );
     const city = cities.find((c) => normalizeText(c.name) === normalizeText(cityInput));
-    if (!city && !isPickup) {
+    if (!city && !isPickup && !isCorreios) {
       return res.status(400).json({ error: 'Essa cidade não está disponível para pagamento no site.' });
     }
 
@@ -277,11 +281,50 @@ export default async function handler(req, res) {
     let reference = '';
     let deliveryType = 'neighbor';
     let freightDescription = '';
+    let recordCity = null; // cidade/UF de destino nos envios pelo SuperFrete
+    let correiosInfo = null;
 
     if (isPickup) {
       // Frete zero: nenhuma linha de frete vai para a InfinitePay nem para o pedido.
       deliveryType = 'retirada';
       feeValue = 0;
+    } else if (isCorreios) {
+      deliveryType = 'other';
+      street = cleanText(body.street, 160);
+      houseNumber = cleanText(body.house_number, 20);
+      complement = cleanText(body.complement, 120);
+      reference = cleanText(body.reference, 160);
+      neighborhoodName = cleanText(body.neighborhood, 120);
+      const destCity = cleanText(body.city, 120);
+      const destUf = cleanText(body.state, 2).toUpperCase();
+      const destCep = cleanCep(body.shipping_cep);
+      const serviceId = Number(body.shipping_service_id);
+
+      if (!destCep) return res.status(400).json({ error: 'Informe o CEP de entrega.' });
+      if (!street) return res.status(400).json({ error: 'Informe a rua ou avenida.' });
+      if (!houseNumber) return res.status(400).json({ error: 'Informe o número (ou "s/n").' });
+      if (!neighborhoodName) return res.status(400).json({ error: 'Informe o bairro.' });
+      if (!destCity || !/^[A-Z]{2}$/.test(destUf)) return res.status(400).json({ error: 'Informe a cidade e o estado (UF).' });
+      if (!Number.isFinite(serviceId)) return res.status(400).json({ error: 'Escolha uma opção de envio.' });
+
+      const quote = await quoteForItems(destCep, cleanItems.map((i) => ({ id: i.id, quantity: i.quantity })));
+      if (quote.unavailable) {
+        return res.status(503).json({ error: 'O cálculo de frete automático não está disponível agora. Fale com a gente pelo WhatsApp.' });
+      }
+      if (quote.error) return res.status(400).json({ error: quote.error });
+      const chosen = (quote.options || []).find((o) => o.service_id === serviceId);
+      if (!chosen) {
+        return res.status(409).json({ error: 'Essa opção de envio não está mais disponível. Calcule o frete de novo.' });
+      }
+      feeValue = chosen.price;
+      freightDescription = `Envio ${chosen.name} — ${destCity}/${destUf}`;
+      recordCity = `${destCity}/${destUf}`;
+      correiosInfo = {
+        shipping_service: `${chosen.company ? chosen.company + ' ' : ''}${chosen.name}`,
+        shipping_cep: destCep,
+        shipping_origin: `${chosen.origin_name} (${chosen.origin_cep})`,
+        shipping_days: chosen.days
+      };
     } else if (city.kind === 'entrega_propria') {
       deliveryType = 'local';
       street = cleanText(body.street, 160);
@@ -387,7 +430,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         order_nsu: nsu,
         items: recordItems,
-        city: city ? city.name : (cityInput || null),
+        city: recordCity || (city ? city.name : (cityInput || null)),
         neighborhood: neighborhoodName || null,
         street: street || null,
         house_number: houseNumber || null,
@@ -396,6 +439,7 @@ export default async function handler(req, res) {
         customer_name: customerName,
         customer_whatsapp: customerWhatsapp,
         delivery_type: deliveryType,
+        ...(correiosInfo || {}),
         channel: 'site',
         subtotal: subtotalCents / 100,
         shipping_fee: feeCents / 100,
@@ -419,7 +463,7 @@ export default async function handler(req, res) {
       orderEmailHtml({
         order_nsu: nsu,
         items: recordItems,
-        city: city ? city.name : (cityInput || ''),
+        city: recordCity || (city ? city.name : (cityInput || '')),
         neighborhood: neighborhoodName,
         street,
         house_number: houseNumber,
@@ -428,6 +472,7 @@ export default async function handler(req, res) {
         customer_name: customerName,
         customer_whatsapp: customerWhatsapp,
         delivery_type: deliveryType,
+        shipping: correiosInfo,
         subtotal: subtotalCents / 100,
         shipping_fee: feeCents / 100,
         total: totalCents / 100,

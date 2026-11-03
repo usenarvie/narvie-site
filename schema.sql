@@ -587,3 +587,85 @@ begin
 end;
 $$;
 revoke execute on function public.decrement_stock_color(uuid, text, text, integer) from public, anon, authenticated;
+
+-- ============================================================
+-- Acompanhamento do pedido pela cliente (página pedido.html)
+-- ============================================================
+-- Histórico de cada mudança de status do pedido (guarda quando cada coisa aconteceu).
+create table if not exists public.order_status_history (
+  id bigserial primary key,
+  order_nsu text not null,
+  status text not null,
+  created_at timestamptz not null default now()
+);
+create index if not exists order_status_history_nsu_idx on public.order_status_history (order_nsu, created_at);
+alter table public.order_status_history enable row level security;
+-- Sem políticas de leitura: ninguém lê a tabela direto; a cliente só vê pela função abaixo.
+
+create or replace function public.log_order_status()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if tg_op = 'INSERT' or new.status is distinct from old.status then
+    insert into public.order_status_history (order_nsu, status) values (new.order_nsu, new.status);
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists orders_log_status on public.orders;
+create trigger orders_log_status
+after insert or update of status on public.orders
+for each row execute function public.log_order_status();
+
+-- Pedidos que já existem ganham ao menos uma linha de histórico.
+insert into public.order_status_history (order_nsu, status, created_at)
+select o.order_nsu, o.status, o.created_at
+from public.orders o
+where not exists (select 1 from public.order_status_history h where h.order_nsu = o.order_nsu);
+
+-- A cliente consulta pelo número do pedido. Devolve só o essencial:
+-- sem nome, WhatsApp nem endereço.
+create or replace function public.get_order_status(p_nsu text)
+returns jsonb
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select jsonb_build_object(
+    'order_nsu', o.order_nsu,
+    'status', o.status,
+    'payment_method', o.payment_method,
+    'delivery_type', o.delivery_type,
+    'total', o.total,
+    'shipping_fee', o.shipping_fee,
+    'created_at', o.created_at,
+    'items', (
+      select coalesce(jsonb_agg(jsonb_build_object(
+        'name', i->>'name', 'color', i->>'color', 'size', i->>'size',
+        'quantity', i->'quantity', 'price', i->'price')), '[]'::jsonb)
+      from jsonb_array_elements(o.items) i
+      where coalesce(i->>'id', '') <> 'frete'
+    ),
+    'history', (
+      select coalesce(jsonb_agg(jsonb_build_object('status', h.status, 'at', h.created_at) order by h.created_at), '[]'::jsonb)
+      from public.order_status_history h
+      where h.order_nsu = o.order_nsu
+    )
+  )
+  from public.orders o
+  where o.order_nsu = p_nsu
+  limit 1;
+$$;
+grant execute on function public.get_order_status(text) to anon, authenticated;
+-- Frete pelo SuperFrete: peso por peça e dados do envio no pedido.
+-- Pode rodar mais de uma vez sem problema.
+alter table public.products add column if not exists weight_g integer check (weight_g is null or weight_g > 0);
+alter table public.orders add column if not exists shipping_service text;
+alter table public.orders add column if not exists shipping_cep text;
+alter table public.orders add column if not exists shipping_origin text;
+alter table public.orders add column if not exists shipping_days text;

@@ -105,6 +105,8 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 .rel-item .price,.rel-item .price2{text-align:center}
 .rel-buy{border:0;background:none;text-decoration:underline;text-underline-offset:4px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-family:inherit;margin-top:2px;padding:6px}
 @media(max-width:560px){.rel-item{flex-basis:62%}.related h2{font-size:22px}.pp-wrap{padding:16px 16px 60px}}
+
+.sfmsg{font-size:12px;color:#8a1c1c;margin-top:6px;min-height:0}.sfmsg:empty{display:none}
 </style>
 </head>
 <body>
@@ -126,7 +128,7 @@ footer{border-top:1px solid var(--line);padding:50px 0 35px}.footergrid{display:
 <a class="whatsapp" id="whatsFloat" href="#" target="_blank" aria-label="WhatsApp">☎</a>
 
 <div class="modal-back" id="pixBack"><div class="modal pixbox"><button class="close" onclick="closePix()" style="position:absolute;right:14px;top:10px">×</button><div class="eyebrow">Narvie</div><h3>Pague com Pix</h3><div class="pixamount" id="pixAmount"></div><div id="pixQr"></div><textarea class="pixcode" id="pixCode" readonly></textarea><button class="btn wine full" style="margin-top:10px" onclick="copyPix()" id="pixCopyBtn">Copiar código Pix</button><div class="pixsteps"><b>Como pagar:</b><br>1. Abra o app do seu banco e escolha Pix.<br>2. Escaneie o QR Code ou use “Pix copia e cola”.<br>3. Confira o valor e pague.<br>4. Envie o comprovante pra gente no WhatsApp para confirmarmos seu pedido.</div><a class="btn full" id="pixTrack" href="pedido.html" style="margin-top:10px">Acompanhar meu pedido</a><button class="btn full" onclick="sendProof()"  style="background:#25d366;color:#fff;border:0">Enviar comprovante no WhatsApp</button></div></div>
-<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="ship-scroll"><div class="shipfield"><label for="citySelect">Cidade de entrega</label><select id="citySelect" onchange="onCityChange()"><option value="">Selecione sua cidade</option><optgroup label="Entrega própria" id="localCitiesGroup"></optgroup><optgroup label="Envio por transporte / rodoviária" id="neighborCitiesGroup"></optgroup><option value="__outra__">Outra cidade</option></select><div class="methodpick" id="methodPick"><button type="button" class="methodopt on" id="mEntrega" onclick="setMethod('entrega')"><span class="dot"></span><span><b id="mEntregaTitle">Entrega</b><small id="mEntregaPrice"></small></span></button><button type="button" class="methodopt" id="mRetirada" onclick="setMethod('retirada')"><span class="dot"></span><span><b>Retirar pessoalmente</b><small>Sem frete</small></span></button></div><div class="shipcard" id="shipCard"><div class="radio"></div><div class="content"><h4 id="shipCardTitle"></h4><p id="shipCardDesc"></p></div><div class="price" id="shipCardPrice"></div></div><div class="envio-notice" id="envioNotice"><b>Como funciona o envio:</b> nessa cidade o pedido é enviado por transporte/rodoviária e deve ser retirado no local de chegada combinado. Falamos com você pelo WhatsApp para combinar os detalhes.</div><div class="envio-notice" id="pickupNotice"><b>Retirada pessoalmente:</b> sem frete. Depois do pagamento, falamos com você pelo WhatsApp para combinar o local e o horário da retirada.</div><div class="custform" id="customerFields"><label for="custName">Nome completo</label><input id="custName" type="text" autocomplete="name" placeholder="Seu nome completo"><label for="custWhats">WhatsApp</label><input id="custWhats" type="tel" inputmode="tel" autocomplete="tel" placeholder="(79) 99999-9999"></div><div class="custform" id="localFields"><label for="nbSelect">Bairro</label><select id="nbSelect" onchange="onNeighborhoodChange()"></select><label for="addrStreet">Rua / Avenida</label><input id="addrStreet" type="text" autocomplete="address-line1" placeholder="Ex.: Rua das Flores"><div class="row2"><div><label for="addrNumber">Número</label><input id="addrNumber" type="text" autocomplete="off" placeholder="Ex.: 120"></div><div><label for="addrComplement">Complemento <small>(opcional)</small></label><input id="addrComplement" type="text" autocomplete="address-line2" placeholder="Apto, bloco..."></div></div><label for="addrRef">Ponto de referência <small>(opcional)</small></label><input id="addrRef" type="text" autocomplete="off" placeholder="Ex.: perto da praça"></div></div></div><div class="paypick" id="payPick"><button type="button" class="methodopt on" id="payPix" onclick="setPay('pix')"><span class="dot"></span><span><b>Pix</b><small id="payPixTotal"></small></span></button><button type="button" class="methodopt" id="payCard" onclick="setPay('cartao')"><span class="dot"></span><span><b>Cartão</b><small id="payCardTotal"></small></span></button></div><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note" id="payNote"></div><button class="btn wine full" id="checkoutBtn" onclick="checkout()">Finalizar compra</button></div></aside>
+<div class="drawer-back" id="back" onclick="closeCart()"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h3>Seu carrinho</h3><button class="close" onclick="closeCart()">×</button></div><div class="cart-items" id="cartItems"></div><div class="drawer-foot"><div class="ship-scroll"><div class="shipfield"><label for="citySelect">Cidade de entrega</label><select id="citySelect" onchange="onCityChange()"><option value="">Selecione sua cidade</option><optgroup label="Entrega própria" id="localCitiesGroup"></optgroup><optgroup label="Envio por transporte / rodoviária" id="neighborCitiesGroup"></optgroup><option value="__outra__">Outra cidade / outro estado</option></select><div class="methodpick" id="methodPick"><button type="button" class="methodopt on" id="mEntrega" onclick="setMethod('entrega')"><span class="dot"></span><span><b id="mEntregaTitle">Entrega</b><small id="mEntregaPrice"></small></span></button><button type="button" class="methodopt" id="mRetirada" onclick="setMethod('retirada')"><span class="dot"></span><span><b>Retirar pessoalmente</b><small>Sem frete</small></span></button></div><div class="shipcard" id="shipCard"><div class="radio"></div><div class="content"><h4 id="shipCardTitle"></h4><p id="shipCardDesc"></p></div><div class="price" id="shipCardPrice"></div></div><div class="envio-notice" id="envioNotice"><b>Como funciona o envio:</b> nessa cidade o pedido é enviado por transporte/rodoviária e deve ser retirado no local de chegada combinado. Falamos com você pelo WhatsApp para combinar os detalhes.</div><div class="envio-notice" id="pickupNotice"><b>Retirada pessoalmente:</b> sem frete. Depois do pagamento, falamos com você pelo WhatsApp para combinar o local e o horário da retirada.</div><div class="custform" id="customerFields"><label for="custName">Nome completo</label><input id="custName" type="text" autocomplete="name" placeholder="Seu nome completo"><label for="custWhats">WhatsApp</label><input id="custWhats" type="tel" inputmode="tel" autocomplete="tel" placeholder="(79) 99999-9999"></div><div class="custform" id="localFields"><label for="nbSelect">Bairro</label><select id="nbSelect" onchange="onNeighborhoodChange()"></select><label for="addrStreet">Rua / Avenida</label><input id="addrStreet" type="text" autocomplete="address-line1" placeholder="Ex.: Rua das Flores"><div class="row2"><div><label for="addrNumber">Número</label><input id="addrNumber" type="text" autocomplete="off" placeholder="Ex.: 120"></div><div><label for="addrComplement">Complemento <small>(opcional)</small></label><input id="addrComplement" type="text" autocomplete="address-line2" placeholder="Apto, bloco..."></div></div><label for="addrRef">Ponto de referência <small>(opcional)</small></label><input id="addrRef" type="text" autocomplete="off" placeholder="Ex.: perto da praça"></div><div class="custform" id="correiosFields"><div class="envio-notice" style="display:block"><b>Envio para outras cidades:</b> digite o CEP para ver o valor e o prazo (PAC, SEDEX...). O frete já entra no total.</div><label for="sfCep">CEP de entrega</label><div style="display:grid;grid-template-columns:1fr auto;gap:8px"><input id="sfCep" type="text" inputmode="numeric" maxlength="9" autocomplete="postal-code" placeholder="00000-000"><button type="button" class="btn" id="sfCalcBtn" onclick="sfCalc()" style="margin:0;padding:0 18px">Calcular</button></div><div class="sfmsg" id="sfMsg"></div><div id="sfOptions" style="display:grid;gap:8px;margin-top:8px"></div><label for="sfStreet">Rua / Avenida</label><input id="sfStreet" type="text" autocomplete="address-line1"><div class="row2"><div><label for="sfNumber">Número</label><input id="sfNumber" type="text" autocomplete="off" placeholder="Ex.: 120"></div><div><label for="sfComplement">Complemento <small>(opcional)</small></label><input id="sfComplement" type="text" autocomplete="address-line2"></div></div><label for="sfDistrict">Bairro</label><input id="sfDistrict" type="text" autocomplete="off"><div class="row2"><div><label for="sfCity">Cidade</label><input id="sfCity" type="text" autocomplete="address-level2"></div><div><label for="sfUF">UF</label><input id="sfUF" type="text" maxlength="2" autocomplete="address-level1" style="text-transform:uppercase"></div></div><label for="sfRef">Ponto de referência <small>(opcional)</small></label><input id="sfRef" type="text" autocomplete="off"></div></div></div><div class="paypick" id="payPick"><button type="button" class="methodopt on" id="payPix" onclick="setPay('pix')"><span class="dot"></span><span><b>Pix</b><small id="payPixTotal"></small></span></button><button type="button" class="methodopt" id="payCard" onclick="setPay('cartao')"><span class="dot"></span><span><b>Cartão</b><small id="payCardTotal"></small></span></button></div><div class="total"><span>Total</span><strong id="total">R$ 0,00</strong></div><div class="note" id="payNote"></div><button class="btn wine full" id="checkoutBtn" onclick="checkout()">Finalizar compra</button></div></aside>
 <div class="prodpage" id="prodPage"><div class="pp-bar"><button class="pp-back" onclick="closeModal()" aria-label="Voltar para a coleção">← Voltar</button><div class="logo" style="font-size:20px">NARVIE</div><button class="pp-cart" onclick="openCart()" aria-label="Abrir carrinho">Carrinho (<span id="cartCount3">0</span>)</button></div><div class="pp-wrap"><div id="modalContent"></div><section class="related" id="relatedBox"></section></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -151,7 +153,7 @@ function cityAvailable(c){return c.kind==="entrega_propria"?sellableNeighborhood
 function cityStatus(city){if(!city)return "none";if(city==="__outra__")return "other";const c=findCity(city);if(!c||!cityAvailable(c))return "other";return c.kind==="entrega_propria"?"local":"neighbor"}
 // Retirada pessoalmente: só vale para cidades com entrega/envio disponível (as que mostram o frete).
 function isPickup(){return deliveryMethod==="retirada"&&["local","neighbor"].includes(cityStatus(selectedCity))}
-function currentFee(){if(isPickup())return 0;return deliveryFee()}
+function currentFee(){if(isPickup())return 0;if(cityStatus(selectedCity)==="other"&&!sf.disabled)return sf.fee;return deliveryFee()}
 function deliveryFee(){const c=findCity(selectedCity);if(!c)return null;if(c.kind==="entrega_propria"){const nb=(c.neighborhoods||[]).find(n=>normalizeCity(n.name)===normalizeCity(selectedNeighborhood));return nb?neighborhoodFee(c,nb):null}return numOrNull(c.fee)}
 function populateCitySelect(){
   const localGroup=document.getElementById("localCitiesGroup"),neighborGroup=document.getElementById("neighborCitiesGroup");
@@ -187,7 +189,8 @@ function updateShipUI(){
   const status=cityStatus(selectedCity);
   const customer=document.getElementById("customerFields"),localF=document.getElementById("localFields"),notice=document.getElementById("envioNotice");
   card.className="shipcard";
-  customer.classList.toggle("show",status==="local"||status==="neighbor");
+  customer.classList.toggle("show",status==="local"||status==="neighbor"||sfActive());
+  document.getElementById("correiosFields").classList.toggle("show",sfActive());
   const pickup=isPickup();
   localF.classList.toggle("show",status==="local"&&!pickup);
   notice.classList.toggle("show",status==="neighbor"&&!pickup);
@@ -209,6 +212,12 @@ function updateShipUI(){
     }
     price.textContent=fee===null?"—":(fee>0?money(fee):"Grátis");
     btn.textContent="Finalizar compra";
+  }else if(sfActive()){
+    const o=sfSel();
+    title.textContent=o?`${o.company?o.company+" ":""}${o.name} — prazo ${o.days} dias úteis`:"Envio para outras cidades";
+    desc.textContent=o?"Frete calculado pelo CEP informado.":"Digite o CEP e toque em Calcular para ver as opções de envio.";
+    price.textContent=o?money(o.price):"—";
+    btn.textContent="Finalizar compra";
   }else{
     card.classList.add("block");
     title.textContent="Ainda não entregamos automaticamente aqui";
@@ -218,6 +227,61 @@ function updateShipUI(){
   }
   renderCart();
 }
+
+// ---------- Frete pelo SuperFrete (outras cidades e estados) ----------
+let sf={cep:"",options:[],selected:null,fee:null,disabled:false,key:""};
+function sfActive(){return cityStatus(selectedCity)==="other"&&!sf.disabled}
+function sfSel(){return sf.options.find(o=>o.service_id===sf.selected)||null}
+function sfKey(){return cart.map(i=>i.id+":"+i.qty).sort().join("|")}
+function renderSfOptions(){
+  const box=document.getElementById("sfOptions");if(!box)return;
+  box.innerHTML=sf.options.map(o=>`<button type="button" class="methodopt ${o.service_id===sf.selected?"on":""}" onclick="sfPick(${o.service_id})"><span class="dot"></span><span><b>${esc(o.company?o.company+" ":"")}${esc(o.name)} · ${money(o.price)}</b><small>Chega em ${esc(o.days)} dias úteis</small></span></button>`).join("");
+}
+function sfReset(msg){sf.options=[];sf.selected=null;sf.fee=null;sf.key="";renderSfOptions();const m=document.getElementById("sfMsg");if(m)m.textContent=msg||""}
+function sfPick(id){const o=sf.options.find(x=>x.service_id===id);if(!o)return;sf.selected=id;sf.fee=o.price;renderSfOptions();updateShipUI()}
+async function sfCalc(){
+  const cep=document.getElementById("sfCep").value.replace(/\D/g,""),msg=document.getElementById("sfMsg"),btn=document.getElementById("sfCalcBtn");
+  if(cep.length!==8){msg.textContent="Digite o CEP com 8 números.";return}
+  if(!cart.length){msg.textContent="Seu carrinho está vazio.";return}
+  btn.disabled=true;btn.textContent="…";msg.textContent="";
+  try{
+    const r=await fetch("/api/shipping-quote",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cep,items:cart.map(i=>({id:i.id,quantity:i.qty}))})});
+    const data=await r.json().catch(()=>({}));
+    if(r.status===503){sf.disabled=true;updateShipUI();return}
+    if(!r.ok)throw new Error(data.error||"Não foi possível calcular o frete.");
+    sf={...sf,cep,options:data.options||[],selected:null,fee:null,key:sfKey()};
+    renderSfOptions();
+    if(sf.options.length===1)sfPick(sf.options[0].service_id);else updateShipUI();
+    sfAutofill(cep);
+  }catch(e){sfReset(e.message||"Não foi possível calcular o frete.");updateShipUI()}
+  finally{btn.disabled=false;btn.textContent="Calcular"}
+}
+// Preenche rua, bairro, cidade e UF pelo CEP (ViaCEP). Se falhar, a cliente digita.
+async function sfAutofill(cep){
+  try{
+    const r=await fetch(`https://viacep.com.br/ws/${cep}/json/`);if(!r.ok)return;
+    const d=await r.json();if(!d||d.erro)return;
+    const set=(id,v)=>{const el=document.getElementById(id);if(el&&v&&!el.value.trim())el.value=v};
+    set("sfStreet",d.logradouro);set("sfDistrict",d.bairro);set("sfCity",d.localidade);set("sfUF",d.uf);
+  }catch(e){}
+}
+function readCorreiosForm(){
+  const val=id=>document.getElementById(id).value.trim();
+  const fail=(msg,id)=>{alert(msg);const el=document.getElementById(id);if(el)el.focus();return null};
+  const name=val("custName");
+  if(!/\S{2,}\s+\S{2,}/.test(name))return fail("Informe seu nome completo.","custName");
+  const whats=val("custWhats");
+  if(!validWhats(whats))return fail("Informe um WhatsApp válido, com DDD.","custWhats");
+  if(!sfSel())return fail("Calcule o frete e escolha uma opção de envio.","sfCep");
+  if(sf.key!==sfKey())return fail("Seu carrinho mudou. Calcule o frete de novo.","sfCep");
+  if(!val("sfStreet"))return fail("Informe a rua ou avenida.","sfStreet");
+  if(!val("sfNumber"))return fail('Informe o número (ou "s/n").',"sfNumber");
+  if(!val("sfDistrict"))return fail("Informe o bairro.","sfDistrict");
+  if(!val("sfCity"))return fail("Informe a cidade.","sfCity");
+  if(!/^[A-Za-z]{2}$/.test(val("sfUF")))return fail("Informe o estado (UF), por exemplo SP.","sfUF");
+  return {customer_name:name,customer_whatsapp:whats,street:val("sfStreet"),house_number:val("sfNumber"),complement:val("sfComplement"),neighborhood:val("sfDistrict"),city:val("sfCity"),state:val("sfUF").toUpperCase(),reference:val("sfRef"),shipping_cep:sf.cep,shipping_service_id:sf.selected};
+}
+document.addEventListener("input",e=>{if(e.target&&e.target.id==="sfCep"){const d=e.target.value.replace(/\D/g,"").slice(0,8);e.target.value=d.length>5?d.slice(0,5)+"-"+d.slice(5):d;if(sf.options.length&&d!==sf.cep)sfReset("CEP alterado. Calcule o frete de novo.")}});
 
 function whatsUrl(text=""){return WHATSAPP_NUMBER ? "https://wa.me/"+WHATSAPP_NUMBER+(text?"?text="+encodeURIComponent(text):""):"#"}
 ["whatsContact","whatsFooter","whatsFloat"].forEach(id=>document.getElementById(id).href=whatsUrl());
@@ -323,11 +387,13 @@ function addToCart(id,size,qty,color=""){const p=products.find(x=>String(x.id)==
 function renderCart(){
   const box=document.getElementById("cartItems");
   if(!cart.length){box.innerHTML='<div class="empty">Seu carrinho está vazio.<br><br>Escolha uma peça da coleção para começar.</div>';document.getElementById("total").textContent=money(0);updatePayUI(0);return}
+  if(sf.key&&sf.key!==sfKey())sfReset("Seu carrinho mudou. Calcule o frete de novo.");
   let total=0;
   const rows=cart.map((item,index)=>{const p=products.find(x=>String(x.id)===String(item.id));if(!p)return "";total+=unitPrice(p)*item.qty;return `<div class="cartitem"><img src="${p.image}" alt="${p.name}"><div><h4>${p.name}</h4><p>${item.color?`Cor: <b>${esc(item.color)}</b><br>`:""}Tamanho: <b>${item.size}</b><br>${money(unitPrice(p))}</p><div class="qty"><button onclick="cartQty(${index},-1)">−</button><span>${item.qty}</span><button onclick="cartQty(${index},1)">+</button></div><button class="remove" onclick="removeItem(${index})">Remover</button></div><strong>${money(unitPrice(p)*item.qty)}</strong></div>`}).join("");
   let freightRow="";
   const status=cityStatus(selectedCity);
   if(status==="local"||status==="neighbor"){const fee=currentFee();if(fee!==null&&fee>0){total+=fee;const label=status==="local"?`Entrega em ${esc(selectedNeighborhood)}, ${esc(selectedCity)}`:`Envio para ${esc(selectedCity)}`;freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>${status==="local"?"Entrega":"Envio"}</h4><p>${label}</p></div><strong>${money(fee)}</strong></div>`}else if(isPickup()){freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>Retirada</h4><p>Retirada pessoalmente</p></div><strong>Grátis</strong></div>`}}
+  else if(sfActive()&&sfSel()){const o=sfSel();total+=o.price;freightRow=`<div class="cartitem" style="grid-template-columns:1fr auto"><div><h4>Envio</h4><p>${esc(o.company?o.company+" ":"")}${esc(o.name)} · ${esc(o.days)} dias úteis</p></div><strong>${money(o.price)}</strong></div>`}
   box.innerHTML=rows+freightRow;
   document.getElementById("total").textContent=money(total);
   updatePayUI(total);
@@ -335,7 +401,7 @@ function renderCart(){
 // Mostra no seletor quanto fica o total em cada forma de pagamento.
 function updatePayUI(totalNow){
   let fee=0;const status=cityStatus(selectedCity);
-  if(status==="local"||status==="neighbor"){const f=currentFee();if(f!==null&&f>0)fee=f}
+  if(status==="local"||status==="neighbor"||(status==="other"&&!sf.disabled)){const f=currentFee();if(f!==null&&f>0)fee=f}
   let pix=fee,card=fee;
   cart.forEach(i=>{const p=products.find(x=>String(x.id)===String(i.id));if(!p)return;pix+=Number(p.price)*i.qty;card+=cardPriceOf(p)*i.qty});
   document.getElementById("payPixTotal").textContent=money(pix);
@@ -394,9 +460,10 @@ async function checkout(){
   const btn=document.getElementById("checkoutBtn");
   const oldText=btn.textContent;
 
-  if(status==="local"||status==="neighbor"){
-    const pickup=isPickup();
-    const delivery=readDeliveryForm(pickup?"retirada":status);
+  if(status==="local"||status==="neighbor"||sfActive()){
+    const correios=status==="other";
+    const pickup=!correios&&isPickup();
+    const delivery=correios?readCorreiosForm():readDeliveryForm(pickup?"retirada":status);
     if(!delivery)return;
     btn.disabled=true;btn.textContent=payMethod==="pix"?"Gerando Pix…":"Abrindo pagamento…";
     try{
@@ -404,7 +471,7 @@ async function checkout(){
       const response=await fetch('/api/create-checkout',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({items,order_nsu,city:cityLabel,...delivery,delivery_method:pickup?"retirada":"entrega",payment_method:payMethod})
+        body:JSON.stringify({items,order_nsu,city:cityLabel,...delivery,delivery_method:correios?"correios":(pickup?"retirada":"entrega"),payment_method:payMethod})
       });
       const data=await response.json().catch(()=>({}));
       if(!response.ok||(!data.url&&!data.pix))throw new Error(data.error||'Não foi possível abrir o pagamento.');

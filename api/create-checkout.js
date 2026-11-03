@@ -91,6 +91,61 @@ function buildPixPayload(amountCents, orderNsu) {
   return body + pixCrc16(body);
 }
 
+
+// ---------- E-mail do pedido (Resend) ----------
+// Para ligar: crie a chave em resend.com (com o MESMO e-mail que vai receber os pedidos)
+// e coloque no Vercel como variável RESEND_API_KEY. Sem a chave, o site funciona normalmente, só não envia e-mail.
+const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
+const ORDER_EMAIL_TO = process.env.NARVIE_ORDER_EMAIL_TO || 'usenarvie@gmail.com';
+const ORDER_EMAIL_FROM = process.env.NARVIE_ORDER_EMAIL_FROM || 'Narvie Pedidos <onboarding@resend.dev>';
+
+const htmlEsc = (s) => String(s ?? '').replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+const brl = (n) => 'R$ ' + Number(n || 0).toFixed(2).replace('.', ',');
+
+async function sendEmail(subject, html) {
+  if (!RESEND_API_KEY) return;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 6000);
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: ORDER_EMAIL_FROM, to: [ORDER_EMAIL_TO], subject, html }),
+      signal: controller.signal
+    });
+    if (!r.ok) console.error('Falha ao enviar e-mail do pedido:', r.status, await r.text().catch(() => ''));
+  } catch (e) {
+    console.error('Erro ao enviar e-mail do pedido:', e);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function orderEmailHtml(o) {
+  const row = (k, v) => (v ? `<tr><td style="padding:6px 12px 6px 0;color:#777;vertical-align:top">${k}</td><td style="padding:6px 0"><b>${htmlEsc(v)}</b></td></tr>` : '');
+  const items = (o.items || []).filter((i) => i.id !== 'frete').map((i) =>
+    `<tr><td style="padding:6px 0">${htmlEsc(i.name)}${i.color ? ' — ' + htmlEsc(i.color) : ''}${i.size ? ' — tam. ' + htmlEsc(i.size) : ''}</td><td style="padding:6px 0;text-align:center">${i.quantity}x</td><td style="padding:6px 0;text-align:right">${brl(i.price * i.quantity)}</td></tr>`
+  ).join('');
+  const pix = o.payment_method === 'pix';
+  const wa = String(o.customer_whatsapp || '').replace(/\D/g, '');
+  return `<div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;color:#222">
+<h2 style="margin:0 0 4px">${pix ? '🟡 Novo pedido — Pix' : '🟡 Novo pedido — Cartão'}</h2>
+<p style="margin:0 0 18px;color:#777">${pix ? 'Aguardando o pagamento. Confira se o Pix caiu antes de confirmar.' : 'A cliente foi levada ao pagamento no cartão (InfinitePay). Ainda não está pago.'}</p>
+<table style="width:100%;border-collapse:collapse;font-size:14px">
+${row('Pedido', o.order_nsu)}${row('Forma de pagamento', pix ? 'Pix (valor à vista)' : 'Cartão (até 3x)')}
+${row('Cliente', o.customer_name)}${wa ? `<tr><td style="padding:6px 12px 6px 0;color:#777">WhatsApp</td><td style="padding:6px 0"><b><a href="https://wa.me/${wa}">${htmlEsc(o.customer_whatsapp)}</a></b></td></tr>` : ''}
+${row('Entrega', ({ local: 'Entrega própria na cidade', neighbor: 'Envio por transporte', retirada: 'Retirada pessoalmente' })[o.delivery_type] || o.delivery_type)}${row('Cidade', o.city)}${row('Bairro', o.neighborhood)}${row('Rua', o.street)}${row('Número', o.house_number)}${row('Complemento', o.complement)}${row('Ponto de referência', o.reference)}
+</table>
+<h3 style="margin:22px 0 6px">Itens</h3>
+<table style="width:100%;border-collapse:collapse;font-size:14px;border-top:1px solid #eee">${items}</table>
+<table style="width:100%;border-collapse:collapse;font-size:14px;margin-top:10px;border-top:1px solid #eee">
+<tr><td style="padding:6px 0;color:#777">Subtotal</td><td style="text-align:right">${brl(o.subtotal)}</td></tr>
+<tr><td style="padding:6px 0;color:#777">Frete</td><td style="text-align:right">${brl(o.shipping_fee)}</td></tr>
+<tr><td style="padding:6px 0;font-size:16px"><b>Total</b></td><td style="text-align:right;font-size:16px"><b>${brl(o.total)}</b></td></tr></table>
+<p style="margin-top:22px;font-size:13px;color:#777">${pix ? 'Quando o Pix cair, abra o painel (Pedidos) e toque em “Confirmar pagamento”.' : 'Quando o pagamento for confirmado, você recebe outro e-mail avisando.'}</p>
+</div>`;
+}
+
 class HttpError extends Error {
   constructor(status, message) {
     super(message);
@@ -357,6 +412,28 @@ export default async function handler(req, res) {
         error: 'Não foi possível registrar o seu pedido. Nada foi cobrado — tente novamente.'
       });
     }
+
+    // Aviso por e-mail com todos os dados do pedido (nunca atrapalha a cliente se falhar).
+    await sendEmail(
+      `${paymentMethod === 'pix' ? '🟡 Novo pedido Pix' : '🟡 Pedido no cartão (aguardando pagamento)'} — ${customerName} — ${brl(totalCents / 100)}`,
+      orderEmailHtml({
+        order_nsu: nsu,
+        items: recordItems,
+        city: city ? city.name : (cityInput || ''),
+        neighborhood: neighborhoodName,
+        street,
+        house_number: houseNumber,
+        complement,
+        reference,
+        customer_name: customerName,
+        customer_whatsapp: customerWhatsapp,
+        delivery_type: deliveryType,
+        subtotal: subtotalCents / 100,
+        shipping_fee: feeCents / 100,
+        total: totalCents / 100,
+        payment_method: paymentMethod
+      })
+    );
 
     if (paymentMethod === 'pix') {
       return res.status(200).json({

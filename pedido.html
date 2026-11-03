@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Acompanhar pedido — NARVIE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#4b0a18;--wine2:#6d2b39;--ink:#161417;--muted:#716b6b;--line:#e5dfd8;--cream:#f6f2ec;--paper:#fffdfa;--green:#2d8055;--amber:#b7791f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,Arial,sans-serif;-webkit-text-size-adjust:100%}
+header{background:var(--paper);border-bottom:1px solid var(--line);padding:18px 20px;text-align:center}
+header a{font:400 22px "Playfair Display",serif;letter-spacing:.38em;color:var(--ink);text-decoration:none;padding-left:.38em}
+main{max-width:620px;margin:0 auto;padding:26px 18px 60px}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--wine2)}
+h1{font:400 34px "Playfair Display",serif;margin:8px 0 18px}
+h2{font:400 22px "Playfair Display",serif;margin:30px 0 10px}
+.card{background:#fff;border:1px solid var(--line);padding:22px}
+.status{font:400 26px "Playfair Display",serif;margin:6px 0 8px}
+.msg{color:var(--muted);font-size:14px;line-height:1.7;margin:0}
+.steps{display:flex;margin:24px 0 4px}
+.step{flex:1;text-align:center;font-size:11px;color:#aaa;position:relative;line-height:1.35;padding:0 4px}
+.step i{display:block;width:26px;height:26px;border-radius:50%;border:2px solid #ddd;background:#fff;margin:0 auto 8px;position:relative;z-index:1}
+.step:before{content:"";position:absolute;top:12px;left:-50%;width:100%;height:2px;background:#ddd}
+.step:first-child:before{display:none}
+.step.done{color:var(--ink)}.step.done i{background:var(--green);border-color:var(--green)}.step.done i:after{content:"✓";color:#fff;font-size:14px;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.step.done:before{background:var(--green)}
+.step.now i{border-color:var(--wine)}.step.now{color:var(--wine);font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td{padding:11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td.r{text-align:right;white-space:nowrap}
+.hist td:first-child{color:var(--muted);width:46%;font-size:13px}
+.total td{font-weight:600;font-size:16px;border-bottom:0}
+.btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border:1px solid var(--ink);background:transparent;color:var(--ink);font:700 11px Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;cursor:pointer;width:100%;margin-top:12px}
+.btn.wine{background:var(--wine);border-color:var(--wine);color:#fff}
+input{width:100%;height:48px;border:1px solid var(--line);padding:0 12px;font:16px Inter,sans-serif;background:#fff}
+.small{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.6}
+a.order{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);background:#fff;padding:14px;margin-top:10px;font-size:14px}
+a.order b{display:block;margin-bottom:3px}
+</style>
+</head>
+<body>
+<header><a href="index.html">NARVIE</a></header>
+<main>
+  <div class="eyebrow">Narvie</div>
+  <h1>Acompanhe seu pedido</h1>
+  <div id="view"><p class="msg">Carregando…</p></div>
+</main>
+<script src="supabase-config.js"></script>
+<script>
+const WHATS="5579998018722";
+const URLB=window.NARVIE_SUPABASE_URL, KEY=window.NARVIE_SUPABASE_ANON_KEY;
+const view=document.getElementById("view");
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const money=n=>"R$ "+Number(n||0).toFixed(2).replace(".",",");
+const fmt=iso=>{try{const d=new Date(iso);const p=new Intl.DateTimeFormat("pt-BR",{timeZone:"America/Sao_Paulo",day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(d).reduce((a,x)=>(a[x.type]=x.value,a),{});return `${p.day}/${p.month}/${p.year} ${p.hour}h${p.minute}`}catch(e){return ""}};
+const nsuParam=()=>new URLSearchParams(location.search).get("p")||"";
+let timer=null;
+
+function labels(o){
+  const pickup=o.delivery_type==="retirada", pix=o.payment_method==="pix";
+  return {
+    aguardando_pagamento:{title:"Aguardando pagamento",hist:"Pedido recebido, aguardando pagamento",
+      msg:pix?"Estamos aguardando o seu Pix. Se você já pagou, envie o comprovante pelo WhatsApp que a gente confirma. Assim que confirmarmos, o status muda aqui.":"Estamos aguardando a confirmação do pagamento no cartão."},
+    novo:{title:"Pagamento confirmado",hist:"Pagamento confirmado",msg:"Recebemos o seu pagamento! Estamos preparando o seu pedido."},
+    enviado:{title:pickup?"Pedido retirado":"Pedido enviado",hist:pickup?"Pedido retirado":"Pedido enviado",msg:pickup?"Seu pedido foi retirado. Obrigada pela compra!":"Seu pedido foi enviado. Qualquer dúvida sobre a entrega, fale com a gente."}
+  };
+}
+
+async function loadOrder(nsu){
+  const r=await fetch(URLB+"/rest/v1/rpc/get_order_status",{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify({p_nsu:nsu})});
+  if(!r.ok)throw new Error("erro");
+  return r.json();
+}
+
+function renderOrder(o,nsu){
+  const L=labels(o), cur=L[o.status]||{title:o.status,hist:o.status,msg:""};
+  const pickup=o.delivery_type==="retirada";
+  // quantas etapas já foram concluídas: recebido (1), pagamento confirmado (2), enviado/retirado (3)
+  const doneCount={aguardando_pagamento:1,novo:2,enviado:3}[o.status]??1;
+  const steps=["Pedido recebido","Pagamento confirmado",pickup?"Retirado":"Enviado"].map((t,i)=>`<div class="step ${i<doneCount?"done":""} ${i===doneCount?"now":""}"><i></i>${t}</div>`);
+  const items=(o.items||[]).map(i=>`<tr><td>${esc(i.name)}${i.color?" — "+esc(i.color):""}${i.size?" — tam. "+esc(i.size):""}</td><td class="r">${i.quantity}x</td><td class="r">${money(Number(i.price)*Number(i.quantity))}</td></tr>`).join("");
+  let hist=(o.history||[]);
+  if(!hist.length)hist=[{status:o.status,at:o.created_at}];
+  const histRows=hist.map(h=>`<tr><td>${fmt(h.at)}</td><td>${esc((L[h.status]||{hist:h.status}).hist)}</td></tr>`).join("");
+  const wa="https://wa.me/"+WHATS+"?text="+encodeURIComponent("Olá! Quero falar sobre o meu pedido "+nsu);
+  view.innerHTML=`<div class="card"><div class="eyebrow" style="font-size:10px">Situação do pedido</div><div class="status">${esc(cur.title)}</div><p class="msg">${esc(cur.msg)}</p><div class="steps">${steps.join("")}</div></div>
+  <h2>Seu pedido</h2><div class="card"><table>${items}</table><table class="total" style="margin-top:6px">${Number(o.shipping_fee)>0?`<tr><td style="font-weight:400;font-size:14px;color:#716b6b">Frete</td><td class="r" style="font-weight:400;font-size:14px">${money(o.shipping_fee)}</td></tr>`:""}<tr><td>Total</td><td class="r">${money(o.total)}</td></tr></table><div class="small">Pedido nº ${esc(nsu)} · ${o.payment_method==="pix"?"Pix":"Cartão"}</div></div>
+  <h2>Histórico do pedido</h2><div class="card"><table class="hist">${histRows}</table></div>
+  <a class="btn wine" href="${wa}" target="_blank" rel="noopener">Falar com a Narvie no WhatsApp</a>
+  <button class="btn" onclick="show()">Atualizar</button>
+  <a class="btn" href="index.html" style="border:0;text-decoration:underline">Voltar para a loja</a>`;
+  clearTimeout(timer);
+  if(o.status!=="enviado")timer=setTimeout(show,30000);
+}
+
+function renderLookup(msg){
+  let saved=[];try{saved=JSON.parse(localStorage.getItem("narvieOrders")||"[]")}catch(e){}
+  const list=saved.length?`<h2>Pedidos feitos neste aparelho</h2>`+saved.map(s=>`<a class="order" href="pedido.html?p=${encodeURIComponent(s.nsu)}"><b>${fmt(s.at)} · ${money(s.total)}</b>${s.method==="pix"?"Pix":"Cartão"} · toque para ver a situação</a>`).join(""):"";
+  view.innerHTML=`${msg?`<p class="msg" style="margin-bottom:14px">${esc(msg)}</p>`:`<p class="msg" style="margin-bottom:14px">Cole abaixo o número do seu pedido (começa com “narvie-”) para ver a situação.</p>`}
+  <input id="nsuInput" placeholder="narvie-..." autocomplete="off" autocapitalize="off">
+  <button class="btn wine" onclick="go()">Ver meu pedido</button>${list}`;
+}
+function go(){const v=document.getElementById("nsuInput").value.trim();if(v)location.href="pedido.html?p="+encodeURIComponent(v)}
+
+async function show(){
+  const nsu=nsuParam().trim();
+  if(!nsu){renderLookup();return}
+  try{
+    const o=await loadOrder(nsu);
+    if(!o){renderLookup("Não encontramos esse pedido. Confira o número e tente de novo.");return}
+    renderOrder(o,nsu);
+  }catch(e){
+    view.innerHTML='<p class="msg">Não foi possível carregar agora. Tente novamente em instantes.</p><button class="btn" onclick="show()">Tentar de novo</button>';
+  }
+}
+show();
+</script>
+</body>
+</html>
